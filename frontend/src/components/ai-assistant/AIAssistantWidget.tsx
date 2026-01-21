@@ -31,7 +31,8 @@ export function AIAssistantWidget() {
           id: `ai-${Date.now()}`,
           content: aiResponse.message,
           sender: 'ai',
-          timestamp: aiResponse.timestamp
+          timestamp: aiResponse.timestamp,
+          links: aiResponse.links
         };
 
         setMessages(prev => [...prev, aiMsg]);

@@ -43,10 +43,11 @@ export const MapView: React.FC = () => {
             // Add new case if notification exists
             ...(notification ? [{
                 id: notification.id,
-                lat: 25.012,
-                lng: 121.465,
+                // Use a unique location slightly different from existing cases
+                lat: 25.0135,
+                lng: 121.4645,
                 type: notification.type === '捕蜂抓蛇' ? 'bee' as const : 'general' as const,
-                title: `${notification.type} - 新提交案件`,
+                title: notification.type === '捕蜂抓蛇' ? '室內蜂窩通報' : '受傷動物救援',
                 status: 'pending' as const,
                 address: notification.location,
                 reporter: '線上通報',
@@ -250,8 +251,8 @@ export const MapView: React.FC = () => {
                         onClick={() => {
                             if (notification) {
                                 // Zoom to the new case location
-                                setMapCenter([25.012, 121.465]);
-                                setMapZoom(17);
+                                setMapCenter([25.0135, 121.4645]);
+                                setMapZoom(18);
                                 // Close notification after zooming
                                 setTimeout(() => setNotification(null), 1500);
                             }

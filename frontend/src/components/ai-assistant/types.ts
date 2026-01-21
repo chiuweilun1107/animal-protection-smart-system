@@ -1,9 +1,16 @@
+export interface Link {
+  text: string;
+  url: string;
+  label?: string;
+}
+
 export interface Message {
   id: string;
   content: string;
   sender: 'user' | 'ai' | 'system';
   timestamp: Date;
   isError?: boolean;
+  links?: Link[];
 }
 
 export interface Position {
@@ -22,4 +29,5 @@ export interface AIResponse {
   message: string;
   timestamp: Date;
   suggestions?: string[];
+  links?: Link[];
 }
