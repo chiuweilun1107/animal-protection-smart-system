@@ -14,6 +14,8 @@ export const MapView: React.FC = () => {
     const [activeLayer, setActiveLayer] = useState<'osm' | 'satellite' | 'dark'>('osm');
     const [showLayerMenu, setShowLayerMenu] = useState(false);
     const [notification, setNotification] = useState<{ id: string; type: string; location: string } | null>(null);
+    const [mapCenter, setMapCenter] = useState<[number, number]>([25.012, 121.465]);
+    const [mapZoom, setMapZoom] = useState<number>(14);
 
     useEffect(() => {
         const handleOpenDispatch = (e: CustomEvent<{ id: string; title: string }>) => {
@@ -38,6 +40,18 @@ export const MapView: React.FC = () => {
     useEffect(() => {
         // Simulate API fetch
         const mockCases: CaseMarker[] = [
+            // Add new case if notification exists
+            ...(notification ? [{
+                id: notification.id,
+                lat: 25.012,
+                lng: 121.465,
+                type: notification.type === '捕蜂抓蛇' ? 'bee' as const : 'general' as const,
+                title: `${notification.type} - 新提交案件`,
+                status: 'pending' as const,
+                address: notification.location,
+                reporter: '線上通報',
+                description: '剛剛提交的新案件，等待處理中。'
+            }] : []),
             {
                 id: 'C20231021001',
                 lat: 25.012,
@@ -229,15 +243,17 @@ export const MapView: React.FC = () => {
                 <div className="absolute top-6 left-1/2 -translate-x-1/2 z-[2000] animate-in slide-in-from-top-4 fade-in">
                     <div
                         onClick={() => {
-                            // Find the new case in the map and trigger its popup
-                            // For now, just close the notification
-                            // In production, this would zoom to the marker and open its popup
-                            alert(`即將在地圖上顯示案件：${notification.id}`);
+                            if (notification) {
+                                // Zoom to the new case location
+                                setMapCenter([25.012, 121.465]);
+                                setMapZoom(17);
+                                // Close notification after zooming
+                                setTimeout(() => setNotification(null), 1500);
+                            }
                         }}
                         className="bg-emerald-500 text-white px-8 py-4 rounded-2xl shadow-2xl flex items-center gap-4 border-2 border-emerald-400 cursor-pointer hover:bg-emerald-600 transition-colors"
                     >
                         <svg className="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         <div className="flex-1">
                             <div className="font-black text-sm">新案件已建立 - 點擊查看位置</div>
@@ -364,7 +380,12 @@ export const MapView: React.FC = () => {
             </div>
 
             <div className="absolute inset-0 z-0">
-                <CaseMap cases={filteredCases} activeLayer={activeLayer} />
+                <CaseMap
+                    cases={filteredCases}
+                    activeLayer={activeLayer}
+                    center={mapCenter}
+                    zoom={mapZoom}
+                />
 
                 {/* Legend Overlay */}
                 <div className="absolute bottom-6 left-6 bg-slate-900/90 backdrop-blur-md p-6 rounded-[2rem] shadow-2xl z-[1000] border border-white/10 min-w-[240px]">

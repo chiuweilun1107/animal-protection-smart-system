@@ -9,7 +9,7 @@ export function AIAssistantWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const { position, isDragging } = useDraggable(buttonRef);
+  const { position, isDragging, hasMoved } = useDraggable(buttonRef);
 
   const handleSendMessage = useCallback(
     async (userMessage: string) => {
@@ -53,8 +53,8 @@ export function AIAssistantWidget() {
   );
 
   const handleClick = () => {
-    // 只有在不拖曳時才打開聊天窗口
-    if (!isDragging) {
+    // 只有在沒有拖曳移動時才打開聊天窗口
+    if (!hasMoved) {
       setIsOpen(true);
     }
   };

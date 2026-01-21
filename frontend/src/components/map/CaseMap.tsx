@@ -21,11 +21,13 @@ export interface CaseMarker {
 interface CaseMapProps {
     cases: CaseMarker[];
     activeLayer?: 'osm' | 'satellite' | 'dark';
+    center?: LatLngTuple;
+    zoom?: number;
 }
 
 const DEFAULT_CENTER: LatLngTuple = [25.0118, 121.4658];
 
-export const CaseMap: React.FC<CaseMapProps> = ({ cases, activeLayer = 'osm' }) => {
+export const CaseMap: React.FC<CaseMapProps> = ({ cases, activeLayer = 'osm', center, zoom }) => {
 
     const getIconColor = (type: string, status: string) => {
         if (status === 'resolved') return 'green';
@@ -72,8 +74,9 @@ export const CaseMap: React.FC<CaseMapProps> = ({ cases, activeLayer = 'osm' }) 
     return (
         <div className="w-full h-full rounded-lg overflow-hidden border border-slate-200 shadow-md">
             <MapContainer
-                center={DEFAULT_CENTER}
-                zoom={12}
+                key={`${center?.[0]}-${center?.[1]}-${zoom}`}
+                center={center || DEFAULT_CENTER}
+                zoom={zoom || 12}
                 style={{ height: '100%', width: '100%' }}
             >
                 {getTileLayer()}
