@@ -85,37 +85,22 @@ export const Report: React.FC = () => {
                 </div>
             )}
 
-            {/* Dynamic Background */}
-            <div className={`fixed top-0 left-0 w-full h-[500px] pointer-events-none transition-all duration-1000 ${isEmergency ? 'bg-red-600' : isBee ? 'bg-orange-600' : 'bg-slate-900'
-                }`}>
-                <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent"></div>
-                <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }}></div>
-            </div>
+            {/* Dynamic Background Removed - Keeping page standard light theme */}
 
-            <div className="relative z-10 px-6" style={{ paddingTop: isEmergency ? '8rem' : '8rem' }}>
+            <div className="relative z-10 px-6 pt-12 md:pt-20">
                 <div className="max-w-4xl mx-auto">
                     {/* Header */}
-                    <div className="flex flex-col md:flex-row items-center gap-12 mb-20 animate-in fade-in slide-in-from-bottom-10 duration-1000">
-                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-2xl font-black text-xl ${isEmergency
-                            ? 'bg-red-600 shadow-red-600/50 animate-pulse'
-                            : isBee
-                                ? 'bg-orange-500 shadow-orange-500/50'
-                                : 'bg-slate-800 shadow-slate-900/50'
-                            }`}>
-                            {isEmergency ? '!!!' : isBee ? 'B' : 'A'}
-                        </div>
-                        <div className="flex-1 text-center md:text-left">
-                            <h1 className="text-5xl md:text-6xl font-black tracking-tighter text-white uppercase mb-4">
-                                {isEmergency ? '緊急案件' : isBee ? '蜂蛇移除' : '一般案件'}<br />
-                                <span className={isEmergency ? 'text-red-200' : isBee ? 'text-orange-200' : 'text-blue-500'}>通報程序系統</span>
-                            </h1>
-                            <p className="text-slate-400 font-medium">
-                                {isEmergency
-                                    ? '此為高優先級緊急案件，系統將優先調度並立即派遣最近單位處置。'
-                                    : '請提供詳細資訊，系統將自動分析並指派最合適的勤務單位進行處置。'
-                                }
-                            </p>
-                        </div>
+                    <div className="flex flex-col items-center text-center mb-12 animate-in fade-in slide-in-from-bottom-10 duration-1000">
+                        <h1 className="text-5xl md:text-6xl font-black tracking-tighter text-slate-900 uppercase mb-4">
+                            {isEmergency ? '緊急案件' : isBee ? '蜂蛇移除' : '一般案件'}<br />
+                            <span className={isEmergency ? 'text-red-600' : isBee ? 'text-orange-500' : 'text-blue-600'}>通報程序系統</span>
+                        </h1>
+                        <p className="text-slate-500 text-lg font-medium max-w-2xl mx-auto">
+                            {isEmergency
+                                ? '此為高優先級緊急案件，系統將優先調度並立即派遣最近單位處置。'
+                                : '請提供詳細資訊，系統將自動分析並指派最合適的勤務單位進行處置。'
+                            }
+                        </p>
                     </div>
 
                     <form onSubmit={handleSubmit} className="space-y-8 animate-in fade-in slide-in-from-bottom-20 duration-1000 delay-300">
