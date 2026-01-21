@@ -601,4 +601,24 @@ export const mockCases: Case[] = [
         createdAt: '2026-01-21T08:30:00Z',
         updatedAt: '2026-01-21T12:00:00Z'
     },
+    {
+        id: 'C20260121021',
+        type: 'general',
+        title: '流浪犬傷人事件-處理中',
+        status: 'processing',
+        workflowStage: 'execution',
+        priority: 'critical',
+        date: '2026-01-21',
+        location: '新北市新店區',
+        coordinates: { lat: 25.00, lng: 121.55 },
+        reporterName: '吳先生',
+        reporterPhone: '0912111122',
+        description: '流浪犬咬傷民眾，需緊急處理',
+        photos: [],
+        assignedTo: 'u2',
+        signedAt: '2026-01-21T10:00:00Z',
+        notes: '正在追捕中',
+        createdAt: '2026-01-21T09:30:00Z',
+        updatedAt: '2026-01-21T13:00:00Z'
+    },
 ];

@@ -431,10 +431,10 @@ export const MapView: React.FC = () => {
                     ) : (
                         <button
                             onClick={() => setShowLegend(true)}
-                            className="w-12 h-12 bg-slate-900/90 backdrop-blur-md p-3 rounded-full shadow-xl border border-white/10 text-white hover:bg-slate-800 transition-all flex items-center justify-center"
+                            className="w-10 h-10 md:w-12 md:h-12 bg-slate-900/90 backdrop-blur-md p-3 rounded-full shadow-xl border border-white/10 text-white hover:bg-slate-800 transition-all flex items-center justify-center transform active:scale-95"
                             title="顯示圖例"
                         >
-                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                         </button>
                     )}
                 </div>
@@ -494,34 +494,18 @@ export const MapView: React.FC = () => {
                     ) : (
                         <button
                             onClick={() => setShowQuickReport(true)}
-                            className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-4 rounded-full shadow-xl shadow-blue-500/30 flex items-center gap-3 transition-all active:scale-95"
+                            className="bg-blue-600 hover:bg-blue-500 text-white rounded-full shadow-xl shadow-blue-500/30 flex items-center justify-center transition-all active:scale-95 w-12 h-12 md:w-auto md:h-auto md:px-6 md:py-4 md:rounded-full gap-3"
                         >
-                            <span className="text-sm font-black tracking-widest uppercase">快速通報</span>
-                            <div className="flex items-center gap-2 pt-2 border-t border-slate-100">
-                                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                                <span className="text-[10px] font-bold text-slate-400">已啟動定位，支援即時通報</span>
-                            </div>
-                        </div>
-                            </div>
-            </div>
-            ) : (
-            <button
-                onClick={() => setShowQuickReport(true)}
-                className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-4 rounded-full shadow-xl shadow-blue-500/30 flex items-center gap-3 transition-all active:scale-95"
-            >
-                <span className="text-sm font-black tracking-widest uppercase">快速通報</span>
-                <ArrowLeft size={16} className="rotate-180" />
-            </button>
-                    )}
-        </div >
+                            {/* Mobile Icon - Only shown when button is small (handled by width/height above, but can be explicit for content) */}
+                            <svg className="w-6 h-6 md:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
 
-    {/* Dispatch Dialog */ }
-    < DispatchDialog
-        isOpen={showDispatchDialog}
-        onClose={() => setShowDispatchDialog(false)}
-        caseInfo={selectedCase}
-    />
-            </div >
+                            {/* Desktop Text - Hidden on mobile */}
+                            <span className="hidden md:block text-sm font-black tracking-widest uppercase">快速通報</span>
+                            <ArrowLeft size={16} className="hidden md:block rotate-180" />
+                        </button>
+                    )}
+                </div>
+            </div>
         </div >
     );
 };
