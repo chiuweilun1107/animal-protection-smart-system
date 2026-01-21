@@ -52,7 +52,7 @@ export const MapView: React.FC = () => {
                 reporter: '線上通報',
                 photoUrl: notification.type === '捕蜂抓蛇'
                     ? 'https://images.unsplash.com/photo-1579383618796-08e67bbc3363?auto=format&fit=crop&q=80&w=300'
-                    : 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=300', // Orange cat photo
+                    : 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=300', // Reverted to Orange cat
                 description: notification.type === '捕蜂抓蛇'
                     ? '室內發現蜂窩，需要專業人員移除。'
                     : '發現一隻橘色浪貓，左前腳似乎受傷跛行，但在路邊坐著不動，希望能派員協助救援。'
@@ -66,7 +66,7 @@ export const MapView: React.FC = () => {
                 status: 'pending',
                 address: '新北市板橋區縣民大道二段7號',
                 reporter: '王小明',
-                photoUrl: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=300', // Orange cat photo
+                photoUrl: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=300', // Reverted to Orange cat
                 description: '發現一隻橘色浪貓，左前腳似乎受傷跛行，但在路邊坐著不動，希望能派員協助救援。'
             },
             {
