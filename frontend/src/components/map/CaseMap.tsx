@@ -40,7 +40,7 @@ export const CaseMap: React.FC<CaseMapProps> = ({ cases, activeLayer = 'osm', ce
     };
 
     const handleDispatch = (id: string, title: string) => {
-        const event = new CustomEvent('open-dispatch-dialog', { detail: { id, title } });
+        const event = new CustomEvent('openDispatch', { detail: { id, title } });
         window.dispatchEvent(event);
     };
 
