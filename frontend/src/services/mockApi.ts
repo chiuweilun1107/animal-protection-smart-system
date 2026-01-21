@@ -553,7 +553,7 @@ export const mockApi = {
         const totalCases = filteredCases.length;
         const resolvedCases = filteredCases.filter(c => c.status === 'resolved').length;
         const pendingCases = filteredCases.filter(c => c.status === 'pending').length;
-        const urgentCases = filteredCases.filter(c => c.priority === 'urgent').length;
+        const urgentCases = filteredCases.filter(c => c.priority === 'critical').length;
 
         const chartData = {
             statusDistribution: [

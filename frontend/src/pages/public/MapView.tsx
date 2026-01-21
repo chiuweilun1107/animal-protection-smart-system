@@ -497,34 +497,29 @@ export const MapView: React.FC = () => {
                             className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-4 rounded-full shadow-xl shadow-blue-500/30 flex items-center gap-3 transition-all active:scale-95"
                         >
                             <span className="text-sm font-black tracking-widest uppercase">快速通報</span>
-                            <ArrowLeft size={16} className="rotate-180" />
-                        </button>
-                    )}
-                </div>
-
-                <div className="flex items-center gap-2 pt-2 border-t border-slate-100">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span className="text-[10px] font-bold text-slate-400">已啟動定位，支援即時通報</span>
-                </div>
+                            <div className="flex items-center gap-2 pt-2 border-t border-slate-100">
+                                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                <span className="text-[10px] font-bold text-slate-400">已啟動定位，支援即時通報</span>
+                            </div>
+                        </div>
+                            </div>
             </div>
-        </div>
-                        </div >
-                    ) : (
-    <button
-        onClick={() => setShowQuickReport(true)}
-        className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-4 rounded-full shadow-xl shadow-blue-500/30 flex items-center gap-3 transition-all active:scale-95"
-    >
-        <span className="text-sm font-black tracking-widest uppercase">快速通報</span>
-        <ArrowLeft size={16} className="rotate-180" />
-    </button>
-)}
-                </div >
+            ) : (
+            <button
+                onClick={() => setShowQuickReport(true)}
+                className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-4 rounded-full shadow-xl shadow-blue-500/30 flex items-center gap-3 transition-all active:scale-95"
+            >
+                <span className="text-sm font-black tracking-widest uppercase">快速通報</span>
+                <ArrowLeft size={16} className="rotate-180" />
+            </button>
+                    )}
+        </div >
 
     {/* Dispatch Dialog */ }
     < DispatchDialog
-isOpen = { showDispatchDialog }
-onClose = {() => setShowDispatchDialog(false)}
-caseInfo = { selectedCase }
+        isOpen={showDispatchDialog}
+        onClose={() => setShowDispatchDialog(false)}
+        caseInfo={selectedCase}
     />
             </div >
         </div >
