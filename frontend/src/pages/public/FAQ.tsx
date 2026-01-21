@@ -63,8 +63,16 @@ export const FAQ: React.FC = () => {
     );
 
     return (
-        <div className="min-h-screen bg-[#FDFDFD] pb-40">
-            <div className="pt-32 px-6">
+        <div className="min-h-screen bg-slate-50 pb-40 relative overflow-hidden">
+            {/* Layered Background */}
+            <div className="fixed inset-0 bg-gradient-to-b from-blue-50/30 via-transparent to-slate-50/50 pointer-events-none"></div>
+            <div className="fixed inset-0 opacity-[0.015]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgb(51 65 85) 1px, transparent 0)', backgroundSize: '32px 32px' }}></div>
+
+            {/* Ambient Light Effects */}
+            <div className="fixed top-0 left-0 w-[600px] h-[600px] bg-blue-400/5 rounded-full blur-[120px] pointer-events-none"></div>
+            <div className="fixed bottom-0 right-0 w-[500px] h-[500px] bg-slate-400/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+            <div className="relative z-10 pt-32 px-6">
                 <div className="max-w-6xl mx-auto">
                     {/* Header */}
                     <div className="flex flex-col lg:flex-row items-end justify-between gap-12 mb-20">
@@ -98,8 +106,8 @@ export const FAQ: React.FC = () => {
                         <button
                             onClick={() => setActiveSection('all')}
                             className={`px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${activeSection === 'all'
-                                    ? 'bg-blue-600 text-white shadow-xl shadow-blue-600/30'
-                                    : 'bg-slate-100 border border-slate-200 text-slate-400 hover:text-slate-900 hover:bg-slate-200'
+                                ? 'bg-blue-600 text-white shadow-xl shadow-blue-600/30'
+                                : 'bg-slate-100 border border-slate-200 text-slate-400 hover:text-slate-900 hover:bg-slate-200'
                                 }`}
                         >
                             所有類別
@@ -109,8 +117,8 @@ export const FAQ: React.FC = () => {
                                 key={s.id}
                                 onClick={() => setActiveSection(s.id)}
                                 className={`px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${activeSection === s.id
-                                        ? 'bg-slate-900 border border-blue-500 text-white shadow-xl shadow-blue-500/10'
-                                        : 'bg-slate-100 border border-slate-200 text-slate-400 hover:text-slate-900 hover:bg-slate-200'
+                                    ? 'bg-slate-900 border border-blue-500 text-white shadow-xl shadow-blue-500/10'
+                                    : 'bg-slate-100 border border-slate-200 text-slate-400 hover:text-slate-900 hover:bg-slate-200'
                                     }`}
                             >
                                 {s.title}

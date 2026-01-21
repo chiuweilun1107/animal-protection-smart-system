@@ -168,10 +168,13 @@ export const SmartGuide: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-slate-50 relative overflow-hidden flex items-center justify-center">
-            {/* Minimalist Background Layout */}
-            <div className="absolute inset-0 bg-white pointer-events-none"></div>
-            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-200/20 blur-[150px] rounded-full"></div>
-            <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-100/30 blur-[150px] rounded-full"></div>
+            {/* Layered Background */}
+            <div className="absolute inset-0 bg-gradient-to-b from-blue-50/30 via-transparent to-slate-50/50 pointer-events-none"></div>
+            <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgb(51 65 85) 1px, transparent 0)', backgroundSize: '32px 32px' }}></div>
+
+            {/* Ambient Light Effects */}
+            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-400/10 blur-[150px] rounded-full"></div>
+            <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-slate-400/10 blur-[150px] rounded-full"></div>
 
             <div className="relative z-10 w-full px-6 py-20">
                 {renderStep()}

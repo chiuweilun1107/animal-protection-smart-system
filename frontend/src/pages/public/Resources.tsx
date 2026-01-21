@@ -30,8 +30,16 @@ export const Resources: React.FC = () => {
     });
 
     return (
-        <div className="min-h-screen bg-white pt-32 pb-20 overflow-hidden">
-            <div className="max-w-7xl mx-auto px-6">
+        <div className="min-h-screen bg-slate-50 pt-32 pb-20 relative overflow-hidden">
+            {/* Layered Background */}
+            <div className="fixed inset-0 bg-gradient-to-b from-emerald-50/20 via-transparent to-slate-50/50 pointer-events-none"></div>
+            <div className="fixed inset-0 opacity-[0.015]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgb(51 65 85) 1px, transparent 0)', backgroundSize: '32px 32px' }}></div>
+
+            {/* Ambient Light Effects */}
+            <div className="fixed top-0 right-0 w-[600px] h-[600px] bg-emerald-400/5 rounded-full blur-[120px] pointer-events-none"></div>
+            <div className="fixed bottom-0 left-0 w-[500px] h-[500px] bg-slate-400/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+            <div className="relative z-10 max-w-7xl mx-auto px-6">
 
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
