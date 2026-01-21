@@ -15,7 +15,8 @@
       "Bash(grep:*)",
       "Bash(mdls:*)",
       "Bash(curl:*)",
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "WebSearch"
     ]
   }
 }

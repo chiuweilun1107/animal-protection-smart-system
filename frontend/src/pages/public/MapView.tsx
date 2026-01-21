@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CaseMap, type CaseMarker } from '../../components/map/CaseMap';
-import { Filter, Layers, ArrowLeft, Zap, AlertCircle, MessageSquare, Camera } from 'lucide-react';
+import { Filter, Layers, ArrowLeft, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const MapView: React.FC = () => {
@@ -348,65 +348,35 @@ export const MapView: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Quick Report AI Widget */}
-                <div className="absolute bottom-6 right-6 bg-slate-900/90 backdrop-blur-md p-6 rounded-[2rem] shadow-2xl z-[1000] border border-white/10 min-w-[280px] group overflow-hidden">
-                    {/* Background Glow Effect */}
-                    <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/10 blur-[80px] group-hover:bg-blue-500/20 transition-all duration-700"></div>
 
-                    <div className="relative z-10">
-                        <div className="flex items-center gap-3 mb-4">
-                            <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400 border border-blue-500/20">
-                                <Zap size={20} className="animate-pulse" />
+                {/* Location Info Widget */}
+                <div className="absolute bottom-6 right-6 bg-white/95 backdrop-blur-md p-6 rounded-[2rem] shadow-2xl z-[1000] border border-slate-200 min-w-[280px]">
+                    <div className="space-y-4">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
+                                <MapPin size={20} />
                             </div>
                             <div>
-                                <h3 className="text-sm font-black text-white tracking-tighter">快速通報 AI 助理</h3>
-                                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Intelligent Reporting</p>
+                                <h3 className="text-sm font-black text-slate-900 tracking-tight">定位資訊</h3>
+                                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Location Status</p>
                             </div>
                         </div>
 
-                        <div className="space-y-4">
-                            <Link
-                                to="/smart-guide"
-                                className="flex items-center justify-between w-full bg-white hover:bg-blue-50 transition-all p-4 rounded-2xl group/btn shadow-lg"
-                            >
-                                <span className="text-sm font-black text-slate-900 tracking-tighter">啟動智能引導報案</span>
-                                <div className="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center group-hover/btn:scale-110 transition-transform">
-                                    <MessageSquare size={16} />
+                        <div className="space-y-2">
+                            <div className="flex items-center justify-between py-2 px-3 bg-slate-50 rounded-xl">
+                                <span className="text-xs font-bold text-slate-600">GPS 狀態</span>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                                    <span className="text-xs font-black text-emerald-600">已啟用</span>
                                 </div>
-                            </Link>
-
-                            <div className="grid grid-cols-3 gap-2">
-                                <Link
-                                    to="/report/general"
-                                    className="aspect-square rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/20 transition-all flex flex-col items-center justify-center gap-1 group/item"
-                                    title="一般救援"
-                                >
-                                    <AlertCircle size={18} className="text-red-400 group-hover/item:scale-110 transition-transform" />
-                                    <span className="text-[9px] font-black text-slate-400">救援</span>
-                                </Link>
-                                <Link
-                                    to="/report/bee"
-                                    className="aspect-square rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/20 transition-all flex flex-col items-center justify-center gap-1 group/item"
-                                    title="捕蜂抓蛇"
-                                >
-                                    <Zap size={18} className="text-orange-400 group-hover/item:scale-110 transition-transform" />
-                                    <span className="text-[9px] font-black text-slate-400">捕蜂</span>
-                                </Link>
-                                <Link
-                                    to="/report/general"
-                                    className="aspect-square rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/20 transition-all flex flex-col items-center justify-center gap-1 group/item"
-                                    title="影像上傳"
-                                >
-                                    <Camera size={18} className="text-emerald-400 group-hover/item:scale-110 transition-transform" />
-                                    <span className="text-[9px] font-black text-slate-400">上傳</span>
-                                </Link>
                             </div>
-                        </div>
-
-                        <div className="mt-4 pt-4 border-t border-white/5">
-                            <div className="flex items-center gap-2 text-[10px] text-slate-500 font-bold">
-                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
-                                AI 系統在線，支援即時影像辨識
+                            <div className="flex items-center justify-between py-2 px-3 bg-slate-50 rounded-xl">
+                                <span className="text-xs font-bold text-slate-600">精確度</span>
+                                <span className="text-xs font-black text-slate-900">±5 公尺</span>
+                            </div>
+                            <div className="flex items-center justify-between py-2 px-3 bg-slate-50 rounded-xl">
+                                <span className="text-xs font-bold text-slate-600">當前位置</span>
+                                <span className="text-xs font-black text-slate-900">新北市板橋區</span>
                             </div>
                         </div>
                     </div>

@@ -10,8 +10,7 @@ export const useDraggable = (
 
   const positionRef = useRef<Position>({ x: 0, y: 0 });
   const dragStartPos = useRef<Position>({ x: 0, y: 0 });
-  const isDraggingRef = useRef(false);
-  const animationFrameRef = useRef<number>();
+  const elementStartPos = useRef<Position>({ x: 0, y: 0 });
 
   useEffect(() => {
     const element = elementRef.current;
@@ -24,55 +23,57 @@ export const useDraggable = (
 
     if (!handle) return;
 
-    const handleMouseDown = (e: MouseEvent) => {
-      isDraggingRef.current = true;
+    const handlePointerDown = (e: PointerEvent) => {
+      // 使用 setPointerCapture 綁定指針到元素
+      (handle as any).setPointerCapture(e.pointerId);
+
       setIsDragging(true);
       dragStartPos.current = { x: e.clientX, y: e.clientY };
+      elementStartPos.current = { ...positionRef.current };
     };
 
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isDraggingRef.current) return;
+    const handlePointerMove = (e: PointerEvent) => {
+      // 只有當元素捕獲了指針時才更新
+      if (!element.hasPointerCapture(e.pointerId)) return;
 
       const deltaX = e.clientX - dragStartPos.current.x;
       const deltaY = e.clientY - dragStartPos.current.y;
 
-      const newPosition = {
-        x: positionRef.current.x + deltaX,
-        y: positionRef.current.y + deltaY
+      const newPos = {
+        x: elementStartPos.current.x + deltaX,
+        y: elementStartPos.current.y + deltaY
       };
 
-      // 使用 requestAnimationFrame 優化性能
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
+      // 直接更新 DOM，不觸發 React 重新渲染
+      // 使用 will-change 啟用硬體加速
+      element.style.willChange = 'left, top';
+      element.style.left = `calc(100vw - 96px + ${newPos.x}px)`;
+      element.style.top = `calc(100vh - 96px + ${newPos.y}px)`;
 
-      animationFrameRef.current = requestAnimationFrame(() => {
-        positionRef.current = newPosition;
-        element.style.transform = `translate(${newPosition.x}px, ${newPosition.y}px)`;
-      });
+      // 只有在移動時才更新狀態
+      positionRef.current = newPos;
     };
 
-    const handleMouseUp = () => {
-      if (isDraggingRef.current) {
-        isDraggingRef.current = false;
-        setIsDragging(false);
-        // 更新 React 狀態，以便保存位置
+    const handlePointerUp = (e: PointerEvent) => {
+      if (element.hasPointerCapture(e.pointerId)) {
+        element.releasePointerCapture(e.pointerId);
+
+        // 更新 React 狀態以保存最終位置
         setPosition({ ...positionRef.current });
-        dragStartPos.current = { x: 0, y: 0 };
+        setIsDragging(false);
       }
     };
 
-    handle.addEventListener('mousedown', handleMouseDown);
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
+    handle.addEventListener('pointerdown', handlePointerDown);
+    handle.addEventListener('pointermove', handlePointerMove);
+    handle.addEventListener('pointerup', handlePointerUp);
+    handle.addEventListener('pointercancel', handlePointerUp);
 
     return () => {
-      handle.removeEventListener('mousedown', handleMouseDown);
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
+      handle.removeEventListener('pointerdown', handlePointerDown);
+      handle.removeEventListener('pointermove', handlePointerMove);
+      handle.removeEventListener('pointerup', handlePointerUp);
+      handle.removeEventListener('pointercancel', handlePointerUp);
     };
   }, [elementRef, handleSelector]);
 

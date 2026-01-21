@@ -68,15 +68,14 @@ export function AIAssistantWidget() {
                    bg-gradient-to-br from-blue-600 to-purple-600
                    rounded-2xl shadow-2xl shadow-blue-600/30
                    hover:shadow-blue-600/50 hover:scale-110
-                   transition-all duration-300
+                   transition-shadow duration-300
                    flex items-center justify-center group
                    drag-handle cursor-grab active:cursor-grabbing"
         onClick={handleClick}
         title="打開 AI 助手"
         style={{
-          bottom: '24px',
-          right: '24px',
-          transform: `translate(${position.x}px, ${position.y}px)`,
+          left: `calc(100vw - 96px + ${position.x}px)`,
+          top: `calc(100vh - 96px + ${position.y}px)`,
           cursor: isDragging ? 'grabbing' : 'grab'
         }}
       >
