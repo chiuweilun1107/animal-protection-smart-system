@@ -157,14 +157,17 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                                                             const menuItem = detailedCaseMenu[key];
                                                             const count = menuItem?.count || 0;
                                                             const label = caseMenuLabels[key];
+                                                            const searchParams = new URLSearchParams(location.search);
+                                                            const currentFilter = searchParams.get('filter') || 'all';
+                                                            const isItemActive = currentFilter === key;
 
                                                             return (
                                                                 <NavLink
                                                                     key={key}
                                                                     to={`/admin/cases?filter=${key}`}
-                                                                    className={({ isActive }) => `
+                                                                    className={`
                                                                         flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg transition-all text-xs font-semibold
-                                                                        ${isActive
+                                                                        ${isItemActive
                                                                             ? 'bg-blue-600/20 text-blue-300 border border-blue-600/30'
                                                                             : 'text-slate-400 hover:text-white hover:bg-white/5 border border-transparent'}
                                                                     `}

@@ -11,11 +11,11 @@ export const ReportHazard: React.FC = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     // Form State (Sync with Report.tsx style)
-    const [region, setRegion] = useState('新北市 - 板橋區');
-    const [address, setAddress] = useState('四川路一段 157 巷口 7-11 前');
+    const [region, setRegion] = useState('新北市 - 中和區');
+    const [address, setAddress] = useState('景平路 123 號 頂樓露台');
     const [locationDetail, setLocationDetail] = useState('');
-    const [contactName, setContactName] = useState('王小明');
-    const [phone, setPhone] = useState('0912-345-678');
+    const [contactName, setContactName] = useState('李大華');
+    const [phone, setPhone] = useState('0988-765-432');
 
     // Detection State
     const [isDetecting, setIsDetecting] = useState(false);
@@ -40,8 +40,9 @@ export const ReportHazard: React.FC = () => {
 
         setTimeout(() => {
             const mockLocations = [
-                { region: '新北市 - 板橋區', address: '四川路一段 157 巷口 7-11 前' },
-                { region: '新北市 - 板橋區', address: '縣民大道二段 7 號附近' },
+                { region: '新北市 - 中和區', address: '景平路 123 號 頂樓露台' },
+                { region: '新北市 - 永和區', address: '永和路二段 50 號 巷內圍牆' },
+                { region: '新北市 - 三重區', address: '自強路三段 110 號 公園老樹' },
             ];
             const randomLocation = mockLocations[Math.floor(Math.random() * mockLocations.length)];
 
