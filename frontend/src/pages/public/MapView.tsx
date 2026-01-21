@@ -519,7 +519,6 @@ export const MapView: React.FC = () => {
     </button>
 )}
                 </div >
-            </div >
 
     {/* Dispatch Dialog */ }
     < DispatchDialog
@@ -527,6 +526,7 @@ isOpen = { showDispatchDialog }
 onClose = {() => setShowDispatchDialog(false)}
 caseInfo = { selectedCase }
     />
+            </div >
         </div >
     );
 };
