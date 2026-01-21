@@ -12,6 +12,8 @@ export const useDraggable = (
   const positionRef = useRef<Position>({ x: 0, y: 0 });
   const dragStartPos = useRef<Position>({ x: 0, y: 0 });
   const elementStartPos = useRef<Position>({ x: 0, y: 0 });
+  const hasMovedRef = useRef(false);
+  const pointerIdRef = useRef<number | null>(null);
 
   useEffect(() => {
     const element = elementRef.current;
@@ -25,20 +27,28 @@ export const useDraggable = (
     if (!handle) return;
 
     const handlePointerDown = (e: PointerEvent) => {
-      // 使用 setPointerCapture 綁定指針到主元素
-      (element as any).setPointerCapture(e.pointerId);
-
-      setIsDragging(true);
       dragStartPos.current = { x: e.clientX, y: e.clientY };
       elementStartPos.current = { ...positionRef.current };
+      hasMovedRef.current = false;
+      pointerIdRef.current = e.pointerId;
     };
 
     const handlePointerMove = (e: PointerEvent) => {
-      // 只有當元素捕獲了指針時才更新
-      if (!element.hasPointerCapture(e.pointerId)) return;
+      if (pointerIdRef.current !== e.pointerId) return;
 
       const deltaX = e.clientX - dragStartPos.current.x;
       const deltaY = e.clientY - dragStartPos.current.y;
+
+      // 只有移動超過 5px 才算真正拖曳
+      const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+      if (distance < 5) return;
+
+      // 第一次檢測到拖曳時才 capture
+      if (!hasMovedRef.current) {
+        hasMovedRef.current = true;
+        setIsDragging(true);
+        (element as any).setPointerCapture(e.pointerId);
+      }
 
       const newPos = {
         x: elementStartPos.current.x + deltaX,
@@ -55,13 +65,18 @@ export const useDraggable = (
     };
 
     const handlePointerUp = (e: PointerEvent) => {
-      if (element.hasPointerCapture(e.pointerId)) {
+      if (pointerIdRef.current !== e.pointerId) return;
+
+      if (hasMovedRef.current && element.hasPointerCapture(e.pointerId)) {
         element.releasePointerCapture(e.pointerId);
 
         // 更新 React 狀態以保存最終位置
         setPosition({ ...positionRef.current });
         setIsDragging(false);
       }
+
+      hasMovedRef.current = false;
+      pointerIdRef.current = null;
     };
 
     handle.addEventListener('pointerdown', handlePointerDown);

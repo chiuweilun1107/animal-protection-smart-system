@@ -27,10 +27,9 @@ export const MapView: React.FC = () => {
         if (storedNotification) {
             const notif = JSON.parse(storedNotification);
             setNotification(notif);
-            // Clear notification after showing
+            // Clear notification from storage after showing
             localStorage.removeItem('newCaseNotification');
-            // Auto-hide after 8 seconds
-            setTimeout(() => setNotification(null), 8000);
+            // Do NOT auto-hide - let user manually close or click
         }
 
         return () => window.removeEventListener('openDispatch', handleOpenDispatch as EventListener);
@@ -228,16 +227,27 @@ export const MapView: React.FC = () => {
             {/* New Case Notification Toast */}
             {notification && (
                 <div className="absolute top-6 left-1/2 -translate-x-1/2 z-[2000] animate-in slide-in-from-top-4 fade-in">
-                    <div className="bg-emerald-500 text-white px-8 py-4 rounded-2xl shadow-2xl flex items-center gap-4 border-2 border-emerald-400">
+                    <div
+                        onClick={() => {
+                            // Find the new case in the map and trigger its popup
+                            // For now, just close the notification
+                            // In production, this would zoom to the marker and open its popup
+                            alert(`即將在地圖上顯示案件：${notification.id}`);
+                        }}
+                        className="bg-emerald-500 text-white px-8 py-4 rounded-2xl shadow-2xl flex items-center gap-4 border-2 border-emerald-400 cursor-pointer hover:bg-emerald-600 transition-colors"
+                    >
                         <svg className="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <div>
-                            <div className="font-black text-sm">新案件已建立</div>
+                        <div className="flex-1">
+                            <div className="font-black text-sm">新案件已建立 - 點擊查看位置</div>
                             <div className="text-xs font-medium opacity-90">{notification.id} - {notification.type} - {notification.location}</div>
                         </div>
                         <button
-                            onClick={() => setNotification(null)}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setNotification(null);
+                            }}
                             className="ml-4 hover:bg-white/20 rounded-lg p-1 transition-colors"
                         >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
