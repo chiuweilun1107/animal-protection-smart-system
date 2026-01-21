@@ -157,13 +157,13 @@ export function AdminDashboard() {
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
         <div>
-          <div className="text-[10px] font-black text-blue-600 uppercase tracking-[0.3em] mb-2">平台概覽</div>
+          <div className="text-base font-black text-blue-600 uppercase tracking-[0.3em] mb-2">平台概覽</div>
           <h1 className="text-3xl md:text-5xl font-black tracking-tighter text-slate-900 uppercase">儀表板</h1>
         </div>
         <div className="flex items-center gap-2 md:gap-3 bg-white p-1.5 md:p-2 rounded-2xl border border-slate-200 shadow-sm w-full md:w-auto">
           <button
             onClick={() => setViewMode('realtime')}
-            className={`flex-1 md:flex-none px-4 md:px-6 py-2 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest shadow-lg transition-all ${viewMode === 'realtime'
+            className={`flex-1 md:flex-none px-4 md:px-6 py-2 rounded-xl text-base md:text-xs font-black uppercase tracking-widest shadow-lg transition-all ${viewMode === 'realtime'
                 ? 'bg-slate-900 text-white shadow-slate-900/20'
                 : 'text-slate-400 hover:text-slate-900'
               }`}
@@ -172,7 +172,7 @@ export function AdminDashboard() {
           </button>
           <button
             onClick={() => setViewMode('history')}
-            className={`flex-1 md:flex-none px-4 md:px-6 py-2 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest shadow-lg transition-all ${viewMode === 'history'
+            className={`flex-1 md:flex-none px-4 md:px-6 py-2 rounded-xl text-base md:text-xs font-black uppercase tracking-widest shadow-lg transition-all ${viewMode === 'history'
                 ? 'bg-slate-900 text-white shadow-slate-900/20'
                 : 'text-slate-400 hover:text-slate-900'
               }`}
@@ -190,13 +190,13 @@ export function AdminDashboard() {
               <div className={`w-10 h-10 md:w-12 md:h-12 rounded-2xl flex items-center justify-center ${card.bg} ${card.color} group-hover:scale-110 transition-transform duration-500`}>
                 <card.icon size={20} className="md:w-6 md:h-6" />
               </div>
-              <div className={`flex items-center gap-1 text-[10px] font-black ${card.up ? 'text-emerald-500' : 'text-red-500'}`}>
+              <div className={`flex items-center gap-1 text-base font-black ${card.up ? 'text-emerald-500' : 'text-red-500'}`}>
                 {card.up ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
                 {card.trend}
               </div>
             </div>
             <div className="relative z-10">
-              <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{card.label}</div>
+              <div className="text-base font-black text-slate-400 uppercase tracking-widest mb-1">{card.label}</div>
               <div className="text-3xl md:text-4xl font-black text-slate-900 tracking-tighter leading-none">{card.value}</div>
             </div>
             <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-slate-50 rounded-full group-hover:scale-150 transition-transform duration-700 -z-0 opacity-50"></div>
@@ -339,7 +339,7 @@ export function AdminDashboard() {
               <div>
                 <div className="flex items-start justify-between mb-8 md:mb-12">
                   <div>
-                    <div className="text-[10px] font-black text-blue-400 uppercase tracking-[0.3em] mb-2">效能分析</div>
+                    <div className="text-base font-black text-blue-400 uppercase tracking-[0.3em] mb-2">效能分析</div>
                     <h3 className="text-2xl md:text-3xl font-black tracking-tighter">處理量能分析</h3>
                   </div>
                   <div className="p-3 md:p-4 bg-white/5 rounded-2xl border border-white/10">
@@ -349,21 +349,21 @@ export function AdminDashboard() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8">
                   <div>
-                    <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">系統活躍度</div>
+                    <div className="text-base font-black text-slate-500 uppercase tracking-widest mb-2">系統活躍度</div>
                     <div className="text-3xl md:text-4xl font-black tracking-tighter">98%</div>
                     <div className="w-full h-1 bg-white/5 rounded-full mt-4 overflow-hidden">
                       <div className="w-[98%] h-full bg-blue-500"></div>
                     </div>
                   </div>
                   <div>
-                    <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">結案率 (平均)</div>
+                    <div className="text-base font-black text-slate-500 uppercase tracking-widest mb-2">結案率 (平均)</div>
                     <div className="text-3xl md:text-4xl font-black tracking-tighter">84.5%</div>
                     <div className="w-full h-1 bg-white/5 rounded-full mt-4 overflow-hidden">
                       <div className="w-[84%] h-full bg-emerald-500"></div>
                     </div>
                   </div>
                   <div>
-                    <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">平均回應時間 (h)</div>
+                    <div className="text-base font-black text-slate-500 uppercase tracking-widest mb-2">平均回應時間 (h)</div>
                     <div className="text-3xl md:text-4xl font-black tracking-tighter">1.2h</div>
                     <div className="w-full h-1 bg-white/5 rounded-full mt-4 overflow-hidden">
                       <div className="w-[45%] h-full bg-indigo-500"></div>
@@ -403,10 +403,10 @@ export function AdminDashboard() {
                 <div key={i} className="flex items-center justify-between p-4 rounded-2xl bg-slate-50 border border-slate-100 group hover:border-blue-600 transition-all">
                   <div>
                     <div className="text-sm font-black text-slate-900">{s.name}</div>
-                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{s.status}</div>
+                    <div className="text-base font-bold text-slate-400 uppercase tracking-widest">{s.status}</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-[10px] font-black text-slate-900">{s.val}</div>
+                    <div className="text-base font-black text-slate-900">{s.val}</div>
                     <div className={`w-2 h-2 rounded-full ${s.color} ml-auto mt-1 animate-pulse`}></div>
                   </div>
                 </div>

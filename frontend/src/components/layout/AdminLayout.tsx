@@ -107,7 +107,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                 </div>
                 <div>
                     <h1 className="font-black text-white text-base tracking-tight leading-tight uppercase">Smart Intel</h1>
-                    <p className="text-[10px] font-bold text-blue-400 uppercase tracking-widest opacity-80">Case Management</p>
+                    <p className="text-base font-bold text-blue-400 uppercase tracking-widest opacity-80">Case Management</p>
                 </div>
                 {/* Mobile Close Button */}
                 <button
@@ -123,7 +123,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                     const items = navItems.filter(i => i.category === category);
                     return items.length > 0 ? (
                         <div key={category} className="space-y-3">
-                            <p className="text-[10px] font-black text-blue-500/80 uppercase tracking-[0.2em] px-3">{category}</p>
+                            <p className="text-base font-black text-blue-500/80 uppercase tracking-[0.2em] px-3">{category}</p>
                             <div className="space-y-1">
                                 {items.map((item: any) => {
                                     const isExpanded = item.menuId && expandedMenus.has(item.menuId);
@@ -174,7 +174,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                                                                 >
                                                                     <span className="truncate flex-1">{label}</span>
                                                                     {count > 0 && (
-                                                                        <span className={`flex items-center justify-center min-w-[20px] h-5 px-1.5 text-[9px] font-black rounded-md flex-shrink-0 ${count > 9 ? 'bg-red-500 text-white' : 'bg-slate-700 text-slate-300'
+                                                                        <span className={`flex items-center justify-center min-w-[20px] h-5 px-1.5 text-base font-black rounded-md flex-shrink-0 ${count > 9 ? 'bg-red-500 text-white' : 'bg-slate-700 text-slate-300'
                                                                             }`}>
                                                                             {count > 99 ? '99+' : count}
                                                                         </span>
@@ -254,7 +254,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                     <div className="flex items-center gap-3 md:gap-6">
                         <div className="flex items-center gap-3 md:pr-6 md:border-r border-slate-100">
                             <div className="hidden md:block text-right">
-                                <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Connected User</div>
+                                <div className="text-base font-black text-slate-400 uppercase tracking-widest">Connected User</div>
                                 <div className="text-sm font-black text-slate-900">系統管理員</div>
                             </div>
                             <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center font-black text-slate-600 shadow-sm text-xs md:text-sm">

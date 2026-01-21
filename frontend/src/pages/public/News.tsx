@@ -53,7 +53,7 @@ const NEWS_ARTICLES = [
 
 export const News: React.FC = () => {
     return (
-        <div className="min-h-screen bg-slate-50 pt-20 md:pt-24 pb-40 relative overflow-hidden">
+        <div className="min-h-screen bg-slate-50 pt-12 md:pt-16 pb-40 relative overflow-hidden">
             {/* Layered Background */}
             <div className="fixed inset-0 bg-gradient-to-b from-blue-50/30 via-transparent to-slate-50/50 pointer-events-none"></div>
             <div className="fixed inset-0 opacity-[0.015]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgb(51 65 85) 1px, transparent 0)', backgroundSize: '32px 32px' }}></div>
@@ -62,13 +62,11 @@ export const News: React.FC = () => {
             <div className="fixed top-0 left-0 w-[600px] h-[600px] bg-slate-400/5 rounded-full blur-[120px] pointer-events-none"></div>
             <div className="fixed bottom-0 right-0 w-[500px] h-[500px] bg-blue-400/5 rounded-full blur-[100px] pointer-events-none"></div>
 
-            <div className="relative z-10 max-w-4xl mx-auto">
+            <div className="relative z-10 px-6 pt-12 md:pt-16">
                 {/* Header Container */}
                 <div className="mb-16">
                     <div className="flex items-center gap-4 mb-6">
-                        <div className="px-4 py-1.5 rounded-full bg-slate-200 text-slate-600 text-[10px] font-black uppercase tracking-widest">
-                            官方新聞與即時通報
-                        </div>
+                        <div className="inline-block px-3 py-1 bg-blue-50 text-blue-600 border border-blue-100 rounded-full text-base font-black uppercase tracking-widest mb-4">CITY UPDATES & ANNOUNCEMENTS</div>
                     </div>
                     <h1 className="text-6xl font-black tracking-tighter text-slate-900 leading-none mb-6">
                         最新公告
@@ -83,10 +81,10 @@ export const News: React.FC = () => {
                     <div className="divide-y divide-slate-100">
                         {NEWS_ARTICLES.map((article) => (
                             <div key={article.id} className="p-8 md:p-10 hover:bg-slate-50 transition-all group cursor-pointer">
-                                <div className="flex flex-col md:flex-row md:items-start gap-8">
+                                <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12 animate-in fade-in slide-in-from-bottom-10 duration-1000">
                                     <div className="w-32 flex-shrink-0 pt-1">
-                                        <div className="text-[11px] font-black text-slate-400 capitalize mb-2">{article.date}</div>
-                                        <div className={`inline-block px-3 py-1 rounded text-[10px] font-black tracking-widest uppercase ${article.urgent ? 'bg-red-100 text-red-600' : 'bg-slate-100 text-slate-500'}`}>
+                                        <div className="text-base font-black text-slate-400 capitalize mb-2">{article.date}</div>
+                                        <div className={`inline-block px-3 py-1 rounded text-base font-black tracking-widest uppercase ${article.urgent ? 'bg-red-100 text-red-600' : 'bg-slate-100 text-slate-500'}`}>
                                             {article.category}
                                         </div>
                                     </div>
@@ -98,7 +96,7 @@ export const News: React.FC = () => {
                                             {article.summary}
                                         </p>
                                     </div>
-                                    <div className="flex-shrink-0 pt-1 opacity-0 group-hover:opacity-100 transition-all font-black text-[10px] text-blue-600 tracking-widest hidden md:block group-hover:translate-x-0 translate-x-4">
+                                    <div className="flex-shrink-0 pt-1 opacity-0 group-hover:opacity-100 transition-all font-black text-base text-blue-600 tracking-widest hidden md:block group-hover:translate-x-0 translate-x-4">
                                         READ MORE
                                     </div>
                                 </div>
@@ -109,7 +107,7 @@ export const News: React.FC = () => {
 
                 {/* Footer Actions */}
                 <div className="mt-20 text-center">
-                    <Link to="/" className="inline-flex items-center gap-2 text-slate-400 font-black text-[10px] uppercase tracking-[0.3em] hover:text-slate-900 transition-colors">
+                    <Link to="/" className="inline-flex items-center gap-2 text-slate-400 font-black text-base uppercase tracking-[0.3em] hover:text-slate-900 transition-colors">
                         RETURN TO PORTAL
                     </Link>
                 </div>

@@ -55,7 +55,7 @@ export const Navbar: React.FC = () => {
                             <Shield size={24} strokeWidth={2.5} />
                         </div>
                         <div className="flex flex-col">
-                            <span className="text-[10px] md:text-xs font-bold tracking-[0.15em] text-slate-500 uppercase mb-0.5">New Taipei City Government</span>
+                            <span className="text-base md:text-xs font-bold tracking-[0.15em] text-slate-500 uppercase mb-0.5">New Taipei City Government</span>
                             <span className="font-black text-lg md:text-xl tracking-tight text-slate-900 leading-none group-hover:text-blue-700 transition-colors">
                                 新北市政府<span className="hidden md:inline"> </span> <br className="md:hidden" />
                                 動物保護防疫處
@@ -116,7 +116,7 @@ export const Navbar: React.FC = () => {
 
                     <Link
                         to="/login"
-                        className="px-6 py-2.5 rounded-xl bg-slate-950 text-white text-[11px] font-black tracking-[0.15em] hover:bg-blue-700 shadow-lg shadow-black/10 hover:shadow-blue-700/30 transition-all duration-300 transform hover:-translate-y-0.5 uppercase"
+                        className="px-6 py-2.5 rounded-xl bg-slate-950 text-white text-base font-black tracking-[0.15em] hover:bg-blue-700 shadow-lg shadow-black/10 hover:shadow-blue-700/30 transition-all duration-300 transform hover:-translate-y-0.5 uppercase"
                     >
                         Login
                     </Link>

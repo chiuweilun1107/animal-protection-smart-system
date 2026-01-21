@@ -101,14 +101,14 @@ export function CaseDetail() {
         <div className="space-y-6">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-[10px] font-black text-blue-600 uppercase tracking-[0.3em] font-mono">{caseData.id}</span>
-              <div className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border ${caseData.status === 'pending' ? 'bg-orange-50 text-orange-600 border-orange-100' :
+              <span className="text-base font-black text-blue-600 uppercase tracking-[0.3em] font-mono">{caseData.id}</span>
+              <div className={`px-3 py-1 rounded-full text-base font-black uppercase tracking-widest border ${caseData.status === 'pending' ? 'bg-orange-50 text-orange-600 border-orange-100' :
                   caseData.status === 'processing' ? 'bg-blue-50 text-blue-600 border-blue-100' :
                     'bg-emerald-50 text-emerald-600 border-emerald-100'
                 }`}>
                 {caseData.status}
               </div>
-              <div className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border ${caseData.priority === 'critical' ? 'bg-red-50 text-red-600 border-red-100' : 'bg-slate-50 text-slate-500 border-slate-100'
+              <div className={`px-3 py-1 rounded-full text-base font-black uppercase tracking-widest border ${caseData.priority === 'critical' ? 'bg-red-50 text-red-600 border-red-100' : 'bg-slate-50 text-slate-500 border-slate-100'
                 }`}>
                 {caseData.priority} PRIORITY
               </div>
@@ -121,19 +121,19 @@ export function CaseDetail() {
 
         <div className="grid grid-cols-2 gap-x-12 gap-y-6 min-w-[300px]">
           <div>
-            <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Created At</div>
+            <div className="text-base font-black text-slate-400 uppercase tracking-widest mb-1">Created At</div>
             <div className="text-sm font-black text-slate-900">{new Date(caseData.createdAt).toLocaleDateString()}</div>
           </div>
           <div>
-            <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Case Category</div>
+            <div className="text-base font-black text-slate-400 uppercase tracking-widest mb-1">Case Category</div>
             <div className="text-sm font-black text-slate-900 uppercase tracking-widest">{caseData.type}</div>
           </div>
           <div>
-            <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Assigned Unit</div>
+            <div className="text-base font-black text-slate-400 uppercase tracking-widest mb-1">Assigned Unit</div>
             <div className="text-sm font-black text-slate-900">{assignedUser?.unit || 'Unassigned'}</div>
           </div>
           <div>
-            <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Lead Officer</div>
+            <div className="text-base font-black text-slate-400 uppercase tracking-widest mb-1">Lead Officer</div>
             <div className="text-sm font-black text-slate-900">{assignedUser?.name || 'Unassigned'}</div>
           </div>
         </div>
@@ -154,22 +154,22 @@ export function CaseDetail() {
             <div className="flex flex-col md:flex-row gap-10">
               <div className="flex-1 space-y-6">
                 <div>
-                  <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Address</div>
+                  <div className="text-base font-black text-slate-400 uppercase tracking-widest mb-1">Address</div>
                   <div className="text-lg font-bold text-slate-900">{caseData.location}</div>
                 </div>
                 <div className="grid grid-cols-2 gap-6">
                   <div>
-                    <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Latitude</div>
+                    <div className="text-base font-black text-slate-400 uppercase tracking-widest mb-1">Latitude</div>
                     <div className="text-sm font-mono font-bold text-slate-600">{caseData.coordinates?.lat.toFixed(6)}</div>
                   </div>
                   <div>
-                    <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Longitude</div>
+                    <div className="text-base font-black text-slate-400 uppercase tracking-widest mb-1">Longitude</div>
                     <div className="text-sm font-mono font-bold text-slate-600">{caseData.coordinates?.lng.toFixed(6)}</div>
                   </div>
                 </div>
               </div>
               <div className="w-full md:w-64 aspect-video md:aspect-square bg-slate-100 rounded-3xl overflow-hidden relative border border-slate-200 group">
-                <div className="absolute inset-0 flex items-center justify-center text-slate-300 font-black uppercase text-[10px] tracking-widest opacity-50 group-hover:opacity-100 transition-opacity">
+                <div className="absolute inset-0 flex items-center justify-center text-slate-300 font-black uppercase text-base tracking-widest opacity-50 group-hover:opacity-100 transition-opacity">
                   Interactive Mini Map
                 </div>
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-blue-600 rounded-full border-2 border-white shadow-xl shadow-blue-600/50"></div>
@@ -188,11 +188,11 @@ export function CaseDetail() {
               </div>
               <div className="space-y-6">
                 <div>
-                  <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Name</div>
+                  <div className="text-base font-black text-slate-400 uppercase tracking-widest mb-1">Name</div>
                   <div className="text-lg font-bold text-slate-900">{caseData.reporterName}</div>
                 </div>
                 <div>
-                  <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Phone Number</div>
+                  <div className="text-base font-black text-slate-400 uppercase tracking-widest mb-1">Phone Number</div>
                   <div className="text-lg font-bold text-slate-900">{caseData.reporterPhone}</div>
                 </div>
               </div>
@@ -233,7 +233,7 @@ export function CaseDetail() {
                         <h4 className={`text-lg font-black tracking-tight ${step.status === 'completed' ? 'text-white' : 'text-slate-500'}`}>
                           {step.name}
                         </h4>
-                        {step.status === 'completed' && <span className="text-[10px] font-black text-blue-400 uppercase tracking-widest">Completed</span>}
+                        {step.status === 'completed' && <span className="text-base font-black text-blue-400 uppercase tracking-widest">Completed</span>}
                       </div>
                       <p className={`text-sm leading-relaxed ${step.status === 'completed' ? 'text-slate-400' : 'text-slate-600'}`}>
                         {step.description}
@@ -302,7 +302,7 @@ export function CaseDetail() {
                   {assignedUser.name[0]}
                 </div>
                 <div>
-                  <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Active Officer</div>
+                  <div className="text-base font-black text-slate-400 uppercase tracking-widest">Active Officer</div>
                   <div className="text-sm font-black text-slate-900">{assignedUser.name}</div>
                 </div>
               </div>
@@ -329,9 +329,9 @@ export function CaseDetail() {
           {/* Quick Access Sidebar link */}
           <div className="bg-gradient-to-br from-indigo-600 to-indigo-900 rounded-[2.5rem] p-8 text-white shadow-xl shadow-indigo-600/20 group cursor-pointer overflow-hidden relative">
             <div className="relative z-10 h-full flex flex-col justify-between">
-              <p className="text-[10px] font-black text-indigo-300 uppercase tracking-[0.3em] mb-4">Internal Links</p>
+              <p className="text-base font-black text-indigo-300 uppercase tracking-[0.3em] mb-4">Internal Links</p>
               <h4 className="text-xl font-black tracking-tight mb-8">查看案發區域<br />完整歷史報案數據</h4>
-              <div className="flex items-center gap-2 text-indigo-200 font-black text-[10px] uppercase tracking-widest group-hover:text-white transition-colors">
+              <div className="flex items-center gap-2 text-indigo-200 font-black text-base uppercase tracking-widest group-hover:text-white transition-colors">
                 地理數據中心 <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
               </div>
             </div>

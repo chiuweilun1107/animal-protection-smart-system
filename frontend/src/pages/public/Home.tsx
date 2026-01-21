@@ -163,7 +163,7 @@ export const Home: React.FC = () => {
                         {/* Emergency Lines */}
                         <div className="bg-slate-950 rounded-[2rem] p-10 md:p-14 text-white md:w-1/3 flex flex-col justify-between relative overflow-hidden group">
                             <div className="relative z-10">
-                                <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-500/20 backdrop-blur-md rounded-full text-[10px] font-black text-red-500 uppercase tracking-widest mb-6 border border-red-500/20">
+                                <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-500/20 backdrop-blur-md rounded-full text-base font-black text-red-500 uppercase tracking-widest mb-6 border border-red-500/20">
                                     <Activity size={12} /> 即時勤務中心
                                 </div>
                                 <h3 className="text-4xl md:text-5xl font-black tracking-tighter mb-4 leading-none">緊急<br />通報專線</h3>
@@ -174,14 +174,14 @@ export const Home: React.FC = () => {
                             <div className="space-y-4 relative z-10">
                                 <div className="group/btn flex items-center justify-between p-6 bg-rose-600 rounded-3xl hover:bg-rose-500 transition-all cursor-pointer shadow-lg shadow-rose-900/40 transform active:scale-95">
                                     <div className="flex flex-col">
-                                        <span className="text-[10px] font-black uppercase tracking-widest opacity-80 mb-1">動物救援</span>
+                                        <span className="text-base font-black uppercase tracking-widest opacity-80 mb-1">動物救援</span>
                                         <span className="text-4xl font-black tracking-tighter">1959</span>
                                     </div>
                                     <Phone className="opacity-50 group-hover/btn:opacity-100 transition-opacity" size={32} />
                                 </div>
                                 <div className="group/btn flex items-center justify-between p-6 bg-slate-800 rounded-3xl hover:bg-slate-700 transition-all cursor-pointer border border-white/5 active:scale-95">
                                     <div className="flex flex-col">
-                                        <span className="text-[10px] font-black uppercase tracking-widest opacity-60 mb-1">市民服務</span>
+                                        <span className="text-base font-black uppercase tracking-widest opacity-60 mb-1">市民服務</span>
                                         <span className="text-4xl font-black tracking-tighter">1999</span>
                                     </div>
                                     <Info className="opacity-50 group-hover/btn:opacity-100 transition-opacity" size={32} />
@@ -197,7 +197,7 @@ export const Home: React.FC = () => {
                                         <h3 className="text-3xl md:text-4xl font-black tracking-tighter text-slate-900 uppercase">案件通報</h3>
                                         <div className="flex items-center gap-3 mt-2">
                                             <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-                                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">系統連線正常 • Sync: 100%</p>
+                                            <p className="text-base font-black text-slate-400 uppercase tracking-widest">系統連線正常 • Sync: 100%</p>
                                         </div>
                                     </div>
                                     <div className="flex-1 max-w-md relative">
@@ -225,9 +225,9 @@ export const Home: React.FC = () => {
                                     <img src={imgGeneralReport} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                                     <div className="absolute inset-0 bg-slate-900/20 group-hover:bg-transparent transition-colors"></div>
                                     <div className="absolute bottom-6 left-6 text-white">
-                                        <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-md border border-white/20 rounded-full text-[10px] font-black uppercase tracking-widest mb-3">一般案件通報</span>
+                                        <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-md border border-white/20 rounded-full text-base font-black uppercase tracking-widest mb-3">一般案件通報</span>
                                         <h4 className="text-3xl font-black tracking-tighter">動物救援</h4>
-                                        <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest mt-2 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                                        <div className="flex items-center gap-2 text-base font-black uppercase tracking-widest mt-2 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
                                             開始通報 <ArrowRight size={14} />
                                         </div>
                                     </div>
@@ -236,9 +236,9 @@ export const Home: React.FC = () => {
                                     <img src={imgBeeRemoval} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                                     <div className="absolute inset-0 bg-slate-900/20 group-hover:bg-transparent transition-colors"></div>
                                     <div className="absolute bottom-6 left-6 text-white">
-                                        <span className="inline-block px-3 py-1 bg-amber-500/80 backdrop-blur-md border border-amber-400/20 rounded-full text-[10px] font-black uppercase tracking-widest mb-3">特殊勤務</span>
+                                        <span className="inline-block px-3 py-1 bg-amber-500/80 backdrop-blur-md border border-amber-400/20 rounded-full text-base font-black uppercase tracking-widest mb-3">特殊勤務</span>
                                         <h4 className="text-3xl font-black tracking-tighter">蜂蛇案件</h4>
-                                        <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest mt-2 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                                        <div className="flex items-center gap-2 text-base font-black uppercase tracking-widest mt-2 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
                                             開始通報 <ArrowRight size={14} />
                                         </div>
                                     </div>
@@ -282,7 +282,7 @@ export const Home: React.FC = () => {
                                     </div>
 
                                     <div className="text-center px-4">
-                                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">{item.tag}</div>
+                                        <div className="text-base font-black text-slate-400 uppercase tracking-widest mb-2">{item.tag}</div>
                                         <h4 className="text-xl font-black text-slate-900 tracking-tighter mb-3">{item.title}</h4>
                                         <p className="text-slate-500 text-xs font-medium leading-relaxed">{item.desc}</p>
                                     </div>
@@ -325,7 +325,7 @@ export const Home: React.FC = () => {
                         {/* Left Sidebar (Dark) - Stats Center */}
                         <div className="md:w-1/3 bg-slate-950 p-10 md:p-14 text-white flex flex-col justify-between relative overflow-hidden group">
                             <div className="relative z-10">
-                                <div className="inline-flex items-center gap-2 px-3 py-1 bg-slate-500/20 backdrop-blur-md rounded-full text-[10px] font-black text-slate-300 uppercase tracking-widest mb-6 border border-white/10">
+                                <div className="inline-flex items-center gap-2 px-3 py-1 bg-slate-500/20 backdrop-blur-md rounded-full text-base font-black text-slate-300 uppercase tracking-widest mb-6 border border-white/10">
                                     <Activity size={12} /> 即時數據監控
                                 </div>
                                 <h3 className="text-4xl md:text-5xl font-black tracking-tighter mb-4 leading-none">資源<br />數據中心</h3>
@@ -338,14 +338,14 @@ export const Home: React.FC = () => {
                             <div className="space-y-4 relative z-10">
                                 <div className="group/btn flex items-center justify-between p-6 bg-white/5 border border-white/10 rounded-3xl hover:bg-white/10 transition-all cursor-pointer">
                                     <div className="flex flex-col">
-                                        <span className="text-[10px] font-black uppercase tracking-widest opacity-60 mb-1">文件索引</span>
+                                        <span className="text-base font-black uppercase tracking-widest opacity-60 mb-1">文件索引</span>
                                         <span className="text-4xl font-black tracking-tighter text-slate-200">12k+</span>
                                     </div>
                                     <Globe className="opacity-50 group-hover/btn:opacity-100 transition-opacity text-slate-400" size={32} />
                                 </div>
                                 <div className="group/btn flex items-center justify-between p-6 bg-slate-800 rounded-3xl hover:bg-slate-700 transition-all cursor-pointer">
                                     <div className="flex flex-col">
-                                        <span className="text-[10px] font-black uppercase tracking-widest opacity-80 mb-1">無障礙率</span>
+                                        <span className="text-base font-black uppercase tracking-widest opacity-80 mb-1">無障礙率</span>
                                         <span className="text-4xl font-black tracking-tighter">99.8%</span>
                                     </div>
                                     <Activity className="opacity-50 group-hover/btn:opacity-100 transition-opacity" size={32} />
@@ -364,7 +364,7 @@ export const Home: React.FC = () => {
                                         <h3 className="text-3xl md:text-4xl font-black tracking-tighter text-slate-900 uppercase">政務資源</h3>
                                         <div className="flex items-center gap-3 mt-2">
                                             <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-                                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">資料庫連線正常 • Sync: 100%</p>
+                                            <p className="text-base font-black text-slate-400 uppercase tracking-widest">資料庫連線正常 • Sync: 100%</p>
                                         </div>
                                     </div>
                                     <div className="flex-1 max-w-md relative">
@@ -386,7 +386,7 @@ export const Home: React.FC = () => {
                                     <img src={resourceAdminReportsBg} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent"></div>
                                     <div className="absolute bottom-8 left-8 right-8">
-                                        <div className="px-3 py-1 bg-slate-800 text-white text-[10px] font-black rounded-full uppercase tracking-widest inline-block mb-3">
+                                        <div className="px-3 py-1 bg-slate-800 text-white text-base font-black rounded-full uppercase tracking-widest inline-block mb-3">
                                             STATISTICAL DATA
                                         </div>
                                         <h3 className="text-3xl font-black text-white tracking-tight mb-2">行政報表</h3>
@@ -402,7 +402,7 @@ export const Home: React.FC = () => {
                                     <img src={photoStepAnalysis} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent opacity-90 group-hover:opacity-100 transition-opacity"></div>
                                     <div className="absolute bottom-8 left-8 right-8">
-                                        <div className="px-3 py-1 bg-white/20 backdrop-blur-md text-white text-[10px] font-black rounded-full uppercase tracking-widest inline-block mb-3 border border-white/10">
+                                        <div className="px-3 py-1 bg-white/20 backdrop-blur-md text-white text-base font-black rounded-full uppercase tracking-widest inline-block mb-3 border border-white/10">
                                             ACADEMY MODULE
                                         </div>
                                         <h3 className="text-3xl font-black text-white tracking-tight mb-2">教育訓練</h3>
@@ -448,7 +448,7 @@ export const Home: React.FC = () => {
 
                                 <Link to="/faq" className="group/btn flex items-center justify-between p-6 bg-slate-800 rounded-3xl hover:bg-slate-700 transition-all cursor-pointer border border-white/5">
                                     <div className="flex flex-col">
-                                        <span className="text-[10px] font-black uppercase tracking-widest opacity-80 mb-1">知識庫入口</span>
+                                        <span className="text-base font-black uppercase tracking-widest opacity-80 mb-1">知識庫入口</span>
                                         <span className="text-xl font-black tracking-tight">瀏覽全問答</span>
                                     </div>
                                     <ArrowRight className="opacity-50 group-hover/btn:opacity-100 group-hover/btn:translate-x-2 transition-all" size={24} />
@@ -468,7 +468,7 @@ export const Home: React.FC = () => {
                                         <h3 className="text-3xl md:text-4xl font-black tracking-tighter text-slate-900 uppercase">最新公告</h3>
                                         <div className="flex items-center gap-3 mt-2">
                                             <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-                                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">資訊更新正常 • Sync: 100%</p>
+                                            <p className="text-base font-black text-slate-400 uppercase tracking-widest">資訊更新正常 • Sync: 100%</p>
                                         </div>
                                     </div>
                                     <div className="flex-1 max-w-md relative">
@@ -493,15 +493,15 @@ export const Home: React.FC = () => {
                                 ].map((item, i) => (
                                     <Link key={i} to="/news" className="group flex items-center gap-8 p-6 bg-slate-50 rounded-[2rem] border border-transparent hover:border-slate-100 hover:bg-white hover:shadow-xl transition-all duration-500">
                                         <div className="flex flex-col items-center justify-center min-w-[70px] py-4 bg-slate-900 border border-white/5 rounded-2xl text-white">
-                                            <span className="text-[8px] font-black opacity-40 uppercase mb-1">{item.date.split('.')[1]}月</span>
+                                            <span className="text-base font-black opacity-40 uppercase mb-1">{item.date.split('.')[1]}月</span>
                                             <span className="text-xl font-black">{item.date.split('.')[2]}</span>
                                         </div>
                                         <div className="flex-1">
                                             <div className="flex items-center gap-2 mb-1">
                                                 {item.urgent && (
-                                                    <span className="px-3 py-1 bg-rose-600 text-[10px] font-black text-white rounded-full uppercase tracking-widest shadow-lg shadow-rose-600/20">優先</span>
+                                                    <span className="px-3 py-1 bg-rose-600 text-base font-black text-white rounded-full uppercase tracking-widest shadow-lg shadow-rose-600/20">優先</span>
                                                 )}
-                                                <span className="px-3 py-1 bg-slate-100 text-[10px] font-black text-slate-600 rounded-full uppercase tracking-widest border border-slate-200">{item.tag}</span>
+                                                <span className="px-3 py-1 bg-slate-100 text-base font-black text-slate-600 rounded-full uppercase tracking-widest border border-slate-200">{item.tag}</span>
                                             </div>
                                             <h4 className="text-lg font-black tracking-tight text-slate-800 group-hover:text-slate-900 transition-colors line-clamp-1">{item.title}</h4>
                                         </div>

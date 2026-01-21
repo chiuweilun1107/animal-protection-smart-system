@@ -74,7 +74,7 @@ export function ReportsPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6">
         <div>
-          <div className="text-[10px] font-black text-blue-600 uppercase tracking-[0.3em] mb-2">情報矩陣</div>
+          <div className="text-base font-black text-blue-600 uppercase tracking-[0.3em] mb-2">情報矩陣</div>
           <h1 className="text-3xl md:text-5xl font-black tracking-tighter text-slate-900 uppercase">報表中心</h1>
         </div>
       </div>
@@ -83,7 +83,7 @@ export function ReportsPage() {
         {/* Side Selector (Mobile: Horizontal Scroll, Desktop: Vertical List) */}
         <div className="lg:col-span-3 space-y-6">
           <div className="bg-white rounded-[2rem] border border-slate-200 shadow-sm p-4 md:p-8">
-            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 md:mb-6 px-2">矩陣分類</h3>
+            <h3 className="text-base font-black text-slate-400 uppercase tracking-widest mb-4 md:mb-6 px-2">矩陣分類</h3>
             <div className="flex lg:flex-col gap-2 overflow-x-auto pb-2 lg:pb-0 scrollbar-hide">
               {reportTypes.map(rt => (
                 <button
@@ -100,7 +100,7 @@ export function ReportsPage() {
                     </div>
                     <div>
                       <p className="font-black text-xs uppercase tracking-widest">{rt.label}</p>
-                      <p className={`text-[10px] font-bold mt-0.5 ${reportType === rt.id ? 'text-slate-400' : 'text-slate-400'}`}>{rt.description}</p>
+                      <p className={`text-base font-bold mt-0.5 ${reportType === rt.id ? 'text-slate-400' : 'text-slate-400'}`}>{rt.description}</p>
                     </div>
                   </div>
                   {reportType === rt.id && <div className="absolute right-0 top-0 bottom-0 w-1 bg-blue-500"></div>}
@@ -135,7 +135,7 @@ export function ReportsPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">時間範圍開始</label>
+                <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">時間範圍開始</label>
                 <div className="relative">
                   <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
                   <input
@@ -147,7 +147,7 @@ export function ReportsPage() {
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">時間範圍結束</label>
+                <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">時間範圍結束</label>
                 <div className="relative">
                   <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
                   <input
@@ -159,7 +159,7 @@ export function ReportsPage() {
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">目標狀態</label>
+                <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">目標狀態</label>
                 <div className="relative">
                   <select
                     value={caseStatus}
@@ -174,7 +174,7 @@ export function ReportsPage() {
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">優先級向量</label>
+                <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">優先級向量</label>
                 <div className="relative">
                   <select
                     value={casePriority}
@@ -212,7 +212,7 @@ export function ReportsPage() {
                   { label: '平均解決時間', value: reportData.summary.averageResolutionTime, sub: `滿意度 ${reportData.summary.satisfactionRate}`, color: 'text-blue-600' }
                 ].map((stat, i) => (
                   <div key={i} className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition-shadow">
-                    <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">{stat.label}</div>
+                    <div className="text-base font-black text-slate-400 uppercase tracking-widest mb-2">{stat.label}</div>
                     <div className={`text-3xl md:text-4xl font-black ${stat.color}`}>{stat.value}</div>
                     <div className="text-xs text-slate-500 mt-2 font-bold">{stat.sub}</div>
                   </div>
@@ -269,11 +269,11 @@ export function ReportsPage() {
                 <div className="px-6 md:px-10 py-6 md:py-8 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-50/50">
                   <div className="flex items-center gap-3">
                     <h3 className="text-lg md:text-xl font-black tracking-tighter text-slate-900 uppercase">案件詳細資料</h3>
-                    <span className="px-2.5 py-1 bg-blue-100 text-blue-600 rounded-full text-[9px] font-black uppercase tracking-widest hidden sm:inline-block">即時預覽</span>
+                    <span className="px-2.5 py-1 bg-blue-100 text-blue-600 rounded-full text-base font-black uppercase tracking-widest hidden sm:inline-block">即時預覽</span>
                   </div>
                   <div className="flex gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0 scrollbar-hide">
                     {['odt', 'pdf', 'xlsx'].map(fmt => (
-                      <button key={fmt} onClick={() => handleDownload(fmt)} className="flex-shrink-0 px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all shadow-sm">
+                      <button key={fmt} onClick={() => handleDownload(fmt)} className="flex-shrink-0 px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-xl text-base font-black uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all shadow-sm">
                         {fmt}
                       </button>
                     ))}
@@ -284,10 +284,10 @@ export function ReportsPage() {
                   <table className="w-full text-left min-w-[600px]">
                     <thead>
                       <tr className="border-b border-slate-100 bg-slate-50/30">
-                        <th className="pl-6 md:pl-0 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">ID / 向量</th>
-                        <th className="py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">類型</th>
-                        <th className="py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">狀態</th>
-                        <th className="pr-6 md:pr-0 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">實體名稱</th>
+                        <th className="pl-6 md:pl-0 py-4 text-base font-black text-slate-400 uppercase tracking-widest">ID / 向量</th>
+                        <th className="py-4 text-base font-black text-slate-400 uppercase tracking-widest text-center">類型</th>
+                        <th className="py-4 text-base font-black text-slate-400 uppercase tracking-widest text-center">狀態</th>
+                        <th className="pr-6 md:pr-0 py-4 text-base font-black text-slate-400 uppercase tracking-widest text-right">實體名稱</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-50">
@@ -298,10 +298,10 @@ export function ReportsPage() {
                             <div className="text-sm font-bold text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-1 max-w-[200px]">{item.title}</div>
                           </td>
                           <td className="py-4 md:py-6 text-center">
-                            <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{item.type}</span>
+                            <span className="text-base font-black text-slate-500 uppercase tracking-widest">{item.type}</span>
                           </td>
                           <td className="py-4 md:py-6 text-center">
-                            <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border ${item.status === 'pending' ? 'bg-orange-50 text-orange-600 border-orange-100' :
+                            <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-base font-black uppercase tracking-widest border ${item.status === 'pending' ? 'bg-orange-50 text-orange-600 border-orange-100' :
                               item.status === 'processing' ? 'bg-blue-50 text-blue-600 border-blue-100' :
                                 'bg-emerald-50 text-emerald-600 border-emerald-100'
                               }`}>
@@ -310,7 +310,7 @@ export function ReportsPage() {
                           </td>
                           <td className="pr-6 md:pr-0 py-4 md:py-6 text-right">
                             <div className="text-sm font-black text-slate-900">{item.reporterName}</div>
-                            <div className="text-[10px] font-bold text-slate-400">{new Date(item.createdAt).toLocaleDateString()}</div>
+                            <div className="text-base font-bold text-slate-400">{new Date(item.createdAt).toLocaleDateString()}</div>
                           </td>
                         </tr>
                       ))}
@@ -319,10 +319,10 @@ export function ReportsPage() {
                 </div>
 
                 <div className="px-6 md:px-10 pb-8 pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-                  <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center sm:text-left">
+                  <div className="text-base font-black text-slate-400 uppercase tracking-widest text-center sm:text-left">
                     流結束 • 共編譯 {reportData.data.length} 筆記錄
                   </div>
-                  <button className="flex items-center gap-2 text-blue-600 font-black text-[10px] uppercase tracking-widest hover:gap-4 transition-all bg-blue-50 px-4 py-2 rounded-full">
+                  <button className="flex items-center gap-2 text-blue-600 font-black text-base uppercase tracking-widest hover:gap-4 transition-all bg-blue-50 px-4 py-2 rounded-full">
                     載入完整集合 <ArrowRight size={14} />
                   </button>
                 </div>

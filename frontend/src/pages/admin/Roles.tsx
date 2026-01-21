@@ -49,7 +49,7 @@ export function RolesPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <div className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.3em] mb-2">安全架構</div>
+          <div className="text-base font-black text-indigo-600 uppercase tracking-[0.3em] mb-2">安全架構</div>
           <h1 className="text-5xl font-black tracking-tighter text-slate-900 uppercase">角色與權限</h1>
         </div>
         <button className="px-8 py-4 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-slate-900/20 hover:bg-indigo-600 transition-all flex items-center gap-2">
@@ -64,7 +64,7 @@ export function RolesPage() {
             <Shield size={28} />
           </div>
           <div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">角色總數</p>
+            <p className="text-base font-black text-slate-400 uppercase tracking-widest mb-1">角色總數</p>
             <h3 className="text-3xl font-black tracking-tighter text-slate-900">{roles.length}</h3>
           </div>
         </div>
@@ -73,7 +73,7 @@ export function RolesPage() {
             <Lock size={28} />
           </div>
           <div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">權限總數</p>
+            <p className="text-base font-black text-slate-400 uppercase tracking-widest mb-1">權限總數</p>
             <h3 className="text-3xl font-black tracking-tighter text-slate-900">{permissions.length}</h3>
           </div>
         </div>
@@ -82,7 +82,7 @@ export function RolesPage() {
             <UserCheck size={28} />
           </div>
           <div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">活躍權限</p>
+            <p className="text-base font-black text-slate-400 uppercase tracking-widest mb-1">活躍權限</p>
             <h3 className="text-3xl font-black tracking-tighter text-slate-900">{new Set(roles.flatMap(r => r.permissions)).size}</h3>
           </div>
         </div>
@@ -93,7 +93,7 @@ export function RolesPage() {
         <div className="lg:col-span-4 space-y-6">
           <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-xl shadow-slate-200/40 overflow-hidden">
             <div className="px-8 py-6 border-b border-slate-50 bg-slate-50/50">
-              <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">可用角色</h3>
+              <h3 className="text-base font-black text-slate-400 uppercase tracking-widest">可用角色</h3>
             </div>
             <div className="divide-y divide-slate-50">
               {roles.map(role => (
@@ -109,7 +109,7 @@ export function RolesPage() {
                         {role.name}
                       </p>
                       <div className="flex items-center gap-3 mt-1">
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                        <span className="text-base font-black text-slate-400 uppercase tracking-widest">
                           {role.permissions.length} 項權限
                         </span>
                       </div>
@@ -135,7 +135,7 @@ export function RolesPage() {
                 <div className="space-y-1">
                   <div className="flex items-center gap-3">
                     <h2 className="text-3xl font-black tracking-tighter text-slate-900 uppercase">{roles.find(r => r.id === expandedId)?.name}</h2>
-                    <span className="px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-[9px] font-black uppercase tracking-widest border border-indigo-100">存取級別</span>
+                    <span className="px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-base font-black uppercase tracking-widest border border-indigo-100">存取級別</span>
                   </div>
                   <p className="text-sm font-medium text-slate-500">{roles.find(r => r.id === expandedId)?.description}</p>
                 </div>
@@ -160,7 +160,7 @@ export function RolesPage() {
                   <div key={category}>
                     <div className="flex items-center gap-3 mb-4">
                       <div className="h-0.5 flex-1 bg-slate-100"></div>
-                      <span className="px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-[9px] font-black uppercase tracking-widest border border-indigo-100 whitespace-nowrap">
+                      <span className="px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-base font-black uppercase tracking-widest border border-indigo-100 whitespace-nowrap">
                         {category}
                       </span>
                       <div className="h-0.5 flex-1 bg-slate-100"></div>
@@ -173,7 +173,7 @@ export function RolesPage() {
                           </div>
                           <div>
                             <p className="font-black text-xs uppercase tracking-widest text-slate-900 mb-1">{perm.name}</p>
-                            <p className="text-[11px] font-medium text-slate-500 leading-relaxed">{perm.description}</p>
+                            <p className="text-base font-medium text-slate-500 leading-relaxed">{perm.description}</p>
                           </div>
                         </div>
                       ))}
@@ -185,13 +185,13 @@ export function RolesPage() {
               {/* Visual Security Marker */}
               <div className="mt-12 p-8 bg-slate-950 rounded-[2rem] text-white flex items-center justify-between overflow-hidden relative">
                 <div className="relative z-10">
-                  <div className="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-2">安全驗證</div>
+                  <div className="text-base font-black text-indigo-400 uppercase tracking-widest mb-2">安全驗證</div>
                   <h4 className="text-lg font-black tracking-tight">SHA-256 協議已啟用</h4>
                   <p className="text-slate-400 text-xs font-mono mt-2">7a8b9c0d1e2f3g4h5i6j7k8l9m0n1o2p</p>
                 </div>
                 <div className="flex items-center gap-3 relative z-10">
                   <div className="text-right">
-                    <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest">指派用戶數</div>
+                    <div className="text-base font-black text-slate-500 uppercase tracking-widest">指派用戶數</div>
                     <div className="text-2xl font-black">12.8k</div>
                   </div>
                   <UserCheck size={32} className="text-indigo-500" />

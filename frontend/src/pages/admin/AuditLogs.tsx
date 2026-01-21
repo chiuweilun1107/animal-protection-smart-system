@@ -64,7 +64,7 @@ export function AuditLogsPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-2">不可變帳冊</div>
+          <div className="text-base font-black text-slate-400 uppercase tracking-[0.3em] mb-2">不可變帳冊</div>
           <h1 className="text-5xl font-black tracking-tighter text-slate-900 uppercase">智慧檔案庫</h1>
         </div>
         <div className="flex gap-4">
@@ -81,7 +81,7 @@ export function AuditLogsPage() {
             <Activity size={24} />
           </div>
           <div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Daily Flux</p>
+            <p className="text-base font-black text-slate-400 uppercase tracking-widest">Daily Flux</p>
             <p className="text-2xl font-black text-slate-900 tracking-tighter">246 Actions</p>
           </div>
         </div>
@@ -90,7 +90,7 @@ export function AuditLogsPage() {
             <User size={24} />
           </div>
           <div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Active Agents</p>
+            <p className="text-base font-black text-slate-400 uppercase tracking-widest">Active Agents</p>
             <p className="text-2xl font-black text-slate-900 tracking-tighter">12 Operators</p>
           </div>
         </div>
@@ -99,7 +99,7 @@ export function AuditLogsPage() {
             <Database size={24} />
           </div>
           <div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Indexed</p>
+            <p className="text-base font-black text-slate-400 uppercase tracking-widest">Total Indexed</p>
             <p className="text-2xl font-black text-slate-900 tracking-tighter">{logs.length} Entries</p>
           </div>
         </div>
@@ -119,17 +119,17 @@ export function AuditLogsPage() {
           <select
             value={filterResource}
             onChange={(e) => setFilterResource(e.target.value)}
-            className="px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-black text-[10px] uppercase tracking-widest outline-none appearance-none cursor-pointer"
+            className="px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-black text-base uppercase tracking-widest outline-none appearance-none cursor-pointer"
           >
             <option value="">All Entities</option>
             <option value="case">Cases</option>
             <option value="user">Identity</option>
             <option value="workflow">Logic</option>
           </select>
-          <button className="px-8 py-4 bg-slate-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-600 transition-all flex items-center gap-2">
+          <button className="px-8 py-4 bg-slate-900 text-white rounded-2xl font-black text-base uppercase tracking-widest hover:bg-blue-600 transition-all flex items-center gap-2">
             Refine Matrix
           </button>
-          <button className="px-6 py-4 border border-slate-200 text-slate-400 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:text-slate-900 transition-all">
+          <button className="px-6 py-4 border border-slate-200 text-slate-400 rounded-2xl font-black text-base uppercase tracking-widest hover:text-slate-900 transition-all">
             Export Logs
           </button>
         </div>
@@ -140,11 +140,11 @@ export function AuditLogsPage() {
         <table className="w-full text-left">
           <thead>
             <tr className="bg-slate-50 border-b border-slate-100">
-              <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">時間向量</th>
-              <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">授權身分</th>
-              <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">協議操作</th>
-              <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">目標實體</th>
-              <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right px-10">驗證</th>
+              <th className="px-8 py-6 text-base font-black text-slate-400 uppercase tracking-widest">時間向量</th>
+              <th className="px-8 py-6 text-base font-black text-slate-400 uppercase tracking-widest">授權身分</th>
+              <th className="px-8 py-6 text-base font-black text-slate-400 uppercase tracking-widest text-center">協議操作</th>
+              <th className="px-8 py-6 text-base font-black text-slate-400 uppercase tracking-widest text-center">目標實體</th>
+              <th className="px-8 py-6 text-base font-black text-slate-400 uppercase tracking-widest text-right px-10">驗證</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-50">
@@ -158,7 +158,7 @@ export function AuditLogsPage() {
                         <div className="text-sm font-black text-slate-950 font-mono tracking-tighter">
                           {new Date(log.timestamp).toLocaleTimeString('zh-TW')}
                         </div>
-                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        <div className="text-base font-bold text-slate-400 uppercase tracking-widest">
                           {new Date(log.timestamp).toLocaleDateString()}
                         </div>
                       </div>
@@ -171,18 +171,18 @@ export function AuditLogsPage() {
                       </div>
                       <div>
                         <div className="text-sm font-black text-slate-900 tracking-tight">{getUserName(log.userId)}</div>
-                        <div className="text-[10px] font-black text-slate-400 tracking-widest uppercase">ID: {log.userId}</div>
+                        <div className="text-base font-black text-slate-400 tracking-widest uppercase">ID: {log.userId}</div>
                       </div>
                     </div>
                   </td>
                   <td className="px-8 py-8 text-center">
-                    <span className={`inline-flex px-3 py-1.5 rounded-lg border text-[10px] font-black uppercase tracking-widest ${actionStyles[log.action] || 'text-slate-400 bg-slate-50'}`}>
+                    <span className={`inline-flex px-3 py-1.5 rounded-lg border text-base font-black uppercase tracking-widest ${actionStyles[log.action] || 'text-slate-400 bg-slate-50'}`}>
                       {log.action}
                     </span>
                   </td>
                   <td className="px-8 py-8 text-center">
                     <div className="text-sm font-black text-slate-900 tracking-tight uppercase">{log.resource}</div>
-                    <div className="text-[10px] font-mono text-slate-400 tracking-tighter">{log.resourceId}</div>
+                    <div className="text-base font-mono text-slate-400 tracking-tighter">{log.resourceId}</div>
                   </td>
                   <td className="px-8 py-8 text-right px-10">
                     <div className="flex justify-end">
@@ -196,17 +196,17 @@ export function AuditLogsPage() {
                       <div className="bg-white border border-slate-100 rounded-[2rem] p-8 shadow-inner overflow-hidden relative">
                         <div className="flex items-center gap-3 mb-6">
                           <Terminal size={18} className="text-slate-400" />
-                          <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Metadata Payload</h4>
+                          <h4 className="text-base font-black text-slate-400 uppercase tracking-widest">Metadata Payload</h4>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                           {Object.entries(log.metadata || {}).map(([key, value]) => (
                             <div key={key}>
-                              <div className="text-[9px] font-black text-slate-300 uppercase tracking-widest mb-1">{key}</div>
+                              <div className="text-base font-black text-slate-300 uppercase tracking-widest mb-1">{key}</div>
                               <div className="text-xs font-mono font-bold text-slate-600 break-all">{JSON.stringify(value)}</div>
                             </div>
                           ))}
                           {(!log.metadata || Object.keys(log.metadata).length === 0) && (
-                            <div className="col-span-full py-4 text-center text-[10px] font-black text-slate-300 uppercase tracking-widest italic">
+                            <div className="col-span-full py-4 text-center text-base font-black text-slate-300 uppercase tracking-widest italic">
                               No complex metadata payload attached
                             </div>
                           )}
@@ -221,12 +221,12 @@ export function AuditLogsPage() {
           </tbody>
         </table>
         <div className="px-10 py-8 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
-          <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+          <div className="text-base font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
             <Terminal size={14} /> End of Archived Flux Stream
           </div>
           <div className="flex gap-2">
             {[1, 2, 3].map(p => (
-              <button key={p} className={`w-8 h-8 rounded-lg text-[10px] font-black ${p === 1 ? 'bg-slate-950 text-white shadow-lg' : 'text-slate-400 hover:bg-slate-200'}`}>{p}</button>
+              <button key={p} className={`w-8 h-8 rounded-lg text-base font-black ${p === 1 ? 'bg-slate-950 text-white shadow-lg' : 'text-slate-400 hover:bg-slate-200'}`}>{p}</button>
             ))}
           </div>
         </div>

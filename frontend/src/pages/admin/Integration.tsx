@@ -66,13 +66,13 @@ export function IntegrationPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <div className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.3em] mb-2">網路架構</div>
+          <div className="text-base font-black text-indigo-600 uppercase tracking-[0.3em] mb-2">網路架構</div>
           <h1 className="text-5xl font-black tracking-tighter text-slate-900 uppercase">介接</h1>
         </div>
         <div className="flex items-center gap-4">
           <div className="px-4 py-2 bg-indigo-50 border border-indigo-100 rounded-xl flex items-center gap-3">
             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-            <span className="text-[10px] font-black text-indigo-600 uppercase tracking-widest text-xs">Gateway Active</span>
+            <span className="text-base font-black text-indigo-600 uppercase tracking-widest text-xs">Gateway Active</span>
           </div>
         </div>
       </div>
@@ -82,7 +82,7 @@ export function IntegrationPage() {
         <div className="lg:col-span-4 space-y-6">
           <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-xl shadow-slate-200/40 overflow-hidden">
             <div className="px-8 py-6 border-b border-slate-50 bg-slate-50/50 flex items-center justify-between">
-              <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">外部樞紐</h3>
+              <h3 className="text-base font-black text-slate-400 uppercase tracking-widest">外部樞紐</h3>
               <button className="text-indigo-600"><Settings size={14} /></button>
             </div>
             <div className="divide-y divide-slate-50">
@@ -107,7 +107,7 @@ export function IntegrationPage() {
                           <div className={`w-1.5 h-1.5 rounded-full ${int.status === 'connected' ? 'bg-green-500' :
                               int.status === 'disconnected' ? 'bg-slate-300' : 'bg-red-500'
                             }`}></div>
-                          <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                          <span className="text-base font-black text-slate-400 uppercase tracking-widest">
                             {int.status === 'connected' ? '已穩定' : '離線'}
                           </span>
                         </div>
@@ -126,7 +126,7 @@ export function IntegrationPage() {
           {/* Network Stats Card */}
           <div className="bg-slate-900 rounded-[2rem] p-8 text-white relative overflow-hidden">
             <div className="relative z-10">
-              <h4 className="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-4">Global Throughput</h4>
+              <h4 className="text-base font-black text-indigo-400 uppercase tracking-widest mb-4">Global Throughput</h4>
               <div className="flex items-baseline gap-2">
                 <span className="text-4xl font-black tabular-nums">1.2GB</span>
                 <span className="text-indigo-400 text-xs font-black uppercase tracking-widest">/ SEC</span>
@@ -155,9 +155,9 @@ export function IntegrationPage() {
                   <div>
                     <h2 className="text-3xl font-black tracking-tighter text-slate-900 uppercase leading-none mb-1">{selectedIntegration.name}</h2>
                     <div className="flex items-center gap-3">
-                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{integrationTypeLabels[selectedIntegration.type]}</span>
+                      <span className="text-base font-black text-slate-400 uppercase tracking-[0.2em]">{integrationTypeLabels[selectedIntegration.type]}</span>
                       <div className="w-1 h-1 rounded-full bg-slate-200"></div>
-                      <span className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em]">Protocol V2.1</span>
+                      <span className="text-base font-black text-indigo-600 uppercase tracking-[0.2em]">Protocol V2.1</span>
                     </div>
                   </div>
                 </div>
@@ -165,7 +165,7 @@ export function IntegrationPage() {
                   <button
                     onClick={() => handleSync(selectedIntegration.id)}
                     disabled={syncingId === selectedIntegration.id}
-                    className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-indigo-700 transition-all flex items-center gap-2 disabled:bg-slate-300"
+                    className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-black text-base uppercase tracking-widest hover:bg-indigo-700 transition-all flex items-center gap-2 disabled:bg-slate-300"
                   >
                     <RefreshCw size={14} className={syncingId === selectedIntegration.id ? 'animate-spin' : ''} />
                     {syncingId === selectedIntegration.id ? '同步中...' : '強制基線'}
@@ -176,14 +176,14 @@ export function IntegrationPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
                 <div className="p-8 bg-slate-50 rounded-[2rem] border border-slate-100">
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Endpoint URL</p>
+                  <p className="text-base font-black text-slate-400 uppercase tracking-widest mb-2">Endpoint URL</p>
                   <div className="flex items-center justify-between gap-4">
                     <p className="text-sm font-mono font-bold text-slate-700 truncate">{selectedIntegration.endpoint}</p>
                     <ExternalLink size={14} className="text-slate-300 flex-shrink-0" />
                   </div>
                 </div>
                 <div className="p-8 bg-slate-50 rounded-[2rem] border border-slate-100">
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Last Handshake</p>
+                  <p className="text-base font-black text-slate-400 uppercase tracking-widest mb-2">Last Handshake</p>
                   <p className="text-lg font-black text-slate-900 uppercase tracking-tight">
                     {selectedIntegration.lastSync ? new Date(selectedIntegration.lastSync).toLocaleTimeString() : 'N/A'}
                   </p>
@@ -191,12 +191,12 @@ export function IntegrationPage() {
               </div>
 
               <div className="space-y-8">
-                <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-2">Configuration Environment</h4>
+                <h4 className="text-base font-black text-slate-400 uppercase tracking-widest px-2">Configuration Environment</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {Object.entries(selectedIntegration.configuration).map(([key, value]) => (
                     <div key={key} className="p-6 bg-white border border-slate-100 rounded-2xl flex items-center justify-between hover:border-indigo-200 transition-all shadow-sm">
                       <div>
-                        <p className="text-[10px] font-black text-indigo-600 uppercase tracking-widest mb-1">{key}</p>
+                        <p className="text-base font-black text-indigo-600 uppercase tracking-widest mb-1">{key}</p>
                         <p className="text-xs font-mono text-slate-600">{String(value).length > 30 ? String(value).substring(0, 30) + '...' : String(value)}</p>
                       </div>
                       <div className="p-2 bg-slate-50 text-slate-300 rounded-lg"><Terminal size={14} /></div>

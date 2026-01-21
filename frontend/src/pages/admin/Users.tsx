@@ -88,9 +88,9 @@ export function UsersPage() {
 
   const getRoleBadge = (role: string) => {
     switch (role) {
-      case 'admin': return <span className="flex items-center gap-1.5 text-red-600 bg-red-50 px-2 py-1 rounded-md text-[10px] font-black uppercase tracking-widest border border-red-100"><ShieldAlert size={12} /> 管理員</span>;
-      case 'supervisor': return <span className="flex items-center gap-1.5 text-indigo-600 bg-indigo-50 px-2 py-1 rounded-md text-[10px] font-black uppercase tracking-widest border border-indigo-100"><ShieldCheck size={12} /> 主管</span>;
-      default: return <span className="flex items-center gap-1.5 text-blue-600 bg-blue-50 px-2 py-1 rounded-md text-[10px] font-black uppercase tracking-widest border border-blue-100"><UserCheck size={12} /> 承辦人</span>;
+      case 'admin': return <span className="flex items-center gap-1.5 text-red-600 bg-red-50 px-2 py-1 rounded-md text-base font-black uppercase tracking-widest border border-red-100"><ShieldAlert size={12} /> 管理員</span>;
+      case 'supervisor': return <span className="flex items-center gap-1.5 text-indigo-600 bg-indigo-50 px-2 py-1 rounded-md text-base font-black uppercase tracking-widest border border-indigo-100"><ShieldCheck size={12} /> 主管</span>;
+      default: return <span className="flex items-center gap-1.5 text-blue-600 bg-blue-50 px-2 py-1 rounded-md text-base font-black uppercase tracking-widest border border-blue-100"><UserCheck size={12} /> 承辦人</span>;
     }
   };
 
@@ -99,7 +99,7 @@ export function UsersPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6">
         <div>
-          <div className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.3em] mb-2">存取管理</div>
+          <div className="text-base font-black text-indigo-600 uppercase tracking-[0.3em] mb-2">存取管理</div>
           <h1 className="text-3xl md:text-5xl font-black tracking-tighter text-slate-900 uppercase">用戶及身份</h1>
         </div>
         <button
@@ -138,12 +138,12 @@ export function UsersPage() {
           <table className="w-full text-left border-collapse min-w-[800px]">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-100">
-                <th className="px-6 md:px-8 py-4 md:py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">用戶檔案</th>
-                <th className="px-6 md:px-8 py-4 md:py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">存取角色</th>
-                <th className="px-6 md:px-8 py-4 md:py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">部門單位</th>
-                <th className="px-6 md:px-8 py-4 md:py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">內部聯絡</th>
-                <th className="px-6 md:px-8 py-4 md:py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">帳戶狀態</th>
-                <th className="px-6 md:px-8 py-4 md:py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">設定</th>
+                <th className="px-6 md:px-8 py-4 md:py-6 text-base font-black text-slate-400 uppercase tracking-widest">用戶檔案</th>
+                <th className="px-6 md:px-8 py-4 md:py-6 text-base font-black text-slate-400 uppercase tracking-widest">存取角色</th>
+                <th className="px-6 md:px-8 py-4 md:py-6 text-base font-black text-slate-400 uppercase tracking-widest">部門單位</th>
+                <th className="px-6 md:px-8 py-4 md:py-6 text-base font-black text-slate-400 uppercase tracking-widest">內部聯絡</th>
+                <th className="px-6 md:px-8 py-4 md:py-6 text-base font-black text-slate-400 uppercase tracking-widest">帳戶狀態</th>
+                <th className="px-6 md:px-8 py-4 md:py-6 text-base font-black text-slate-400 uppercase tracking-widest text-right">設定</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -164,7 +164,7 @@ export function UsersPage() {
                       </div>
                       <div>
                         <div className="text-lg font-black text-slate-900 tracking-tight leading-tight">{user.name}</div>
-                        <div className="text-[11px] font-black text-slate-400 uppercase tracking-widest mt-1">ID: {user.id}</div>
+                        <div className="text-base font-black text-slate-400 uppercase tracking-widest mt-1">ID: {user.id}</div>
                       </div>
                     </div>
                   </td>
@@ -176,16 +176,16 @@ export function UsersPage() {
                   </td>
                   <td className="px-6 md:px-8 py-6 md:py-8">
                     <div className="space-y-1">
-                      <div className="flex items-center gap-2 text-[11px] font-bold text-slate-500">
+                      <div className="flex items-center gap-2 text-base font-bold text-slate-500">
                         <Mail size={12} className="text-slate-300" /> {user.email}
                       </div>
-                      <div className="flex items-center gap-2 text-[11px] font-bold text-slate-500">
+                      <div className="flex items-center gap-2 text-base font-bold text-slate-500">
                         <Phone size={12} className="text-slate-300" /> {user.phone || 'N/A'}
                       </div>
                     </div>
                   </td>
                   <td className="px-6 md:px-8 py-6 md:py-8">
-                    <span className={`px-2 py-1 rounded text-[10px] font-black uppercase tracking-widest ${user.status === 'active' ? 'text-emerald-500' : 'text-slate-400'
+                    <span className={`px-2 py-1 rounded text-base font-black uppercase tracking-widest ${user.status === 'active' ? 'text-emerald-500' : 'text-slate-400'
                       }`}>
                       ● {user.status}
                     </span>
@@ -225,7 +225,7 @@ export function UsersPage() {
             <form onSubmit={handleSubmit} className="p-6 md:p-10 space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">完整姓名</label>
+                  <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">完整姓名</label>
                   <input
                     type="text"
                     value={formData.name}
@@ -235,7 +235,7 @@ export function UsersPage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">公務信箱</label>
+                  <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">公務信箱</label>
                   <input
                     type="email"
                     value={formData.email}
@@ -248,7 +248,7 @@ export function UsersPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">存取層級</label>
+                  <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">存取層級</label>
                   <select
                     value={formData.role}
                     onChange={(e) => setFormData({ ...formData, role: e.target.value as any })}
@@ -260,7 +260,7 @@ export function UsersPage() {
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">組織單位</label>
+                  <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">組織單位</label>
                   <input
                     type="text"
                     value={formData.unit}
@@ -272,19 +272,19 @@ export function UsersPage() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">帳戶狀態</label>
+                <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">帳戶狀態</label>
                 <div className="flex gap-4">
                   <button
                     type="button"
                     onClick={() => setFormData({ ...formData, status: 'active' as any })} // Type assertion for now to be safe against literal types
-                    className={`flex-1 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest border transition-all ${formData.status === 'active' ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-slate-50 text-slate-400 border-slate-100'}`}
+                    className={`flex-1 py-4 rounded-2xl font-black text-base uppercase tracking-widest border transition-all ${formData.status === 'active' ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-slate-50 text-slate-400 border-slate-100'}`}
                   >
                     啟用部署
                   </button>
                   <button
                     type="button"
                     onClick={() => setFormData({ ...formData, status: 'inactive' as any })}
-                    className={`flex-1 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest border transition-all ${formData.status === 'inactive' ? 'bg-slate-900 text-white border-slate-900' : 'bg-slate-50 text-slate-400 border-slate-100'}`}
+                    className={`flex-1 py-4 rounded-2xl font-black text-base uppercase tracking-widest border transition-all ${formData.status === 'inactive' ? 'bg-slate-900 text-white border-slate-900' : 'bg-slate-50 text-slate-400 border-slate-100'}`}
                   >
                     暫停存取
                   </button>

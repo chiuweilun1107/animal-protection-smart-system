@@ -99,7 +99,7 @@ export const CaseMap: React.FC<CaseMapProps> = ({ cases, activeLayer = 'osm', ce
                                 <div className="flex items-center gap-2 mb-3">
                                     <span className={`w-2.5 h-2.5 rounded-full shadow-sm ${c.type === 'bee' ? 'bg-orange-500' : 'bg-red-500'}`}></span>
                                     <span className="font-bold text-slate-800 text-sm">{c.type === 'bee' ? '蜂案通報' : '一般案件'}</span>
-                                    <span className={`ml-auto text-[10px] px-2 py-0.5 rounded-full border font-medium ${c.status === 'resolved' ? 'bg-green-50 border-green-200 text-green-700' :
+                                    <span className={`ml-auto text-base px-2 py-0.5 rounded-full border font-medium ${c.status === 'resolved' ? 'bg-green-50 border-green-200 text-green-700' :
                                         c.status === 'processing' ? 'bg-blue-50 border-blue-200 text-blue-700' :
                                             'bg-red-50 border-red-200 text-red-700'
                                         }`}>

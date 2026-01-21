@@ -72,12 +72,12 @@ export const FAQ: React.FC = () => {
             <div className="fixed top-0 left-0 w-[600px] h-[600px] bg-blue-400/5 rounded-full blur-[120px] pointer-events-none"></div>
             <div className="fixed bottom-0 right-0 w-[500px] h-[500px] bg-slate-400/5 rounded-full blur-[100px] pointer-events-none"></div>
 
-            <div className="relative z-10 pt-32 px-6">
+            <div className="relative z-10 pt-12 md:pt-16 px-6">
                 <div className="max-w-6xl mx-auto">
                     {/* Header */}
-                    <div className="flex flex-col lg:flex-row items-end justify-between gap-12 mb-20">
+                    <div className="flex flex-col lg:flex-row items-end justify-between gap-12 mb-12">
                         <div className="max-w-2xl">
-                            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-[0.3em] mb-6 border border-blue-100">
+                            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-50 text-blue-600 rounded-full text-base font-black uppercase tracking-[0.3em] mb-4 border border-blue-100">
                                 智慧服務門戶
                             </div>
                             <h1 className="text-7xl md:text-8xl font-black tracking-tighter text-slate-950 leading-[0.85] uppercase">
@@ -131,7 +131,7 @@ export const FAQ: React.FC = () => {
                         <div className="lg:col-span-8 space-y-12">
                             {filteredSections.map((section, sIdx) => (
                                 <div key={sIdx} className="space-y-6 animate-in fade-in slide-in-from-bottom-10 duration-700">
-                                    <h2 className="text-[10px] font-black tracking-[0.4em] text-slate-500 uppercase flex items-center gap-4">
+                                    <h2 className="text-base font-black tracking-[0.4em] text-slate-500 uppercase flex items-center gap-4">
                                         <span className="w-8 h-[1px] bg-slate-800"></span>
                                         {section.title}
                                     </h2>
@@ -152,7 +152,7 @@ export const FAQ: React.FC = () => {
                                                                 {q.q}
                                                             </span>
                                                         </div>
-                                                        <div className={`shrink-0 font-black text-[10px] transition-all duration-500 ${isOpen ? 'text-blue-600 rotate-180' : 'text-slate-300'}`}>
+                                                        <div className={`shrink-0 font-black text-base transition-all duration-500 ${isOpen ? 'text-blue-600 rotate-180' : 'text-slate-300'}`}>
                                                             {isOpen ? 'CLOSE' : 'OPEN'}
                                                         </div>
                                                     </button>
@@ -162,9 +162,9 @@ export const FAQ: React.FC = () => {
                                                                 {q.a}
                                                             </div>
                                                             <div className="mt-8 flex items-center gap-6">
-                                                                <button className="text-[10px] font-black text-blue-600 uppercase tracking-widest hover:underline">這有幫助嗎？</button>
+                                                                <button className="text-base font-black text-blue-600 uppercase tracking-widest hover:underline">這有幫助嗎？</button>
                                                                 <div className="h-3 w-[1px] bg-slate-200"></div>
-                                                                <button className="text-[10px] font-black text-slate-400 uppercase tracking-widest hover:underline">分享此問答</button>
+                                                                <button className="text-base font-black text-slate-400 uppercase tracking-widest hover:underline">分享此問答</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -192,7 +192,7 @@ export const FAQ: React.FC = () => {
                                     ].map((link, i) => (
                                         <button key={i} className="w-full flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 transition-all group">
                                             <span className="font-bold text-slate-600 group-hover:text-slate-900">{link.label}</span>
-                                            <span className="text-[10px] font-black text-slate-300 group-hover:text-blue-600 transition-all">VIEW</span>
+                                            <span className="text-base font-black text-slate-300 group-hover:text-blue-600 transition-all">VIEW</span>
                                         </button>
                                     ))}
                                 </div>
@@ -208,11 +208,11 @@ export const FAQ: React.FC = () => {
 
                                     <div className="space-y-6">
                                         <div className="flex flex-col">
-                                            <p className="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-1">動保專線</p>
+                                            <p className="text-base font-black text-blue-400 uppercase tracking-widest mb-1">動保專線</p>
                                             <p className="text-4xl font-black">1959</p>
                                         </div>
                                         <div className="flex flex-col">
-                                            <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">市民熱線</p>
+                                            <p className="text-base font-black text-slate-500 uppercase tracking-widest mb-1">市民熱線</p>
                                             <p className="text-4xl font-black">1999</p>
                                         </div>
                                     </div>
@@ -220,7 +220,7 @@ export const FAQ: React.FC = () => {
                                 <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/10 rounded-full blur-[100px] -mr-32 -mt-32"></div>
                             </div>
 
-                            <Link to="/" className="flex items-center justify-center gap-4 py-6 bg-white border border-slate-100 rounded-[2rem] text-slate-400 font-black text-[10px] uppercase tracking-[0.3em] hover:bg-slate-50 hover:text-slate-900 transition-all">
+                            <Link to="/" className="flex items-center justify-center gap-4 py-6 bg-white border border-slate-100 rounded-[2rem] text-slate-400 font-black text-base uppercase tracking-[0.3em] hover:bg-slate-50 hover:text-slate-900 transition-all">
                                 RETURN TO PORTAL
                             </Link>
                         </div>

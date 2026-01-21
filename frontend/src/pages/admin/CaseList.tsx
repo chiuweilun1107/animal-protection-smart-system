@@ -104,7 +104,7 @@ export function CaseList() {
                                 <Menu size={20} />
                             </button>
                             <div>
-                                <div className="text-[10px] font-black text-blue-600 uppercase tracking-[0.3em] mb-2">運營中心</div>
+                                <div className="text-base font-black text-blue-600 uppercase tracking-[0.3em] mb-2">運營中心</div>
                                 <h1 className="text-3xl md:text-5xl font-black tracking-tighter text-slate-900 uppercase">案件管理</h1>
                             </div>
                         </div>
@@ -166,12 +166,12 @@ export function CaseList() {
                             <table className="w-full text-left border-collapse min-w-[800px]">
                                 <thead>
                                     <tr className="bg-slate-50 border-b border-slate-100">
-                                        <th className="px-6 md:px-8 py-4 md:py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">案號 / 標題</th>
-                                        <th className="px-6 md:px-8 py-4 md:py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">狀態</th>
-                                        <th className="px-6 md:px-8 py-4 md:py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">優先權</th>
-                                        <th className="px-6 md:px-8 py-4 md:py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">地點 / 報案人</th>
-                                        <th className="px-6 md:px-8 py-4 md:py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">更新時間</th>
-                                        <th className="px-6 md:px-8 py-4 md:py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">操作</th>
+                                        <th className="px-6 md:px-8 py-4 md:py-6 text-base font-black text-slate-400 uppercase tracking-widest">案號 / 標題</th>
+                                        <th className="px-6 md:px-8 py-4 md:py-6 text-base font-black text-slate-400 uppercase tracking-widest text-center">狀態</th>
+                                        <th className="px-6 md:px-8 py-4 md:py-6 text-base font-black text-slate-400 uppercase tracking-widest text-center">優先權</th>
+                                        <th className="px-6 md:px-8 py-4 md:py-6 text-base font-black text-slate-400 uppercase tracking-widest">地點 / 報案人</th>
+                                        <th className="px-6 md:px-8 py-4 md:py-6 text-base font-black text-slate-400 uppercase tracking-widest text-center">更新時間</th>
+                                        <th className="px-6 md:px-8 py-4 md:py-6 text-base font-black text-slate-400 uppercase tracking-widest text-right">操作</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-50">
@@ -194,16 +194,16 @@ export function CaseList() {
                                                     }`}
                                             >
                                                 <td className="px-6 md:px-8 py-6 md:py-8 w-[350px]">
-                                                    <div className="text-[10px] font-black text-blue-600 mb-1 font-mono">{c.id}</div>
+                                                    <div className="text-base font-black text-blue-600 mb-1 font-mono">{c.id}</div>
                                                     <div className="text-base md:text-lg font-black text-slate-900 tracking-tight line-clamp-1">{c.title}</div>
                                                     <div className="flex items-center gap-2 mt-2">
-                                                        <span className="px-2 py-0.5 bg-slate-100 rounded text-[9px] font-black text-slate-400 uppercase tracking-widest">
+                                                        <span className="px-2 py-0.5 bg-slate-100 rounded text-base font-black text-slate-400 uppercase tracking-widest">
                                                             {c.type === 'bee' ? '蜂案捕捉' : '一般動保'}
                                                         </span>
                                                     </div>
                                                 </td>
                                                 <td className="px-6 md:px-8 py-6 md:py-8 text-center">
-                                                    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[10px] font-black uppercase tracking-widest ${getStatusStyle(c.status)}`}>
+                                                    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-base font-black uppercase tracking-widest ${getStatusStyle(c.status)}`}>
                                                         {c.status === 'pending' ? <Clock size={12} /> : c.status === 'processing' ? <Zap size={12} /> : <CheckCircle size={12} />}
                                                         {c.status === 'pending' ? '待處理' : c.status === 'processing' ? '處理中' : '已結案'}
                                                     </span>
@@ -218,14 +218,14 @@ export function CaseList() {
                                                         <MapPin size={14} className="text-slate-300" />
                                                         <span className="line-clamp-1">{c.location}</span>
                                                     </div>
-                                                    <div className="flex items-center gap-2 text-[11px] font-black text-slate-400">
+                                                    <div className="flex items-center gap-2 text-base font-black text-slate-400">
                                                         報案人: {c.reporterName}
                                                     </div>
                                                 </td>
                                                 <td className="px-6 md:px-8 py-6 md:py-8 text-center">
                                                     <div className="flex flex-col items-center">
                                                         <Calendar size={14} className="text-slate-300 mb-1" />
-                                                        <div className="text-[10px] font-bold text-slate-500">{new Date(c.updatedAt).toLocaleDateString()}</div>
+                                                        <div className="text-base font-bold text-slate-500">{new Date(c.updatedAt).toLocaleDateString()}</div>
                                                     </div>
                                                 </td>
                                                 <td className="px-6 md:px-8 py-6 md:py-8 text-right">
@@ -259,7 +259,7 @@ export function CaseList() {
 
                         {/* Pagination */}
                         <div className="px-6 md:px-8 py-6 md:py-8 bg-slate-50 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-                            <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                            <div className="text-base font-black text-slate-400 uppercase tracking-widest">
                                 顯示 {filteredCases.length} 筆 / 共 {cases.length} 筆
                             </div>
                             <div className="flex items-center gap-2">

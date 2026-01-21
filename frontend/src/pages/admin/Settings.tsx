@@ -72,7 +72,7 @@ export function SettingsPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-2">核心核心</div>
+          <div className="text-base font-black text-slate-400 uppercase tracking-[0.3em] mb-2">核心核心</div>
           <h1 className="text-5xl font-black tracking-tighter text-slate-900 uppercase">系統配置</h1>
         </div>
         <div className="flex gap-3">
@@ -132,10 +132,10 @@ export function SettingsPage() {
                 filteredConfigs.map(config => (
                   <div key={config.key} className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
+                      <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">
                         {config.description}
                       </label>
-                      <span className="text-[9px] font-mono text-slate-300 tracking-tight">{config.key}</span>
+                      <span className="text-base font-mono text-slate-300 tracking-tight">{config.key}</span>
                     </div>
                     {config.key === 'system_language' ? (
                       <select
@@ -169,7 +169,7 @@ export function SettingsPage() {
                 <div className="py-20 text-center space-y-6">
                   <Lock size={48} className="mx-auto text-slate-100" />
                   <p className="text-xl font-black text-slate-300 uppercase tracking-widest">保留用於安全大修</p>
-                  <button className="px-6 py-3 border border-slate-200 text-slate-400 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-50">申請管理員存取</button>
+                  <button className="px-6 py-3 border border-slate-200 text-slate-400 rounded-xl font-black text-base uppercase tracking-widest hover:bg-slate-50">申請管理員存取</button>
                 </div>
               )}
             </div>
@@ -180,7 +180,7 @@ export function SettingsPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="bg-slate-950 rounded-[2.5rem] p-8 text-white">
                 <Cpu className="text-blue-500 mb-6" size={24} />
-                <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">計算負載</h4>
+                <h4 className="text-base font-black text-slate-500 uppercase tracking-widest mb-2">計算負載</h4>
                 <div className="text-3xl font-black mb-4">42.8%</div>
                 <div className="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden">
                   <div className="bg-blue-500 w-[42.8%] h-full"></div>
@@ -188,7 +188,7 @@ export function SettingsPage() {
               </div>
               <div className="bg-slate-950 rounded-[2.5rem] p-8 text-white">
                 <HardDrive className="text-emerald-500 mb-6" size={24} />
-                <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">存儲持久性</h4>
+                <h4 className="text-base font-black text-slate-500 uppercase tracking-widest mb-2">存儲持久性</h4>
                 <div className="text-3xl font-black mb-4">2.4 TB</div>
                 <div className="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden">
                   <div className="bg-emerald-500 w-[78%] h-full"></div>

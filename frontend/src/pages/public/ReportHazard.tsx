@@ -82,12 +82,12 @@ export const ReportHazard: React.FC = () => {
             <div className={`fixed top-0 left-0 w-[600px] h-[600px] rounded-full blur-[120px] pointer-events-none ${target === 'snake' ? 'bg-emerald-400/5' : 'bg-orange-400/5'}`}></div>
             <div className="fixed bottom-0 right-0 w-[500px] h-[500px] bg-slate-400/5 rounded-full blur-[100px] pointer-events-none"></div>
 
-            <div className="relative z-10 px-6 pt-20 md:pt-24">
+            <div className="relative z-10 px-6 pt-12 md:pt-16">
                 <div className="max-w-4xl mx-auto">
                     {/* Header */}
-                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 animate-in fade-in slide-in-from-bottom-10 duration-1000">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12 animate-in fade-in slide-in-from-bottom-10 duration-1000">
                         <div>
-                            <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.3em] mb-6 border ${target === 'snake' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-orange-50 text-orange-600 border-orange-100'}`}>
+                            <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-base font-black uppercase tracking-[0.3em] mb-4 border ${target === 'snake' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-orange-50 text-orange-600 border-orange-100'}`}>
                                 HAZARD REMOVAL
                             </div>
                             <h1 className="text-6xl md:text-7xl font-black tracking-tighter text-slate-900 leading-[0.9] uppercase mb-6">
@@ -154,7 +154,7 @@ export const ReportHazard: React.FC = () => {
                                             type="button"
                                             onClick={handleGeoDetect}
                                             disabled={isDetecting}
-                                            className={`px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 ${isDetecting
+                                            className={`px-8 py-3 rounded-2xl text-base font-black uppercase tracking-widest transition-all flex items-center gap-2 ${isDetecting
                                                 ? 'bg-blue-500 text-white cursor-wait'
                                                 : detectionSuccess
                                                     ? 'bg-emerald-500 text-white'
@@ -169,7 +169,7 @@ export const ReportHazard: React.FC = () => {
                                         <div className="mb-8 p-4 bg-emerald-50 border border-emerald-200 rounded-2xl animate-in fade-in slide-in-from-top-2 flex items-start gap-3">
                                             <MapPin className="text-emerald-600 mt-0.5" size={20} />
                                             <div>
-                                                <div className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">偵測到的位置</div>
+                                                <div className="text-base font-black text-emerald-600 uppercase tracking-widest mb-1">偵測到的位置</div>
                                                 <div className="text-sm font-bold text-slate-900">{detectedLocation}</div>
                                             </div>
                                         </div>
@@ -177,7 +177,7 @@ export const ReportHazard: React.FC = () => {
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                         <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">通報區域</label>
+                                            <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">通報區域</label>
                                             <select value={region} onChange={(e) => setRegion(e.target.value)} className="w-full px-8 py-5 bg-slate-50 border border-slate-100 rounded-3xl font-bold focus:ring-4 focus:ring-orange-500/10 outline-none transition-all">
                                                 <option>新北市 - 板橋區</option>
                                                 <option>新北市 - 新莊區</option>
@@ -186,12 +186,12 @@ export const ReportHazard: React.FC = () => {
                                             </select>
                                         </div>
                                         <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">精確地址</label>
+                                            <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">精確地址</label>
                                             <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} className="w-full px-8 py-5 bg-slate-50 border border-slate-100 rounded-3xl font-bold focus:ring-4 focus:ring-orange-500/10 outline-none transition-all" />
                                         </div>
                                     </div>
                                     <div className="mt-8 space-y-3">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">詳細位置描述</label>
+                                        <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">詳細位置描述</label>
                                         <input type="text" value={locationDetail} onChange={(e) => setLocationDetail(e.target.value)} placeholder="例如: 後陽台洗衣機下方、公園涼亭頂端" className="w-full px-8 py-5 bg-slate-50 border border-slate-100 rounded-3xl font-bold focus:ring-4 focus:ring-orange-500/10 outline-none transition-all" />
                                     </div>
                                 </div>
@@ -210,7 +210,7 @@ export const ReportHazard: React.FC = () => {
                                         {target === 'bee' ? (
                                             <>
                                                 <div className="space-y-4">
-                                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">位置高度</label>
+                                                    <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">位置高度</label>
                                                     <div className="grid grid-cols-2 gap-3">
                                                         {['2公尺以下', '2-6公尺', '6公尺以上', '無法確認'].map(opt => (
                                                             <button type="button" key={opt} onClick={() => setHivePosition(opt)} className={`p-4 rounded-2xl font-bold text-sm transition-all ${hivePosition === opt ? 'bg-orange-600 text-white shadow-lg shadow-orange-600/30' : 'bg-slate-50 text-slate-400 hover:bg-slate-100'}`}>{opt}</button>
@@ -218,7 +218,7 @@ export const ReportHazard: React.FC = () => {
                                                     </div>
                                                 </div>
                                                 <div className="space-y-4">
-                                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">蜂巢大小</label>
+                                                    <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">蜂巢大小</label>
                                                     <div className="grid grid-cols-2 gap-3">
                                                         {['拳頭大小', '籃球大小', '大於籃球', '僅見蜂群'].map(opt => (
                                                             <button type="button" key={opt} onClick={() => setHiveSize(opt)} className={`p-4 rounded-2xl font-bold text-sm transition-all ${hiveSize === opt ? 'bg-orange-600 text-white shadow-lg shadow-orange-600/30' : 'bg-slate-50 text-slate-400 hover:bg-slate-100'}`}>{opt}</button>
@@ -229,7 +229,7 @@ export const ReportHazard: React.FC = () => {
                                         ) : (
                                             <>
                                                 <div className="space-y-4">
-                                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">發現區域</label>
+                                                    <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">發現區域</label>
                                                     <div className="grid grid-cols-2 gap-3">
                                                         {['屋內/室內', '庭院/陽台', '戶外公共區', '車內/其他'].map(opt => (
                                                             <button type="button" key={opt} onClick={() => setSnakeLocation(opt)} className={`p-4 rounded-2xl font-bold text-sm transition-all ${snakeLocation === opt ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/30' : 'bg-slate-50 text-slate-400 hover:bg-slate-100'}`}>{opt}</button>
@@ -237,7 +237,7 @@ export const ReportHazard: React.FC = () => {
                                                     </div>
                                                 </div>
                                                 <div className="space-y-4">
-                                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">目前狀態</label>
+                                                    <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">目前狀態</label>
                                                     <div className="grid grid-cols-2 gap-3">
                                                         {['盤據不動', '緩慢移動', '快速逃竄', '已受困'].map(opt => (
                                                             <button type="button" key={opt} onClick={() => setSnakeStatus(opt)} className={`p-4 rounded-2xl font-bold text-sm transition-all ${snakeStatus === opt ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/30' : 'bg-slate-50 text-slate-400 hover:bg-slate-100'}`}>{opt}</button>
@@ -251,14 +251,14 @@ export const ReportHazard: React.FC = () => {
                                     {/* Contact Info Integrated */}
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-12 border-t border-slate-50">
                                         <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">報案人姓名</label>
+                                            <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">報案人姓名</label>
                                             <div className="relative">
                                                 <User className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                                                 <input type="text" value={contactName} onChange={(e) => setContactName(e.target.value)} className={`w-full pl-16 pr-6 py-5 bg-slate-50 border border-slate-100 rounded-3xl font-bold outline-none transition-all focus:ring-4 ${target === 'snake' ? 'focus:ring-emerald-500/10' : 'focus:ring-orange-500/10'}`} />
                                             </div>
                                         </div>
                                         <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">手機聯絡電話</label>
+                                            <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">手機聯絡電話</label>
                                             <div className="relative">
                                                 <Phone className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                                                 <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className={`w-full pl-16 pr-6 py-5 bg-slate-50 border border-slate-100 rounded-3xl font-bold outline-none transition-all focus:ring-4 ${target === 'snake' ? 'focus:ring-emerald-500/10' : 'focus:ring-orange-500/10'}`} />
@@ -277,7 +277,7 @@ export const ReportHazard: React.FC = () => {
                                             <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold text-sm">03</div>
                                             視覺影像上傳
                                         </h2>
-                                        <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest flex items-center gap-2">ENCRYPTED CHANNEL</span>
+                                        <span className="text-base font-black text-slate-300 uppercase tracking-widest flex items-center gap-2">ENCRYPTED CHANNEL</span>
                                     </div>
 
                                     {hasImage ? (
@@ -291,7 +291,7 @@ export const ReportHazard: React.FC = () => {
                                                 <button type="button" onClick={() => setHasImage(false)} className="px-6 py-3 bg-white/20 backdrop-blur-md rounded-2xl text-white font-black text-xs uppercase tracking-widest hover:bg-red-500/80 transition-all border border-white/30">REMOVE</button>
                                                 <div className="px-6 py-3 bg-white rounded-2xl text-slate-900 font-black text-xs uppercase tracking-widest">CHANGE PHOTO</div>
                                             </div>
-                                            <div className="absolute top-6 right-6 px-4 py-1.5 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg">UPLOADED</div>
+                                            <div className="absolute top-6 right-6 px-4 py-1.5 bg-blue-600 text-white text-base font-black uppercase tracking-widest rounded-full shadow-lg">UPLOADED</div>
                                         </div>
                                     ) : (
                                         <div onClick={() => setHasImage(true)} className="border-4 border-dashed border-slate-50 rounded-[3rem] p-12 flex flex-col items-center justify-center gap-6 hover:bg-slate-50/50 transition-all group/upload cursor-pointer">

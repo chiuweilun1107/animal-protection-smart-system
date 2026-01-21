@@ -91,7 +91,7 @@ export const AdminLogin: React.FC = () => {
 
     const CaptchaField = () => (
         <div className="space-y-3">
-            <label className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">驗證碼 (Captcha)</label>
+            <label className="text-base font-black uppercase tracking-[0.2em] text-slate-400">驗證碼 (Captcha)</label>
             <div className="flex gap-4">
                 <input
                     type="text"
@@ -117,7 +117,7 @@ export const AdminLogin: React.FC = () => {
             {/* Back to Home Button */}
             <Link
                 to="/"
-                className="absolute top-8 left-8 z-50 flex items-center gap-3 px-6 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/20 rounded-full text-white text-[11px] font-black uppercase tracking-[0.2em] transition-all transform hover:-translate-x-1 group"
+                className="absolute top-8 left-8 z-50 flex items-center gap-3 px-6 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/20 rounded-full text-white text-base font-black uppercase tracking-[0.2em] transition-all transform hover:-translate-x-1 group"
             >
                 <ArrowLeft size={16} className="group-hover:text-blue-400 transition-colors" />
                 返回首頁
@@ -136,7 +136,7 @@ export const AdminLogin: React.FC = () => {
                     </div>
 
                     <div className="relative z-10 pt-16">
-                        <div className="inline-block px-5 py-2 bg-blue-600/20 border border-blue-500/30 rounded-full text-[11px] font-black text-blue-400 uppercase tracking-[0.4em] mb-16">
+                        <div className="inline-block px-5 py-2 bg-blue-600/20 border border-blue-500/30 rounded-full text-base font-black text-blue-400 uppercase tracking-[0.4em] mb-16">
                             Secure Access Portal
                         </div>
                         <h1 className="text-8xl font-black text-white tracking-tighter leading-[0.8] mb-12">
@@ -196,7 +196,7 @@ export const AdminLogin: React.FC = () => {
 
                                     <form onSubmit={handleCitizenQueryFast} className="space-y-8">
                                         <div className="space-y-3">
-                                            <label className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">案件編號 (Case ID)</label>
+                                            <label className="text-base font-black uppercase tracking-[0.2em] text-slate-400">案件編號 (Case ID)</label>
                                             <div className="relative group">
                                                 <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-blue-600 transition-colors" size={24} />
                                                 <input
@@ -209,7 +209,7 @@ export const AdminLogin: React.FC = () => {
                                         </div>
 
                                         <div className="space-y-3">
-                                            <label className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">驗證資訊 (Phone)</label>
+                                            <label className="text-base font-black uppercase tracking-[0.2em] text-slate-400">驗證資訊 (Phone)</label>
                                             <div className="relative group">
                                                 <User className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-blue-600 transition-colors" size={24} />
                                                 <input
@@ -247,7 +247,7 @@ export const AdminLogin: React.FC = () => {
 
                                     <form onSubmit={(e) => handleLogin(e, activeTab as 'caseworker' | 'admin')} className="space-y-8">
                                         <div className="space-y-3">
-                                            <label className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">帳號 (Account)</label>
+                                            <label className="text-base font-black uppercase tracking-[0.2em] text-slate-400">帳號 (Account)</label>
                                             <div className="relative group">
                                                 <FileText className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-blue-600 transition-colors" size={24} />
                                                 <input
@@ -260,7 +260,7 @@ export const AdminLogin: React.FC = () => {
                                         </div>
 
                                         <div className="space-y-3">
-                                            <label className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">密碼 (Password)</label>
+                                            <label className="text-base font-black uppercase tracking-[0.2em] text-slate-400">密碼 (Password)</label>
                                             <div className="relative group">
                                                 <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-blue-600 transition-colors" size={24} />
                                                 <input
@@ -289,7 +289,7 @@ export const AdminLogin: React.FC = () => {
                         </div>
 
                         <div className="mt-24 text-center">
-                            <p className="text-[10px] font-black text-slate-200 uppercase tracking-[0.3em]">© 2024 New Taipei City Government • Dept. Animal Health</p>
+                            <p className="text-base font-black text-slate-200 uppercase tracking-[0.3em]">© 2024 New Taipei City Government • Dept. Animal Health</p>
                         </div>
                     </div>
                 </div>

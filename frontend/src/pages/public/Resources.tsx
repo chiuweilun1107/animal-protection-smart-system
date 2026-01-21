@@ -30,7 +30,7 @@ export const Resources: React.FC = () => {
     });
 
     return (
-        <div className="min-h-screen bg-slate-50 pt-32 pb-20 relative overflow-hidden">
+        <div className="min-h-screen bg-slate-50 pt-12 md:pt-16 pb-32 relative overflow-hidden">
             {/* Layered Background */}
             <div className="fixed inset-0 bg-gradient-to-b from-emerald-50/20 via-transparent to-slate-50/50 pointer-events-none"></div>
             <div className="fixed inset-0 opacity-[0.015]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgb(51 65 85) 1px, transparent 0)', backgroundSize: '32px 32px' }}></div>
@@ -42,9 +42,9 @@ export const Resources: React.FC = () => {
             <div className="relative z-10 max-w-7xl mx-auto px-6">
 
                 {/* Header Section */}
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
                     <div className="max-w-2xl">
-                        <div className="inline-block px-3 py-1 bg-emerald-50 text-emerald-600 border border-emerald-100 rounded-full text-[10px] font-black uppercase tracking-widest mb-6">Government Open Data & resources</div>
+                        <div className="inline-block px-3 py-1 bg-emerald-50 text-emerald-600 border border-emerald-100 rounded-full text-base font-black uppercase tracking-widest mb-4">Government Open Data & resources</div>
                         <h1 className="text-6xl md:text-7xl font-black tracking-tighter text-slate-900 leading-[0.85] mb-8">
                             便民服務<br />
                             <span className="text-emerald-500">資源中心</span>
@@ -91,14 +91,14 @@ export const Resources: React.FC = () => {
                                     <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${res.category === 'laws' ? 'bg-indigo-50 text-indigo-500 group-hover:bg-indigo-500' : res.category === 'manuals' ? 'bg-blue-50 text-blue-500 group-hover:bg-blue-500' : 'bg-emerald-50 text-emerald-500 group-hover:bg-emerald-500'} group-hover:text-white`}>
                                         {res.category === 'laws' ? <Shield size={24} /> : res.category === 'manuals' ? <Book size={24} /> : <FileText size={24} />}
                                     </div>
-                                    <div className="text-[10px] font-black text-slate-300 uppercase tracking-widest">{res.date}</div>
+                                    <div className="text-base font-black text-slate-300 uppercase tracking-widest">{res.date}</div>
                                 </div>
                                 <h3 className="text-xl font-black tracking-tighter text-slate-900 group-hover:text-slate-900 transition-colors mb-4 line-clamp-2 leading-tight">
                                     {res.title}
                                 </h3>
                                 <div className="flex items-center gap-2 mb-8">
-                                    <span className="px-2 py-0.5 bg-slate-100 text-[10px] font-black text-slate-500 rounded uppercase tracking-widest">{res.type}</span>
-                                    <span className="text-[10px] font-bold text-slate-300">{res.size}</span>
+                                    <span className="px-2 py-0.5 bg-slate-100 text-base font-black text-slate-500 rounded uppercase tracking-widest">{res.type}</span>
+                                    <span className="text-base font-bold text-slate-300">{res.size}</span>
                                 </div>
                             </div>
 

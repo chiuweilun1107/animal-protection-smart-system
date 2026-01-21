@@ -44,7 +44,7 @@ export function WorkflowsPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <div className="text-[10px] font-black text-yellow-600 uppercase tracking-[0.3em] mb-2">流程引擎</div>
+          <div className="text-base font-black text-yellow-600 uppercase tracking-[0.3em] mb-2">流程引擎</div>
           <h1 className="text-5xl font-black tracking-tighter text-slate-900 uppercase">業務工作流</h1>
         </div>
         <button className="px-8 py-4 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-slate-900/20 hover:bg-yellow-500 transition-all flex items-center gap-2">
@@ -57,7 +57,7 @@ export function WorkflowsPage() {
         <div className="lg:col-span-4 space-y-6">
           <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-xl shadow-slate-200/40 overflow-hidden">
             <div className="px-8 py-6 border-b border-slate-50 bg-slate-50/50">
-              <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">活躍登記簿</h3>
+              <h3 className="text-base font-black text-slate-400 uppercase tracking-widest">活躍登記簿</h3>
             </div>
             <div className="divide-y divide-slate-50">
               {workflows.map(wf => (
@@ -72,7 +72,7 @@ export function WorkflowsPage() {
                       <p className={`font-black text-sm uppercase tracking-tight ${selectedWorkflow?.id === wf.id ? 'text-slate-900' : 'text-slate-500'}`}>
                         {wf.name}
                       </p>
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">
+                      <p className="text-base font-black text-slate-400 uppercase tracking-widest mt-1">
                         ID: {wf.id} • {wf.type}
                       </p>
                     </div>
@@ -111,11 +111,11 @@ export function WorkflowsPage() {
                 <div className="space-y-1">
                   <div className="flex items-center gap-3">
                     <h2 className="text-3xl font-black tracking-tighter text-slate-900 uppercase">{selectedWorkflow.name}</h2>
-                    <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest ${selectedWorkflow.isActive ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-slate-100 text-slate-400'}`}>
+                    <span className={`px-3 py-1 rounded-full text-base font-black uppercase tracking-widest ${selectedWorkflow.isActive ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-slate-100 text-slate-400'}`}>
                       {selectedWorkflow.isActive ? '運行中' : '未啟用'}
                     </span>
                   </div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                  <p className="text-base font-black text-slate-400 uppercase tracking-widest">
                     為 {selectedWorkflow.type} 級別實體編譯
                   </p>
                 </div>
@@ -150,7 +150,7 @@ export function WorkflowsPage() {
                         {step.requiredFields && step.requiredFields.length > 0 && (
                           <div className="flex flex-wrap gap-2">
                             {step.requiredFields.map(field => (
-                              <span key={field} className="px-3 py-1 bg-white border border-slate-200 rounded-lg text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                              <span key={field} className="px-3 py-1 bg-white border border-slate-200 rounded-lg text-base font-black text-slate-400 uppercase tracking-widest">
                                 必填: {field}
                               </span>
                             ))}

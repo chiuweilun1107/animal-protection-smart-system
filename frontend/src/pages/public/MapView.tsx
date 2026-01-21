@@ -310,10 +310,10 @@ export const MapView: React.FC = () => {
                     </Link>
                     <div>
                         <div className="hidden md:flex items-center gap-2 mb-1">
-                            <div className="bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-widest border border-blue-500/20">
+                            <div className="bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded text-base font-black uppercase tracking-widest border border-blue-500/20">
                                 LIVE MAP SYSTEM
                             </div>
-                            <div className="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-widest border border-emerald-500/20">
+                            <div className="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded text-base font-black uppercase tracking-widest border border-emerald-500/20">
                                 {filteredCases.length} ACTIVE CASES
                             </div>
                         </div>
@@ -420,7 +420,7 @@ export const MapView: React.FC = () => {
                     {showLegend ? (
                         <div className="bg-slate-900/90 backdrop-blur-md p-6 rounded-[2rem] shadow-2xl border border-white/10 min-w-[240px] animate-in fade-in slide-in-from-bottom-4">
                             <div className="flex items-center justify-between mb-4">
-                                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">即時狀態圖例</h3>
+                                <h3 className="text-base font-black text-slate-400 uppercase tracking-[0.2em]">即時狀態圖例</h3>
                                 <button
                                     onClick={() => setShowLegend(false)}
                                     className="p-1 hover:bg-white/10 rounded-lg text-slate-400 hover:text-white transition-colors"
@@ -469,7 +469,7 @@ export const MapView: React.FC = () => {
                                 <div className="flex items-center justify-between mb-4">
                                     <div>
                                         <h3 className="text-sm font-black text-slate-900 tracking-tight">快速通報</h3>
-                                        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Quick Report</p>
+                                        <p className="text-base text-slate-500 font-bold uppercase tracking-widest">Quick Report</p>
                                     </div>
                                     <button
                                         onClick={() => setShowQuickReport(false)}
@@ -494,20 +494,20 @@ export const MapView: React.FC = () => {
                                             className="p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 hover:border-slate-300 transition-all text-center"
                                         >
                                             <div className="text-xs font-black text-slate-900 mb-1">一般救援</div>
-                                            <div className="text-[10px] text-slate-500 font-medium">動物受傷或受困</div>
+                                            <div className="text-base text-slate-500 font-medium">動物受傷或受困</div>
                                         </Link>
                                         <Link
                                             to="/report/bee"
                                             className="p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 hover:border-slate-300 transition-all text-center"
                                         >
                                             <div className="text-xs font-black text-slate-900 mb-1">捕蜂抓蛇</div>
-                                            <div className="text-[10px] text-slate-500 font-medium">蜂蛇移除勤務</div>
+                                            <div className="text-base text-slate-500 font-medium">蜂蛇移除勤務</div>
                                         </Link>
                                     </div>
 
                                     <div className="flex items-center gap-2 pt-2 border-t border-slate-100">
                                         <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                                        <span className="text-[10px] font-bold text-slate-400">已啟動定位，支援即時通報</span>
+                                        <span className="text-base font-bold text-slate-400">已啟動定位，支援即時通報</span>
                                     </div>
                                 </div>
                             </div>

@@ -86,7 +86,7 @@ export const Status: React.FC = () => {
     }, [searchParams]);
 
     return (
-        <div className="min-h-screen bg-slate-50 pb-40 relative overflow-hidden">
+        <div className="min-h-screen bg-slate-50 pt-12 md:pt-16 pb-40 relative overflow-hidden">
             {/* Layered Background */}
             <div className="fixed inset-0 bg-gradient-to-b from-blue-50/30 via-transparent to-slate-50/50 pointer-events-none"></div>
             <div className="fixed inset-0 opacity-[0.015]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgb(51 65 85) 1px, transparent 0)', backgroundSize: '32px 32px' }}></div>
@@ -98,9 +98,9 @@ export const Status: React.FC = () => {
             <div className="relative z-10 pt-32 px-6">
                 <div className="max-w-6xl mx-auto">
                     {/* Header Command Area */}
-                    <div className="flex flex-col lg:flex-row items-end justify-between gap-12 mb-20 animate-in fade-in slide-in-from-bottom-10 duration-1000">
+                    <div className="flex flex-col lg:flex-row items-end justify-between gap-12 mb-12 animate-in fade-in slide-in-from-bottom-10 duration-1000">
                         <div className="max-w-2xl">
-                            <Link to="/" className="inline-flex items-center gap-3 px-6 py-3 bg-slate-100 rounded-xl border border-slate-200 text-slate-600 font-black text-[10px] uppercase tracking-[0.2em] hover:bg-slate-900 hover:text-white transition-all mb-10">
+                            <Link to="/" className="inline-flex items-center gap-3 px-6 py-3 bg-slate-100 rounded-xl border border-slate-200 text-slate-600 font-black text-base uppercase tracking-[0.2em] hover:bg-slate-900 hover:text-white transition-all mb-6">
                                 BACK TO PORTAL
                             </Link>
                             <h1 className="text-7xl md:text-8xl font-black tracking-tighter text-slate-950 leading-[0.85] uppercase">
@@ -144,11 +144,11 @@ export const Status: React.FC = () => {
                             <div className="lg:col-span-12">
                                 <div className="bg-white rounded-[4rem] border border-slate-100 shadow-2xl p-10 md:p-16 flex flex-col md:flex-row items-center gap-16 relative overflow-hidden">
                                     <div className="relative z-10 flex flex-col items-center md:items-start text-center md:text-left border-r-0 md:border-r border-slate-100 pr-0 md:pr-16 md:min-w-[300px]">
-                                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-widest mb-8 border border-blue-100 shadow-sm">
+                                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-base font-black uppercase tracking-widest mb-8 border border-blue-100 shadow-sm">
                                             LIVE STATUS
                                         </div>
                                         <h2 className="text-6xl font-black tracking-tighter text-slate-900 mb-2 uppercase leading-none">{result.id}</h2>
-                                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] mb-10 pl-1">CASE IDENTIFIER</div>
+                                        <div className="text-base font-black text-slate-400 uppercase tracking-[0.4em] mb-10 pl-1">CASE IDENTIFIER</div>
 
                                         <div className={`px-10 py-6 rounded-3xl font-black text-3xl tracking-tighter uppercase shadow-xl ${result.status === 'processing' ? 'bg-blue-600 text-white shadow-blue-600/30' : 'bg-slate-900 text-white'}`}>
                                             {result.status === 'processing' ? '執行中任務' : result.status === 'resolved' ? '已結案' : '待處理'}
@@ -158,17 +158,17 @@ export const Status: React.FC = () => {
                                     <div className="flex-1 space-y-10 relative z-10">
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                                             <div className="space-y-3">
-                                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">地理位置</p>
+                                                <p className="text-base font-black text-slate-400 uppercase tracking-widest">地理位置</p>
                                                 <p className="text-xl font-black text-slate-900 leading-tight">{result.location}</p>
                                             </div>
                                             <div className="space-y-3">
-                                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">通報時間</p>
+                                                <p className="text-base font-black text-slate-400 uppercase tracking-widest">通報時間</p>
                                                 <p className="text-xl font-black text-slate-900">{result.createDate}</p>
                                             </div>
                                         </div>
                                         <div className="p-8 bg-slate-50 rounded-[2.5rem] border border-slate-100 relative group overflow-hidden transition-all hover:bg-white hover:border-blue-100 cursor-default">
                                             <div className="relative z-10">
-                                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">情況摘要</p>
+                                                <p className="text-base font-black text-slate-400 uppercase tracking-widest mb-4">情況摘要</p>
                                                 <p className="text-lg font-medium text-slate-600 leading-relaxed italic">{result.description}</p>
                                             </div>
                                             <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/5 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -187,7 +187,7 @@ export const Status: React.FC = () => {
                                         <h3 className="text-xs font-black text-slate-900 uppercase tracking-[0.5em] flex items-center gap-4">
                                             歷程紀錄
                                         </h3>
-                                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">REAL-TIME UPDATES</div>
+                                        <div className="text-base font-black text-slate-400 uppercase tracking-widest">REAL-TIME UPDATES</div>
                                     </div>
 
                                     <div className="space-y-0 relative z-10">
@@ -212,7 +212,7 @@ export const Status: React.FC = () => {
                                                 <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-20">
                                                     <div className="md:w-40 py-1">
                                                         <div className={`text-sm font-black tracking-widest uppercase ${item.done ? 'text-slate-900' : 'text-slate-300'}`}>{item.date}</div>
-                                                        <div className={`text-[10px] font-black uppercase tracking-widest mt-1 ${item.done ? 'text-blue-400' : 'text-slate-200'}`}>{item.time}</div>
+                                                        <div className={`text-base font-black uppercase tracking-widest mt-1 ${item.done ? 'text-blue-400' : 'text-slate-200'}`}>{item.time}</div>
                                                     </div>
                                                     <div className="flex-1 bg-slate-50/50 p-8 rounded-[2rem] border border-transparent group-hover:border-slate-100 group-hover:bg-white transition-all">
                                                         <h4 className={`text-xl font-black tracking-tight mb-3 uppercase ${item.done ? 'text-slate-900' : 'text-slate-300'}`}>{item.title}</h4>
@@ -220,7 +220,7 @@ export const Status: React.FC = () => {
                                                     </div>
                                                     {item.done && (
                                                         <div className="hidden lg:flex shrink-0 mt-8">
-                                                            <div className="flex items-center gap-2 text-blue-600 font-black text-[10px] uppercase tracking-[0.3em] bg-blue-50 px-6 py-2 rounded-full border border-blue-100">
+                                                            <div className="flex items-center gap-2 text-blue-600 font-black text-base uppercase tracking-[0.3em] bg-blue-50 px-6 py-2 rounded-full border border-blue-100">
                                                                 VERIFIED
                                                             </div>
                                                         </div>
@@ -236,7 +236,7 @@ export const Status: React.FC = () => {
                             </div>
 
                             <div className="lg:col-span-12">
-                                <Link to="/" className="w-full py-8 bg-white border border-slate-100 rounded-[3rem] text-slate-400 font-black text-[10px] uppercase tracking-[0.3em] hover:bg-slate-900 hover:text-white transition-all shadow-xl shadow-slate-200/20 flex items-center justify-center gap-4">
+                                <Link to="/" className="w-full py-8 bg-white border border-slate-100 rounded-[3rem] text-slate-400 font-black text-base uppercase tracking-[0.3em] hover:bg-slate-900 hover:text-white transition-all shadow-xl shadow-slate-200/20 flex items-center justify-center gap-4">
                                     EXIT SYSTEM
                                 </Link>
                             </div>

@@ -90,12 +90,12 @@ export const Report: React.FC = () => {
                 </div>
             )}
 
-            <div className="relative z-10 px-6 pt-20 md:pt-24">
+            <div className="relative z-10 px-6 pt-12 md:pt-16">
                 <div className="max-w-4xl mx-auto">
                     {/* Header */}
-                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 animate-in fade-in slide-in-from-bottom-10 duration-1000">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12 animate-in fade-in slide-in-from-bottom-10 duration-1000">
                         <div>
-                            <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.3em] mb-6 border ${isEmergency ? 'bg-red-50 text-red-600 border-red-100' :
+                            <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-base font-black uppercase tracking-[0.3em] mb-4 border ${isEmergency ? 'bg-red-50 text-red-600 border-red-100' :
                                 isBee ? 'bg-orange-50 text-orange-600 border-orange-100' :
                                     'bg-blue-50 text-blue-600 border-blue-100'
                                 }`}>
@@ -127,7 +127,7 @@ export const Report: React.FC = () => {
                                         type="button"
                                         onClick={handleGeoDetect}
                                         disabled={isDetecting}
-                                        className={`px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 ${isDetecting
+                                        className={`px-8 py-3 rounded-2xl text-base font-black uppercase tracking-widest transition-all flex items-center gap-2 ${isDetecting
                                             ? 'bg-blue-500 text-white cursor-wait'
                                             : detectionSuccess
                                                 ? 'bg-emerald-500 text-white'
@@ -156,7 +156,7 @@ export const Report: React.FC = () => {
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                             </svg>
                                             <div className="flex-1">
-                                                <div className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">偵測到的位置</div>
+                                                <div className="text-base font-black text-emerald-600 uppercase tracking-widest mb-1">偵測到的位置</div>
                                                 <div className="text-sm font-bold text-slate-900">{detectedLocation}</div>
                                                 <div className="text-xs text-slate-500 mt-1">地址已自動填入下方表單</div>
                                             </div>
@@ -167,7 +167,7 @@ export const Report: React.FC = () => {
                                 <div className="space-y-8">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                         <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">通報區域</label>
+                                            <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">通報區域</label>
                                             <select
                                                 value={region}
                                                 onChange={(e) => setRegion(e.target.value)}
@@ -180,7 +180,7 @@ export const Report: React.FC = () => {
                                             </select>
                                         </div>
                                         <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">精確地址</label>
+                                            <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">精確地址</label>
                                             <input
                                                 type="text"
                                                 value={address}
@@ -204,7 +204,7 @@ export const Report: React.FC = () => {
 
                                 <div className="space-y-8">
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">具體情況描述</label>
+                                        <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">具體情況描述</label>
                                         <textarea
                                             rows={4}
                                             value={description}
@@ -216,7 +216,7 @@ export const Report: React.FC = () => {
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                         <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">聯絡人姓名 (選填)</label>
+                                            <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">聯絡人姓名 (選填)</label>
                                             <input
                                                 type="text"
                                                 value={contactName}
@@ -225,7 +225,7 @@ export const Report: React.FC = () => {
                                             />
                                         </div>
                                         <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">手機聯絡電話</label>
+                                            <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">手機聯絡電話</label>
                                             <input
                                                 type="tel"
                                                 value={phone}
@@ -246,7 +246,7 @@ export const Report: React.FC = () => {
                                         <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold text-sm">03</div>
                                         視覺影像上傳
                                     </h2>
-                                    <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest flex items-center gap-2">
+                                    <span className="text-base font-black text-slate-300 uppercase tracking-widest flex items-center gap-2">
                                         ENCRYPTED CHANNEL
                                     </span>
                                 </div>
@@ -270,7 +270,7 @@ export const Report: React.FC = () => {
                                                 CHANGE PHOTO
                                             </div>
                                         </div>
-                                        <div className="absolute top-6 right-6 px-4 py-1.5 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg">
+                                        <div className="absolute top-6 right-6 px-4 py-1.5 bg-blue-600 text-white text-base font-black uppercase tracking-widest rounded-full shadow-lg">
                                             UPLOADED
                                         </div>
                                     </div>
@@ -314,7 +314,7 @@ export const Report: React.FC = () => {
                     </form>
 
                     <div className="mt-20 text-center">
-                        <p className="text-slate-300 text-[10px] font-black uppercase tracking-[0.4em]">
+                        <p className="text-slate-300 text-base font-black uppercase tracking-[0.4em]">
                             End-to-End Encryption Secured • Citizens Protection Protocol
                         </p>
                     </div>

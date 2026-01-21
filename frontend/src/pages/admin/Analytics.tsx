@@ -64,14 +64,14 @@ export function AnalyticsPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <div className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.3em] mb-2">統計引擎</div>
+          <div className="text-base font-black text-indigo-600 uppercase tracking-[0.3em] mb-2">統計引擎</div>
           <h1 className="text-5xl font-black tracking-tighter text-slate-900 uppercase">分析</h1>
         </div>
         <div className="flex items-center gap-4">
           <select
             value={dateRange}
             onChange={(e) => setDateRange(e.target.value)}
-            className="px-6 py-4 bg-white border border-slate-100 rounded-2xl font-black text-[10px] uppercase tracking-widest text-slate-900 shadow-sm outline-none focus:ring-2 focus:ring-indigo-600"
+            className="px-6 py-4 bg-white border border-slate-100 rounded-2xl font-black text-base uppercase tracking-widest text-slate-900 shadow-sm outline-none focus:ring-2 focus:ring-indigo-600"
           >
             <option value="week">Past 7 Days</option>
             <option value="month">Past 30 Days</option>
@@ -96,10 +96,10 @@ export function AnalyticsPage() {
               <div className={`w-12 h-12 ${kpi.bg} ${kpi.color} rounded-2xl flex items-center justify-center mb-6 shadow-sm`}>
                 <kpi.icon size={24} />
               </div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{kpi.label}</p>
+              <p className="text-base font-black text-slate-400 uppercase tracking-widest mb-1">{kpi.label}</p>
               <div className="flex items-baseline gap-3">
                 <h3 className="text-4xl font-black tracking-tighter text-slate-900">{kpi.value}</h3>
-                <div className={`flex items-center text-[10px] font-black ${kpi.trend.startsWith('+') ? 'text-emerald-500' : 'text-rose-500'}`}>
+                <div className={`flex items-center text-base font-black ${kpi.trend.startsWith('+') ? 'text-emerald-500' : 'text-rose-500'}`}>
                   {kpi.trend.startsWith('+') ? <ArrowUpRight size={12} /> : <ArrowDownRight size={12} />}
                   {kpi.trend}
                 </div>
@@ -129,12 +129,12 @@ export function AnalyticsPage() {
                       </div>
                       <div>
                         <p className="font-black text-xs uppercase tracking-widest text-slate-900">{item.name}</p>
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Global Status Node</p>
+                        <p className="text-base font-black text-slate-400 uppercase tracking-widest">Global Status Node</p>
                       </div>
                     </div>
                     <div className="text-right">
                       <span className="text-2xl font-black text-slate-900 tabular-nums">{item.count}</span>
-                      <span className="text-[10px] font-black text-slate-400 uppercase ml-2 tracking-widest">Units</span>
+                      <span className="text-base font-black text-slate-400 uppercase ml-2 tracking-widest">Units</span>
                     </div>
                   </div>
                   <div className="w-full h-4 bg-slate-50 rounded-full overflow-hidden p-1 border border-slate-100">
@@ -150,10 +150,10 @@ export function AnalyticsPage() {
             <div className="mt-16 pt-10 border-t border-slate-50 grid grid-cols-2 md:grid-cols-4 gap-6">
               {typeDistribution.map((t, idx) => (
                 <div key={idx} className="space-y-1">
-                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">{t.name}</p>
+                  <p className="text-base font-black text-slate-400 uppercase tracking-widest leading-none">{t.name}</p>
                   <div className="flex items-center gap-2">
                     <span className="text-xl font-black text-slate-900 tabular-nums">{t.count}</span>
-                    <span className={`text-[8px] font-black p-0.5 rounded ${t.up ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
+                    <span className={`text-base font-black p-0.5 rounded ${t.up ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
                       {t.trend}
                     </span>
                   </div>
@@ -197,11 +197,11 @@ export function AnalyticsPage() {
                     <TrendingUp size={20} />
                   </div>
                   <div>
-                    <p className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Prediction Engine</p>
+                    <p className="text-base font-black text-indigo-400 uppercase tracking-widest">Prediction Engine</p>
                     <p className="text-sm font-black uppercase tracking-tight">+15% Volume Next Quarter</p>
                   </div>
                 </div>
-                <p className="text-[10px] text-slate-500 leading-relaxed italic">Neural analysis suggests increased reporting density in eastern sectors due to seasonal shifts.</p>
+                <p className="text-base text-slate-500 leading-relaxed italic">Neural analysis suggests increased reporting density in eastern sectors due to seasonal shifts.</p>
               </div>
             </div>
             <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-600/10 rounded-full blur-[100px]"></div>

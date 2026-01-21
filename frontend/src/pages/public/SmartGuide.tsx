@@ -17,7 +17,7 @@ const ChoiceCard: React.FC<{
     >
         <div className="relative z-10">
             {label && (
-                <div className={`inline-block px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest mb-6 ${warning ? 'bg-rose-50 text-rose-600' : 'bg-blue-50 text-blue-600'}`}>
+                <div className={`inline-block px-4 py-1.5 rounded-full text-base font-black uppercase tracking-widest mb-6 ${warning ? 'bg-rose-50 text-rose-600' : 'bg-blue-50 text-blue-600'}`}>
                     {label}
                 </div>
             )}
@@ -40,7 +40,7 @@ export const SmartGuide: React.FC = () => {
                 return (
                     <div className="animate-in fade-in slide-in-from-bottom-10 duration-1000">
                         <div className="max-w-4xl mx-auto">
-                            <div className="inline-block px-4 py-2 bg-blue-500/10 text-blue-600 border border-blue-200 rounded-full text-[10px] font-black uppercase tracking-[0.4em] mb-10">
+                            <div className="inline-block px-4 py-2 bg-blue-500/10 text-blue-600 border border-blue-200 rounded-full text-base font-black uppercase tracking-[0.4em] mb-10">
                                 智慧通報引導方案
                             </div>
                             <h2 className="text-6xl md:text-7xl font-black tracking-tighter text-slate-900 leading-[0.9] mb-12 uppercase">
@@ -72,7 +72,7 @@ export const SmartGuide: React.FC = () => {
                 return (
                     <div className="animate-in fade-in slide-in-from-right-10 duration-700">
                         <div className="max-w-4xl mx-auto">
-                            <button onClick={() => goTo('start')} className="mb-12 text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-slate-900 transition-all flex items-center gap-2">
+                            <button onClick={() => goTo('start')} className="mb-12 text-base font-black text-slate-400 uppercase tracking-widest hover:text-slate-900 transition-all flex items-center gap-2">
                                 返回上一步
                             </button>
                             <h2 className="text-5xl font-black tracking-tighter text-slate-900 mb-6 uppercase">動物狀況評估</h2>
@@ -107,7 +107,7 @@ export const SmartGuide: React.FC = () => {
                 return (
                     <div className="animate-in fade-in slide-in-from-right-10 duration-700">
                         <div className="max-w-4xl mx-auto">
-                            <button onClick={() => goTo('start')} className="mb-12 text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-slate-900 transition-all flex items-center gap-2">
+                            <button onClick={() => goTo('start')} className="mb-12 text-base font-black text-slate-400 uppercase tracking-widest hover:text-slate-900 transition-all flex items-center gap-2">
                                 返回上一步
                             </button>
                             <h2 className="text-5xl font-black tracking-tighter text-slate-900 mb-6 uppercase">危害類型評估</h2>
@@ -150,7 +150,7 @@ export const SmartGuide: React.FC = () => {
                                 基於您的描述，當前情況被判定為「極高危險」。請立即撥打動保 24 小時專線進行即時調度。
                             </p>
                             <div className="flex flex-col items-center gap-6">
-                                <div className="text-[10px] font-black text-rose-400 uppercase tracking-[0.4em]">緊急調渡熱線</div>
+                                <div className="text-base font-black text-rose-400 uppercase tracking-[0.4em]">緊急調渡熱線</div>
                                 <div className="text-8xl font-black text-rose-600 tracking-tighter">1959</div>
                             </div>
                             <div className="mt-20 flex flex-wrap justify-center gap-6">
@@ -182,13 +182,13 @@ export const SmartGuide: React.FC = () => {
 
             {/* Global Overlay Elements */}
             <div className="fixed top-10 left-10 flex flex-col">
-                <Link to="/" className="text-[10px] font-black text-slate-400 uppercase tracking-[0.5em] hover:text-blue-600 transition-all">
+                <Link to="/" className="text-base font-black text-slate-400 uppercase tracking-[0.5em] hover:text-blue-600 transition-all">
                     EXIT GUIDE
                 </Link>
             </div>
 
             <div className="fixed bottom-10 right-10 text-right">
-                <p className="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">
+                <p className="text-base font-black text-slate-300 uppercase tracking-[0.3em]">
                     SYSTEM PROTOCOL: {currentStep.toUpperCase().replace(/_/g, ' ')}
                 </p>
             </div>
