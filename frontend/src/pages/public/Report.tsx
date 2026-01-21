@@ -90,7 +90,7 @@ export const Report: React.FC = () => {
                 </div>
             )}
 
-            <div className="relative z-10 px-6 pt-32 md:pt-40">
+            <div className="relative z-10 px-6 pt-20 md:pt-24">
                 <div className="max-w-4xl mx-auto">
                     {/* Header */}
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 animate-in fade-in slide-in-from-bottom-10 duration-1000">

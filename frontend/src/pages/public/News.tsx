@@ -53,7 +53,7 @@ const NEWS_ARTICLES = [
 
 export const News: React.FC = () => {
     return (
-        <div className="min-h-screen bg-slate-50 pt-32 pb-20 px-6 relative overflow-hidden">
+        <div className="min-h-screen bg-slate-50 pt-20 md:pt-24 pb-40 relative overflow-hidden">
             {/* Layered Background */}
             <div className="fixed inset-0 bg-gradient-to-b from-blue-50/30 via-transparent to-slate-50/50 pointer-events-none"></div>
             <div className="fixed inset-0 opacity-[0.015]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgb(51 65 85) 1px, transparent 0)', backgroundSize: '32px 32px' }}></div>
