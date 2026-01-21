@@ -16,8 +16,29 @@ export const MapView: React.FC = () => {
     const [notification, setNotification] = useState<{ id: string; type: string; location: string } | null>(null);
     const [mapCenter, setMapCenter] = useState<[number, number]>([25.012, 121.465]);
     const [mapZoom, setMapZoom] = useState<number>(14);
-    const [showLegend, setShowLegend] = useState(false);
-    const [showQuickReport, setShowQuickReport] = useState(false);
+    const [showLegend, setShowLegend] = useState(() => typeof window !== 'undefined' ? window.innerWidth >= 768 : false);
+    const [showQuickReport, setShowQuickReport] = useState(() => typeof window !== 'undefined' ? window.innerWidth >= 768 : false);
+
+    useEffect(() => {
+        const handleResize = () => {
+            const isDesktop = window.innerWidth >= 768;
+            // Only update if the logic requires specific behavior change, 
+            // but usually we just want the initial state to be correct.
+            // If we want it to be fully reactive (auto-expand when resized to desktop):
+            if (isDesktop) {
+                setShowLegend(true);
+                setShowQuickReport(true);
+            } else {
+                // Optional: Auto-collapse when resizing down to mobile?
+                // Often better to leave it alone if user opened it, but for strict "adaptive" feel:
+                setShowLegend(false);
+                setShowQuickReport(false);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     useEffect(() => {
         const handleOpenDispatch = (e: CustomEvent<{ id: string; title: string }>) => {

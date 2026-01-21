@@ -10,13 +10,13 @@ import type { Case } from '../../types/schema';
 
 export function ReportsPage() {
   const [searchParams] = useSearchParams();
-  const urlPriority = searchParams.get('priority') || '';
+  const urlPriority = searchParams.get('priority');
 
   const [reportType, setReportType] = useState('inspection');
   const [startDate, setStartDate] = useState('2023-11-01');
   const [endDate, setEndDate] = useState('2023-11-30');
   const [caseStatus, setCaseStatus] = useState('');
-  const [casePriority, setCasePriority] = useState(urlPriority);
+  const [casePriority, setCasePriority] = useState(urlPriority || '');
   const [loading, setLoading] = useState(false);
   const [reportData, setReportData] = useState<any>(null);
 
@@ -51,6 +51,7 @@ export function ReportsPage() {
         const filters: any = {};
         if (urlPriority) {
           filters.priority = urlPriority;
+          setCasePriority(urlPriority);
         }
         const data = await mockApi.generateReport(reportType, filters);
         setReportData(data);
@@ -62,7 +63,7 @@ export function ReportsPage() {
     };
 
     generateInitialReport();
-  }, [urlPriority]);
+  }, [urlPriority, reportType]);
 
   const handleDownload = (format: string) => {
     alert(`Initiating ${format.toUpperCase()} Protocol Download...`);

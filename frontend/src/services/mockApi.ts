@@ -547,7 +547,18 @@ export const mockApi = {
     // ===== 報表 =====
     generateReport: async (type: string, filters?: any) => {
         await delay(1200);
-        const filteredCases = mockCases.filter(c => !filters || Object.entries(filters).every(([k, v]) => (c as any)[k] === v));
+        let filteredCases = [...mockCases];
+
+        // 應用過濾條件
+        if (filters?.priority) {
+            filteredCases = filteredCases.filter(c => c.priority === filters.priority);
+        }
+        if (filters?.status) {
+            filteredCases = filteredCases.filter(c => c.status === filters.status);
+        }
+        if (filters?.type) {
+            filteredCases = filteredCases.filter(c => c.type === filters.type);
+        }
 
         // 統計數據
         const totalCases = filteredCases.length;
