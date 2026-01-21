@@ -16,7 +16,8 @@
       "Bash(mdls:*)",
       "Bash(curl:*)",
       "Bash(wc:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(lsof:*)"
     ]
   }
 }

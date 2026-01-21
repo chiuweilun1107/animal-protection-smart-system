@@ -349,34 +349,50 @@ export const MapView: React.FC = () => {
                 </div>
 
 
-                {/* Location Info Widget */}
+                {/* Quick Report Widget */}
                 <div className="absolute bottom-6 right-6 bg-white/95 backdrop-blur-md p-6 rounded-[2rem] shadow-2xl z-[1000] border border-slate-200 min-w-[280px]">
                     <div className="space-y-4">
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 mb-4">
                             <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
                                 <MapPin size={20} />
                             </div>
                             <div>
-                                <h3 className="text-sm font-black text-slate-900 tracking-tight">定位資訊</h3>
-                                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Location Status</p>
+                                <h3 className="text-sm font-black text-slate-900 tracking-tight">快速通報</h3>
+                                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Quick Report</p>
                             </div>
                         </div>
 
-                        <div className="space-y-2">
-                            <div className="flex items-center justify-between py-2 px-3 bg-slate-50 rounded-xl">
-                                <span className="text-xs font-bold text-slate-600">GPS 狀態</span>
-                                <div className="flex items-center gap-2">
-                                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-                                    <span className="text-xs font-black text-emerald-600">已啟用</span>
-                                </div>
+                        <div className="space-y-3">
+                            <Link
+                                to="/smart-guide"
+                                className="flex items-center justify-between w-full bg-blue-600 hover:bg-blue-500 transition-all p-4 rounded-2xl shadow-lg"
+                            >
+                                <span className="text-sm font-black text-white tracking-tight">啟動智能引導報案</span>
+                                <ArrowLeft size={16} className="text-white rotate-180" />
+                            </Link>
+
+                            <div className="grid grid-cols-2 gap-3">
+                                <Link
+                                    to="/report/general"
+                                    className="p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 hover:border-slate-300 transition-all"
+                                >
+                                    <div className="text-xs font-black text-slate-900 mb-1">一般救援</div>
+                                    <div className="text-[10px] text-slate-500 font-medium">動物受傷或受困</div>
+                                </Link>
+                                <Link
+                                    to="/report/bee"
+                                    className="p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 hover:border-slate-300 transition-all"
+                                >
+                                    <div className="text-xs font-black text-slate-900 mb-1">捕蜂抓蛇</div>
+                                    <div className="text-[10px] text-slate-500 font-medium">蜂蛇移除勤務</div>
+                                </Link>
                             </div>
-                            <div className="flex items-center justify-between py-2 px-3 bg-slate-50 rounded-xl">
-                                <span className="text-xs font-bold text-slate-600">精確度</span>
-                                <span className="text-xs font-black text-slate-900">±5 公尺</span>
-                            </div>
-                            <div className="flex items-center justify-between py-2 px-3 bg-slate-50 rounded-xl">
-                                <span className="text-xs font-bold text-slate-600">當前位置</span>
-                                <span className="text-xs font-black text-slate-900">新北市板橋區</span>
+                        </div>
+
+                        <div className="pt-3 border-t border-slate-200">
+                            <div className="flex items-center gap-2 text-[10px] text-slate-500 font-medium">
+                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                                系統在線，支援即時通報
                             </div>
                         </div>
                     </div>
