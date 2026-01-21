@@ -1,6 +1,8 @@
-import React, { useEffect, ReactNode } from 'react';
+import React, { useEffect, useState } from 'react';
+import type { ReactNode } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, FileText, Settings, LogOut, Shield, Users, Zap, BarChart3, FileCheck, Lock, GitBranch } from 'lucide-react';
+import { LayoutDashboard, FileText, Settings, LogOut, Shield, Users, Zap, BarChart3, FileCheck, Lock, GitBranch, ChevronDown } from 'lucide-react';
+import { mockApi } from '../../services/mockApi';
 
 interface AdminLayoutProps {
     children?: ReactNode;
@@ -8,6 +10,8 @@ interface AdminLayoutProps {
 
 export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     const navigate = useNavigate();
+    const [expandedMenus, setExpandedMenus] = useState<Set<string>>(new Set(['cases']));
+    const [detailedCaseMenu, setDetailedCaseMenu] = useState<Record<string, any>>({});
 
     useEffect(() => {
         // Simple mock auth guard
@@ -16,15 +20,64 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         }
     }, [navigate]);
 
+    useEffect(() => {
+        // Load detailed case menu
+        loadDetailedCaseMenu();
+    }, []);
+
+    const loadDetailedCaseMenu = async () => {
+        try {
+            const menu = await mockApi.getDetailedCaseMenu();
+            setDetailedCaseMenu(menu);
+        } catch (error) {
+            console.error('Failed to load detailed case menu:', error);
+        }
+    };
+
+    const toggleMenu = (menuId: string) => {
+        const newExpanded = new Set(expandedMenus);
+        if (newExpanded.has(menuId)) {
+            newExpanded.delete(menuId);
+        } else {
+            newExpanded.add(menuId);
+        }
+        setExpandedMenus(newExpanded);
+    };
+
     const handleLogout = () => {
         localStorage.removeItem('auth_token');
         localStorage.removeItem('auth_role');
         navigate('/login');
     };
 
+    // 定義詳細的菜單項順序
+    const caseMenuOrder = [
+        'all', 'attention',
+        'receipt_pending', 'receipt_authorized',
+        'assignment_assigned',
+        'undertaker_pending', 'undertaker_processing', 'undertaker_transferred', 'undertaker_overdue',
+        'public_completed',
+        'resolved', 'rejected'
+    ];
+
+    const caseMenuLabels: Record<string, string> = {
+        'all': '全部案件',
+        'attention': '關注案件',
+        'receipt_pending': '收簽-待簽收',
+        'receipt_authorized': '收簽-已授理',
+        'assignment_assigned': '分派-已分派',
+        'undertaker_pending': '承辦-待簽收',
+        'undertaker_processing': '承辦-處理中',
+        'undertaker_transferred': '承辦-轉移中',
+        'undertaker_overdue': '承辦-超期',
+        'public_completed': '公文-待審核',
+        'resolved': '已結案',
+        'rejected': '責撤'
+    };
+
     const navItems = [
         { to: '/admin/dashboard', icon: LayoutDashboard, label: '總覽儀表板', category: '系統' },
-        { to: '/admin/cases', icon: FileText, label: '案件管理', category: '核心業務' },
+        { to: '/admin/cases', icon: FileText, label: '案件管理', category: '核心業務', submenu: true, menuId: 'cases' },
         { to: '/admin/users', icon: Users, label: '用戶管理', category: '系統權限' },
         { to: '/admin/roles', icon: Lock, label: '權限角色', category: '系統權限' },
         { to: '/admin/workflows', icon: GitBranch, label: '工作流程', category: '設置' },
@@ -55,22 +108,81 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                             <div key={category} className="space-y-3">
                                 <p className="text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] px-3">{category}</p>
                                 <div className="space-y-1">
-                                    {items.map((item) => (
-                                        <NavLink
-                                            key={item.to}
-                                            to={item.to}
-                                            className={({ isActive }) => `
-                                                flex items-center gap-3 px-4 py-3 rounded-2xl transition-all text-sm font-bold
-                                                ${isActive
-                                                    ? 'bg-blue-600 text-white shadow-xl shadow-blue-600/20'
-                                                    : 'text-slate-400 hover:text-white hover:bg-slate-900'}
-                                            `}
-                                        >
-                                            <item.icon size={18} />
-                                            <span>{item.label}</span>
-                                        </NavLink>
-                                    ))}
+                                    {items.map((item: any) => {
+                                        const isExpanded = item.menuId && expandedMenus.has(item.menuId);
+                                        const isSubmenu = item.submenu;
+
+                                        if (isSubmenu) {
+                                            return (
+                                                <div key={item.to} className="space-y-1">
+                                                    {/* 主菜單項 - 案件管理 */}
+                                                    <button
+                                                        onClick={() => toggleMenu(item.menuId)}
+                                                        className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-2xl transition-all text-sm font-bold text-slate-400 hover:text-white hover:bg-slate-900"
+                                                    >
+                                                        <div className="flex items-center gap-3">
+                                                            <item.icon size={18} />
+                                                            <span>{item.label}</span>
+                                                        </div>
+                                                        <ChevronDown
+                                                            size={16}
+                                                            className={`transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+                                                        />
+                                                    </button>
+
+                                                    {/* 子菜單項 - 詳細狀態 */}
+                                                    {isExpanded && (
+                                                        <div className="space-y-0.5 pl-2">
+                                                            {caseMenuOrder.map((key) => {
+                                                                const menuItem = detailedCaseMenu[key];
+                                                                const count = menuItem?.count || 0;
+                                                                const label = caseMenuLabels[key];
+
+                                                                return (
+                                                                    <NavLink
+                                                                        key={key}
+                                                                        to={`/admin/cases?filter=${key}`}
+                                                                        className={({ isActive }) => `
+                                                            flex items-center justify-between gap-2 px-3 py-1.5 rounded-lg transition-all text-xs font-semibold
+                                                            ${isActive
+                                                                ? 'bg-blue-600 text-white shadow-lg'
+                                                                : 'text-slate-500 hover:text-white hover:bg-slate-800'}
+                                                        `}
+                                                    >
+                                                        <span className="truncate flex-1">{label}</span>
+                                                        {count > 0 && (
+                                                            <span className={`flex items-center justify-center min-w-5 h-5 text-[9px] font-black rounded-full flex-shrink-0 ${
+                                                                count > 9 ? 'bg-red-600 text-white' : 'bg-orange-500 text-white'
+                                                            }`}>
+                                                                {count > 99 ? '99+' : count}
+                                                            </span>
+                                                        )}
+                                                    </NavLink>
+                                                );
+                                            })}
+                                        </div>
+                                    )}
                                 </div>
+                            );
+                        } else {
+                            return (
+                                <NavLink
+                                    key={item.to}
+                                    to={item.to}
+                                    className={({ isActive }) => `
+                                        flex items-center gap-3 px-4 py-3 rounded-2xl transition-all text-sm font-bold
+                                        ${isActive
+                                            ? 'bg-blue-600 text-white shadow-xl shadow-blue-600/20'
+                                            : 'text-slate-400 hover:text-white hover:bg-slate-900'}
+                                    `}
+                                >
+                                    <item.icon size={18} />
+                                    <span>{item.label}</span>
+                                </NavLink>
+                            );
+                        }
+                    })}
+                </div>
                             </div>
                         ) : null;
                     })}

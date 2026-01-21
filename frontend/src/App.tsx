@@ -34,11 +34,11 @@ function App() {
         <Route path="/report/success" element={<Layout><ReportSuccess /></Layout>} />
         <Route path="/report/:type" element={<Layout><Report /></Layout>} />
         <Route path="/status" element={<Layout><Status /></Layout>} />
-        <Route path="/map" element={<Layout><MapView /></Layout>} />
+        <Route path="/map" element={<MapView />} />
         <Route path="/resources" element={<Layout><Resources /></Layout>} />
         <Route path="/faq" element={<Layout><FAQ /></Layout>} />
         <Route path="/news" element={<Layout><News /></Layout>} />
-        <Route path="/guide" element={<Layout><SmartGuide /></Layout>} />
+        <Route path="/smart-guide" element={<Layout><SmartGuide /></Layout>} />
 
         {/* 登入 */}
         <Route path="/login" element={<AdminLogin />} />

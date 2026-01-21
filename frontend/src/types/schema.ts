@@ -22,7 +22,24 @@ export const reportSchema = z.object({
 export type ReportFormData = z.infer<typeof reportSchema>;
 
 // 後台使用的數據類型
-export type CaseStatus = 'pending' | 'processing' | 'resolved' | 'rejected' | 'archived';
+export type CaseStatus =
+  | 'pending'                    // 待處理
+  | 'authorized'                 // 已授理
+  | 'assigned'                   // 已分派
+  | 'processing'                 // 處理中
+  | 'transferred'                // 轉移中
+  | 'completed'                  // 已完成
+  | 'resolved'                   // 已結案
+  | 'rejected'                   // 責撤
+  | 'overdue'                    // 超期
+  | 'archived';                  // 歸檔
+
+export type CaseWorkflowStage =
+  | 'receipt'                    // 收簽
+  | 'assignment'                 // 分派
+  | 'undertaker'                 // 承辦
+  | 'public'                     // 公文
+
 export type CaseType = 'general' | 'bee' | '1999' | '1959';
 export type CasePriority = 'low' | 'medium' | 'high' | 'critical';
 export type UserRole = 'admin' | 'caseworker' | 'supervisor' | 'public';
@@ -34,6 +51,7 @@ export interface Case {
     type: CaseType;
     title: string;
     status: CaseStatus;
+    workflowStage: CaseWorkflowStage;  // 當前所在工作流階段
     priority: CasePriority;
     date: string;
     location: string;
@@ -43,6 +61,8 @@ export interface Case {
     description: string;
     photos?: string[];
     assignedTo?: string;
+    signedAt?: string;                 // 簽收時間
+    notes?: string;                    // 備註
     createdAt: string;
     updatedAt: string;
     workflowId?: string;

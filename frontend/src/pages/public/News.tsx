@@ -1,5 +1,3 @@
-import React from 'react';
-import { ArrowLeft, ArrowRight, Tag, ShieldAlert, Newspaper } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const NEWS_ARTICLES = [
@@ -60,15 +58,12 @@ export const News: React.FC = () => {
                 {/* Header Container */}
                 <div className="mb-16">
                     <div className="flex items-center gap-4 mb-6">
-                        <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center text-white shadow-xl">
-                            <Newspaper size={24} />
-                        </div>
                         <div className="px-4 py-1.5 rounded-full bg-slate-200 text-slate-600 text-[10px] font-black uppercase tracking-widest">
-                            Official Press & Bulletin
+                            官方新聞與即時通報
                         </div>
                     </div>
                     <h1 className="text-6xl font-black tracking-tighter text-slate-900 leading-none mb-6">
-                        最新公告<span className="text-slate-300 ml-4 font-mono italic text-5xl">News</span>
+                        最新公告
                     </h1>
                     <p className="text-slate-500 text-lg font-medium max-w-2xl leading-relaxed border-l-4 border-slate-200 pl-6">
                         即時發布新北市動物保護政策、緊急通報及各式成果快訊。我們致力於提供最透明、最高效率的資訊服務。
@@ -95,10 +90,8 @@ export const News: React.FC = () => {
                                             {article.summary}
                                         </p>
                                     </div>
-                                    <div className="flex-shrink-0 pt-1 opacity-0 group-hover:opacity-100 transition-all transform translate-x-4 group-hover:translate-x-0 hidden md:block">
-                                        <div className="w-12 h-12 rounded-full border-2 border-slate-900 flex items-center justify-center text-slate-900 group-hover:bg-slate-900 group-hover:text-white transition-all">
-                                            <ArrowRight size={20} />
-                                        </div>
+                                    <div className="flex-shrink-0 pt-1 opacity-0 group-hover:opacity-100 transition-all font-black text-[10px] text-blue-600 tracking-widest hidden md:block group-hover:translate-x-0 translate-x-4">
+                                        READ MORE
                                     </div>
                                 </div>
                             </div>
@@ -108,8 +101,8 @@ export const News: React.FC = () => {
 
                 {/* Footer Actions */}
                 <div className="mt-20 text-center">
-                    <Link to="/" className="inline-flex items-center gap-2 text-slate-400 font-black text-xs uppercase tracking-[0.2em] hover:text-slate-900 transition-colors">
-                        <ArrowLeft size={16} /> 返回首頁門戶
+                    <Link to="/" className="inline-flex items-center gap-2 text-slate-400 font-black text-[10px] uppercase tracking-[0.3em] hover:text-slate-900 transition-colors">
+                        RETURN TO PORTAL
                     </Link>
                 </div>
             </div>

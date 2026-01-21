@@ -6,6 +6,8 @@ import {
     ChevronLeft, ChevronRight, Zap
 } from 'lucide-react';
 import { mockApi } from '../../services/mockApi';
+import { WorkflowSidebar } from '../../components/WorkflowSidebar';
+import { CaseDetailPanel } from '../../components/CaseDetailPanel';
 import type { Case } from '../../types/schema';
 
 export function CaseList() {
@@ -15,6 +17,7 @@ export function CaseList() {
     const [search, setSearch] = useState('');
     const [filterStatus, setFilterStatus] = useState(searchParams.get('status') || 'all');
     const [filterPriority, setFilterPriority] = useState(searchParams.get('priority') || 'all');
+    const [selectedCaseId, setSelectedCaseId] = useState<string | undefined>(undefined);
 
     useEffect(() => {
         const loadCases = async () => {
@@ -61,7 +64,16 @@ export function CaseList() {
     };
 
     return (
-        <div className="space-y-8 animate-in fade-in duration-700">
+        <div className="flex h-full gap-0 animate-in fade-in duration-700">
+            {/* Workflow Sidebar */}
+            <WorkflowSidebar
+                selectedCaseId={selectedCaseId}
+                onSelectCase={setSelectedCaseId}
+            />
+
+            {/* Main Content */}
+            <div className="flex-1 overflow-auto flex flex-col gap-0">
+                <div className="p-10 space-y-8">
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
@@ -144,7 +156,15 @@ export function CaseList() {
                             ))
                         ) : filteredCases.length > 0 ? (
                             filteredCases.map((c) => (
-                                <tr key={c.id} className="hover:bg-slate-50 transition-colors group">
+                                <tr
+                                    key={c.id}
+                                    onClick={() => setSelectedCaseId(c.id)}
+                                    className={`cursor-pointer transition-colors group ${
+                                        selectedCaseId === c.id
+                                            ? 'bg-blue-50 hover:bg-blue-100'
+                                            : 'hover:bg-slate-50'
+                                    }`}
+                                >
                                     <td className="px-8 py-8 w-[350px]">
                                         <div className="text-[10px] font-black text-blue-600 mb-1 font-mono">{c.id}</div>
                                         <div className="text-lg font-black text-slate-900 tracking-tight line-clamp-1">{c.title}</div>
@@ -228,6 +248,14 @@ export function CaseList() {
                     </div>
                 </div>
             </div>
+                </div>
+            </div>
+
+            {/* Case Detail Panel */}
+            <CaseDetailPanel
+                caseId={selectedCaseId}
+                onClose={() => setSelectedCaseId(undefined)}
+            />
         </div>
     );
 }

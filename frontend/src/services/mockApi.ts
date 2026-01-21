@@ -1,9 +1,10 @@
 // src/services/mockApi.ts
 import type {
-    Case, User, Role, Permission, Workflow, WorkflowStep,
-    ProxyAssignment, Report, AuditLog, SystemConfig, IntegrationConfig,
-    CaseStatus, CaseType, UserRole
+    Case, User, Role, Permission, Workflow,
+    ProxyAssignment, AuditLog, SystemConfig, IntegrationConfig,
+    CaseWorkflowStage
 } from '../types/schema';
+import { mockCases } from './mockCases';
 
 // 模擬延遲
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -57,225 +58,7 @@ const mockPermissions: Permission[] = [
     { id: 'audit:view', name: '查詢審計日誌', category: 'audit', description: '允許查詢審計日誌' },
 ];
 
-// 案件數據
-const mockCases: Case[] = [
-    {
-        id: 'C20260121001',
-        type: 'general',
-        title: '板橋區流浪犬聚集',
-        status: 'pending',
-        priority: 'high',
-        date: '2026-01-21',
-        location: '板橋區四川路100號',
-        coordinates: { lat: 25.0239, lng: 121.5089 },
-        reporterName: '李先生',
-        reporterPhone: '0912345678',
-        description: '民宅旁邊約有5隻流浪犬，可能對附近居民造成困擾',
-        photos: [],
-        createdAt: '2026-01-21T08:00:00Z',
-        updatedAt: '2026-01-21T08:00:00Z'
-    },
-    {
-        id: 'C20260121002',
-        type: 'bee',
-        title: '民宅屋簷蜂窩 (籃球大)',
-        status: 'processing',
-        priority: 'critical',
-        date: '2026-01-21',
-        location: '三重區正義北路50號',
-        coordinates: { lat: 25.0611, lng: 121.4965 },
-        reporterName: '王女士',
-        reporterPhone: '0987654321',
-        description: '民宅屋簷發現大型蜂窩，疑似虎頭蜂',
-        photos: [],
-        assignedTo: 'u2',
-        createdAt: '2026-01-21T09:15:00Z',
-        updatedAt: '2026-01-21T10:30:00Z'
-    },
-    {
-        id: 'C20260120003',
-        type: 'general',
-        title: '受傷貓咪救援',
-        status: 'resolved',
-        priority: 'medium',
-        date: '2026-01-20',
-        location: '新莊區中正路200號',
-        coordinates: { lat: 25.0573, lng: 121.5211 },
-        reporterName: '張女士',
-        reporterPhone: '0923456789',
-        description: '在停車場發現受傷貓咪，已送往獸醫院',
-        photos: [],
-        assignedTo: 'u4',
-        createdAt: '2026-01-20T14:00:00Z',
-        updatedAt: '2026-01-21T11:00:00Z'
-    },
-    {
-        id: 'C20260120004',
-        type: 'bee',
-        title: '公園樹上蜂窩',
-        status: 'pending',
-        priority: 'high',
-        date: '2026-01-20',
-        location: '中和區景平路500號',
-        coordinates: { lat: 25.0185, lng: 121.5255 },
-        reporterName: '陳先生',
-        reporterPhone: '0934567890',
-        description: '公園樹上發現蜂窩，約排球大小',
-        photos: [],
-        createdAt: '2026-01-20T16:20:00Z',
-        updatedAt: '2026-01-20T16:20:00Z'
-    },
-    {
-        id: 'C20260119005',
-        type: 'general',
-        title: '疑似虐待動物',
-        status: 'processing',
-        priority: 'critical',
-        date: '2026-01-19',
-        location: '永和區永貞路100號',
-        coordinates: { lat: 25.0281, lng: 121.5125 },
-        reporterName: '黃女士',
-        reporterPhone: '0945678901',
-        description: '發現狗隻疑似被虐待，身上有傷痕',
-        photos: [],
-        assignedTo: 'u2',
-        createdAt: '2026-01-19T12:00:00Z',
-        updatedAt: '2026-01-20T08:30:00Z'
-    },
-    {
-        id: 'C20260119006',
-        type: 'bee',
-        title: '公寓陽台蜂窩通報',
-        status: 'pending',
-        priority: 'medium',
-        date: '2026-01-19',
-        location: '汐止區康寧街50號',
-        coordinates: { lat: 25.0655, lng: 121.6521 },
-        reporterName: '林先生',
-        reporterPhone: '0988-123-456',
-        description: '陽台角落有小蜂窩，需移除。',
-        photos: [],
-        createdAt: '2026-01-19T10:00:00Z',
-        updatedAt: '2026-01-19T10:00:00Z'
-    },
-    {
-        id: 'C20260118007',
-        type: 'general',
-        title: '流浪犬追車行為通報',
-        status: 'resolved',
-        priority: 'medium',
-        date: '2026-01-18',
-        location: '五股區新五路二段',
-        coordinates: { lat: 25.0841, lng: 121.4325 },
-        reporterName: '高先生',
-        reporterPhone: '0977-111-222',
-        description: '該路口常有流浪犬對路人機車狂吠及追趕。',
-        photos: [],
-        assignedTo: 'u4',
-        createdAt: '2026-01-18T09:00:00Z',
-        updatedAt: '2026-01-19T14:20:00Z'
-    },
-    {
-        id: 'C20260118008',
-        type: 'bee',
-        title: '學校操場樹木大型蜂窩',
-        status: 'processing',
-        priority: 'critical',
-        date: '2026-01-18',
-        location: '土城區金城路三段',
-        coordinates: { lat: 24.9812, lng: 121.4556 },
-        reporterName: '校方警衛',
-        reporterPhone: '0910-222-333',
-        description: '操場旁邊的大樟樹上有直徑約40公分的蜂窩，威脅學生安全。',
-        photos: [],
-        assignedTo: 'u2',
-        createdAt: '2026-01-18T11:45:00Z',
-        updatedAt: '2026-01-18T13:00:00Z'
-    },
-    {
-        id: 'C20260117009',
-        type: 'general',
-        title: '受傷白鷺鷥待援',
-        status: 'resolved',
-        priority: 'high',
-        date: '2026-01-17',
-        location: '淡水區中正路',
-        coordinates: { lat: 25.1741, lng: 121.4395 },
-        reporterName: '歐小姐',
-        reporterPhone: '0922-333-444',
-        description: '岸邊發現一隻腿部受傷、無法飛行的白鷺鷥。',
-        photos: [],
-        assignedTo: 'u2',
-        createdAt: '2026-01-17T15:20:00Z',
-        updatedAt: '2026-01-18T09:30:00Z'
-    },
-    {
-        id: 'C20260117010',
-        type: 'bee',
-        title: '民宅空屋蜂窩',
-        status: 'pending',
-        priority: 'low',
-        date: '2026-01-17',
-        location: '瑞芳區三爪子坑路',
-        coordinates: { lat: 25.1012, lng: 121.8025 },
-        reporterName: '鄰居張先生',
-        reporterPhone: '0955-444-555',
-        description: '隔壁空屋窗戶內似乎有蜂窩。',
-        photos: [],
-        createdAt: '2026-01-17T17:00:00Z',
-        updatedAt: '2026-01-17T17:00:00Z'
-    },
-    {
-        id: 'C20260116011',
-        type: 'general',
-        title: '捕獸夾案件檢舉',
-        status: 'processing',
-        priority: 'critical',
-        date: '2026-01-16',
-        location: '林口區工九路山區',
-        coordinates: { lat: 25.0712, lng: 121.3654 },
-        reporterName: '匿名檢舉',
-        reporterPhone: '0900-000-000',
-        description: '山區步道旁發現多處捕獸夾，已有流浪貓受害。',
-        photos: [],
-        assignedTo: 'u4',
-        createdAt: '2026-01-16T10:00:00Z',
-        updatedAt: '2026-01-17T08:00:00Z'
-    },
-    {
-        id: 'C20260115012',
-        type: 'bee',
-        title: '店面門口蜂窩',
-        status: 'resolved',
-        priority: 'medium',
-        date: '2026-01-15',
-        location: '樹林區博愛街',
-        coordinates: { lat: 24.9925, lng: 121.4231 },
-        reporterName: '店主王先生',
-        reporterPhone: '0933-222-111',
-        description: '招牌下方長出拳頭大蜂窩，驚擾客人。',
-        photos: [],
-        assignedTo: 'u2',
-        createdAt: '2026-01-15T09:30:00Z',
-        updatedAt: '2026-01-15T15:00:00Z'
-    },
-    {
-        id: 'C20260114013',
-        type: 'general',
-        title: '流浪貓繁殖過剩協助需求',
-        status: 'pending',
-        priority: 'low',
-        date: '2026-01-14',
-        location: '鶯歌區文化路',
-        coordinates: { lat: 24.9542, lng: 121.3524 },
-        reporterName: '里長辦公室',
-        reporterPhone: '0944-555-666',
-        description: '社區內近期流浪貓數量劇增，請求協助絕育。',
-        photos: [],
-        createdAt: '2026-01-14T14:00:00Z',
-        updatedAt: '2026-01-14T14:00:00Z'
-    }
-];
+// 案件數據已在 mockCases.ts 中定義，此處導入使用
 
 // 工作流程定義
 const mockWorkflows: Workflow[] = [
@@ -407,7 +190,7 @@ const mockTimeSeriesData = generateTimeSeriesData();
 
 export const mockApi = {
     // ===== 認證相關 =====
-    login: async (username: string, password?: string): Promise<User | null> => {
+    login: async (username: string): Promise<User | null> => {
         await delay(800);
         if (username === 'admin') {
             return mockUsers.find(u => u.id === 'u1') || null;
@@ -473,7 +256,12 @@ export const mockApi = {
 
     assignCase: async (caseId: string, userId: string): Promise<boolean> => {
         await delay(600);
-        return this.updateCase(caseId, { assignedTo: userId, status: 'processing' });
+        const caseIndex = mockCases.findIndex(c => c.id === caseId);
+        if (caseIndex !== -1) {
+            mockCases[caseIndex] = { ...mockCases[caseIndex], assignedTo: userId, status: 'assigned' as const, updatedAt: new Date().toISOString() };
+            return true;
+        }
+        return false;
     },
 
     // ===== 用戶管理 =====
@@ -661,6 +449,99 @@ export const mockApi = {
             { week: '第 3 週', totalCases: 15, resolved: 11, pending: 4 },
             { week: '第 4 週', totalCases: 13, resolved: 9, pending: 4 },
         ];
+    },
+
+    // 按工作流程階段分組案件
+    getCasesByWorkflowStage: async (stage: CaseWorkflowStage) => {
+        await delay(300);
+        return mockCases.filter(c => c.workflowStage === stage);
+    },
+
+    // 工作流程菜單項目（帶未處理計數）
+    getWorkflowMenuItems: async () => {
+        await delay(400);
+        const stages: CaseWorkflowStage[] = ['receipt', 'assignment', 'undertaker', 'public'];
+        const menuItems: Record<string, { items: Case[], label: string, unresolvedCount: number }> = {};
+
+        stages.forEach(stage => {
+            const items = mockCases.filter(c => c.workflowStage === stage);
+            const unresolvedCount = items.filter(c =>
+                c.status !== 'resolved' && c.status !== 'rejected' && c.status !== 'archived'
+            ).length;
+
+            const stageLabels: Record<CaseWorkflowStage, string> = {
+                'receipt': '收簽',
+                'assignment': '分派',
+                'undertaker': '承辦',
+                'public': '公文'
+            };
+
+            menuItems[stage] = {
+                items,
+                label: stageLabels[stage],
+                unresolvedCount
+            };
+        });
+
+        return menuItems;
+    },
+
+    // 獲取未處理計數統計
+    getUnresolvedCounts: async () => {
+        await delay(300);
+        const stages: CaseWorkflowStage[] = ['receipt', 'assignment', 'undertaker', 'public'];
+        const counts: Record<string, number> = {};
+
+        stages.forEach(stage => {
+            const items = mockCases.filter(c => c.workflowStage === stage);
+            counts[stage] = items.filter(c =>
+                c.status !== 'resolved' && c.status !== 'rejected' && c.status !== 'archived'
+            ).length;
+        });
+
+        return counts;
+    },
+
+    // 獲取詳細的案件菜單項目（按狀態和優先級分組）
+    getDetailedCaseMenu: async () => {
+        await delay(400);
+        const menuItems: Record<string, { items: Case[]; count: number }> = {};
+
+        // 定義詳細的菜單項目
+        const menuDefinitions = [
+            { key: 'all', label: '全部案件', filter: () => true },
+            { key: 'attention', label: '關注案件', filter: (c: Case) => c.priority === 'critical' },
+
+            // 收簽階段
+            { key: 'receipt_pending', label: '收簽-待簽收', filter: (c: Case) => c.workflowStage === 'receipt' && c.status === 'pending' },
+            { key: 'receipt_authorized', label: '收簽-已授理', filter: (c: Case) => c.workflowStage === 'receipt' && c.status === 'authorized' },
+
+            // 分派階段
+            { key: 'assignment_assigned', label: '分派-已分派', filter: (c: Case) => c.workflowStage === 'assignment' && c.status === 'assigned' },
+
+            // 承辦階段
+            { key: 'undertaker_pending', label: '承辦-待簽收', filter: (c: Case) => c.workflowStage === 'undertaker' && c.status === 'assigned' },
+            { key: 'undertaker_processing', label: '承辦-處理中', filter: (c: Case) => c.workflowStage === 'undertaker' && c.status === 'processing' },
+            { key: 'undertaker_transferred', label: '承辦-轉移中', filter: (c: Case) => c.workflowStage === 'undertaker' && c.status === 'transferred' },
+            { key: 'undertaker_overdue', label: '承辦-超期', filter: (c: Case) => c.workflowStage === 'undertaker' && c.status === 'overdue' },
+
+            // 公文階段
+            { key: 'public_completed', label: '公文-待審核', filter: (c: Case) => c.workflowStage === 'public' && c.status === 'completed' },
+
+            // 結案
+            { key: 'resolved', label: '已結案', filter: (c: Case) => c.status === 'resolved' },
+            { key: 'rejected', label: '責撤', filter: (c: Case) => c.status === 'rejected' },
+        ];
+
+        menuDefinitions.forEach(def => {
+            const items = mockCases.filter(def.filter);
+            menuItems[def.key] = {
+                items,
+                count: items.length
+            };
+        });
+
+        return menuItems;
     },
 
     // ===== 報表 =====

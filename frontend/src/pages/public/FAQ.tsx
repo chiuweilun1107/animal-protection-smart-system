@@ -1,17 +1,10 @@
 import React, { useState } from 'react';
-import {
-    ChevronDown, Search, ArrowLeft, MessageCircle,
-    HelpCircle, Phone, Info, Zap, Shield,
-    Layers, BookOpen, HeartPulse, Globe
-} from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const FAQ_SECTIONS = [
     {
         title: '通報與受理',
         id: 'reporting',
-        icon: MessageCircle,
-        color: 'indigo',
         questions: [
             {
                 q: '發現受傷動物該如何通報？',
@@ -30,8 +23,6 @@ const FAQ_SECTIONS = [
     {
         title: '案件追蹤',
         id: 'tracking',
-        icon: Zap,
-        color: 'blue',
         questions: [
             {
                 q: '如何查詢我之前的通報進度？',
@@ -46,8 +37,6 @@ const FAQ_SECTIONS = [
     {
         title: '法規與權責',
         id: 'laws',
-        icon: Shield,
-        color: 'emerald',
         questions: [
             {
                 q: '虐待動物有什麼法律責任？',
@@ -77,7 +66,7 @@ export const FAQ: React.FC = () => {
         <div className="min-h-screen bg-[#F8FAFC] pb-40 overflow-hidden">
             {/* Background Decorative Elements */}
             <div className="fixed top-0 left-0 w-full h-[600px] bg-slate-900 pointer-events-none rounded-b-[5rem] overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-b from-indigo-600/20 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-blue-600/10 to-transparent"></div>
                 <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }}></div>
             </div>
 
@@ -87,25 +76,24 @@ export const FAQ: React.FC = () => {
                     <div className="flex flex-col lg:flex-row items-end justify-between gap-12 mb-20">
                         <div className="max-w-2xl">
                             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-500/10 text-blue-400 rounded-full text-[10px] font-black uppercase tracking-[0.3em] mb-6 border border-blue-500/20">
-                                Global Service Portal
+                                智慧服務門戶
                             </div>
                             <h1 className="text-7xl md:text-8xl font-black tracking-tighter text-white leading-[0.85] uppercase">
-                                Service<br />
-                                <span className="text-indigo-400">Encyclopedia</span>
+                                服務<br />
+                                <span className="text-blue-500">百科手冊</span>
                             </h1>
-                            <p className="mt-8 text-slate-400 text-xl font-medium border-l-4 border-indigo-500 pl-6">
+                            <p className="mt-8 text-slate-400 text-xl font-medium border-l-4 border-blue-600 pl-6">
                                 智慧服務百科：整合新北市動保處所有業務流程、法規諮詢與常見問答，為您提供最即時的知識支援。
                             </p>
                         </div>
                         <div className="w-full lg:w-96">
                             <div className="relative group">
-                                <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-indigo-400 transition-colors" size={20} />
                                 <input
                                     type="text"
-                                    placeholder="Search intelligence index..."
+                                    placeholder="搜尋智慧索引..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full pl-16 pr-6 py-5 bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] text-white focus:ring-4 focus:ring-indigo-500/20 outline-none transition-all font-bold placeholder:text-slate-600"
+                                    className="w-full px-8 py-5 bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] text-white focus:ring-4 focus:ring-blue-500/20 outline-none transition-all font-bold placeholder:text-slate-600"
                                 />
                             </div>
                         </div>
@@ -115,15 +103,15 @@ export const FAQ: React.FC = () => {
                     <div className="flex flex-wrap gap-4 mb-16">
                         <button
                             onClick={() => setActiveSection('all')}
-                            className={`px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${activeSection === 'all' ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-600/30' : 'bg-white/5 border border-white/10 text-slate-400 hover:text-white hover:bg-white/10'}`}
+                            className={`px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${activeSection === 'all' ? 'bg-blue-600 text-white shadow-xl shadow-blue-600/30' : 'bg-white/5 border border-white/10 text-slate-400 hover:text-white hover:bg-white/10'}`}
                         >
-                            All Categories
+                            所有類別
                         </button>
                         {FAQ_SECTIONS.map(s => (
                             <button
                                 key={s.id}
                                 onClick={() => setActiveSection(s.id)}
-                                className={`px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${activeSection === s.id ? 'bg-slate-900 border border-indigo-500 text-white shadow-xl shadow-indigo-500/10' : 'bg-white/5 border border-white/10 text-slate-400 hover:text-white hover:bg-white/10'}`}
+                                className={`px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${activeSection === s.id ? 'bg-slate-900 border border-blue-500 text-white shadow-xl shadow-blue-500/10' : 'bg-white/5 border border-white/10 text-slate-400 hover:text-white hover:bg-white/10'}`}
                             >
                                 {s.title}
                             </button>
@@ -145,19 +133,19 @@ export const FAQ: React.FC = () => {
                                             const id = `${sIdx}-${qIdx}`;
                                             const isOpen = openIndex === id;
                                             return (
-                                                <div key={qIdx} className={`group relative bg-white rounded-[2.5rem] border transition-all duration-500 overflow-hidden ${isOpen ? 'border-indigo-400 shadow-2xl shadow-indigo-500/10 ring-1 ring-indigo-400/20' : 'border-slate-100 hover:border-indigo-200'}`}>
+                                                <div key={qIdx} className={`group relative bg-white rounded-[2.5rem] border transition-all duration-500 overflow-hidden ${isOpen ? 'border-blue-500 shadow-2xl shadow-blue-500/10 ring-1 ring-blue-400/20' : 'border-slate-100 hover:border-blue-200'}`}>
                                                     <button
                                                         onClick={() => toggle(id)}
                                                         className="w-full text-left p-10 flex items-center justify-between gap-8"
                                                     >
                                                         <div className="flex items-center gap-6">
-                                                            <div className={`w-2 h-2 rounded-full transition-all duration-500 ${isOpen ? 'bg-indigo-600 scale-150 shadow-[0_0_10px_rgba(79,70,229,0.5)]' : 'bg-slate-200'}`}></div>
-                                                            <span className={`text-xl font-black tracking-tight transition-all ${isOpen ? 'text-indigo-600' : 'text-slate-800'}`}>
+                                                            <div className={`w-2 h-2 rounded-full transition-all duration-500 ${isOpen ? 'bg-blue-600 scale-150' : 'bg-slate-200'}`}></div>
+                                                            <span className={`text-xl font-black tracking-tight transition-all ${isOpen ? 'text-blue-600' : 'text-slate-800'}`}>
                                                                 {q.q}
                                                             </span>
                                                         </div>
-                                                        <div className={`shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-500 ${isOpen ? 'bg-indigo-600 text-white rotate-180 shadow-lg shadow-indigo-600/20' : 'bg-slate-50 text-slate-300'}`}>
-                                                            <ChevronDown size={20} />
+                                                        <div className={`shrink-0 font-black text-[10px] transition-all duration-500 ${isOpen ? 'text-blue-600 rotate-180' : 'text-slate-300'}`}>
+                                                            {isOpen ? 'CLOSE' : 'OPEN'}
                                                         </div>
                                                     </button>
                                                     <div className={`transition-all duration-500 ${isOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
@@ -166,9 +154,9 @@ export const FAQ: React.FC = () => {
                                                                 {q.a}
                                                             </div>
                                                             <div className="mt-8 flex items-center gap-6">
-                                                                <button className="text-[10px] font-black text-indigo-600 uppercase tracking-widest hover:underline">這有幫助嗎？</button>
+                                                                <button className="text-[10px] font-black text-blue-600 uppercase tracking-widest hover:underline">這有幫助嗎？</button>
                                                                 <div className="h-3 w-[1px] bg-slate-200"></div>
-                                                                <button className="text-[10px] font-black text-slate-400 uppercase tracking-widest hover:underline">轉發此問答</button>
+                                                                <button className="text-[10px] font-black text-slate-400 uppercase tracking-widest hover:underline">分享此問答</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -184,25 +172,19 @@ export const FAQ: React.FC = () => {
                         <div className="lg:col-span-4 space-y-8">
                             {/* Fast Links Widget */}
                             <div className="bg-white rounded-[3rem] border border-slate-100 shadow-xl p-10">
-                                <h3 className="text-xs font-black text-slate-900 uppercase tracking-[0.2em] mb-8 flex items-center gap-3">
-                                    <Zap size={16} className="text-indigo-600" />
-                                    快速鏈接
+                                <h3 className="text-xs font-black text-slate-900 uppercase tracking-[0.2em] mb-8">
+                                    快速鏈結
                                 </h3>
                                 <div className="space-y-4">
                                     {[
-                                        { label: '動物認養流程', icon: HeartPulse },
-                                        { label: '案件編號規範', icon: BookOpen },
-                                        { label: '年度動保白皮書', icon: Globe },
-                                        { label: '相關法規庫', icon: Shield }
+                                        { label: '動物認養流程' },
+                                        { label: '案件編號規範' },
+                                        { label: '年度動保白皮書' },
+                                        { label: '相關法規庫' }
                                     ].map((link, i) => (
                                         <button key={i} className="w-full flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 transition-all group">
-                                            <div className="flex items-center gap-4">
-                                                <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-indigo-600 group-hover:text-white transition-all">
-                                                    <link.icon size={18} />
-                                                </div>
-                                                <span className="font-bold text-slate-600 group-hover:text-slate-900">{link.label}</span>
-                                            </div>
-                                            <ArrowLeft size={16} className="rotate-180 text-slate-300 group-hover:translate-x-1 group-hover:text-indigo-600 transition-all" />
+                                            <span className="font-bold text-slate-600 group-hover:text-slate-900">{link.label}</span>
+                                            <span className="text-[10px] font-black text-slate-300 group-hover:text-blue-600 transition-all">VIEW</span>
                                         </button>
                                     ))}
                                 </div>
@@ -217,31 +199,21 @@ export const FAQ: React.FC = () => {
                                     </p>
 
                                     <div className="space-y-6">
-                                        <div className="flex items-center gap-6">
-                                            <div className="w-14 h-14 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-600/30">
-                                                <Phone size={24} />
-                                            </div>
-                                            <div>
-                                                <p className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">動保專線</p>
-                                                <p className="text-2xl font-black">1959</p>
-                                            </div>
+                                        <div className="flex flex-col">
+                                            <p className="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-1">動保專線</p>
+                                            <p className="text-4xl font-black">1959</p>
                                         </div>
-                                        <div className="flex items-center gap-6">
-                                            <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center border border-white/10">
-                                                <Info size={24} />
-                                            </div>
-                                            <div>
-                                                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">市民熱線</p>
-                                                <p className="text-2xl font-black">1999</p>
-                                            </div>
+                                        <div className="flex flex-col">
+                                            <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">市民熱線</p>
+                                            <p className="text-4xl font-black">1999</p>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-600/10 rounded-full blur-[100px] -mr-32 -mt-32"></div>
+                                <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/10 rounded-full blur-[100px] -mr-32 -mt-32"></div>
                             </div>
 
-                            <Link to="/" className="flex items-center justify-center gap-4 py-6 bg-white border border-slate-100 rounded-[2rem] text-slate-400 font-black text-xs uppercase tracking-widest hover:bg-slate-50 hover:text-slate-900 transition-all">
-                                <ArrowLeft size={18} /> 返回全局門戶
+                            <Link to="/" className="flex items-center justify-center gap-4 py-6 bg-white border border-slate-100 rounded-[2rem] text-slate-400 font-black text-[10px] uppercase tracking-[0.3em] hover:bg-slate-50 hover:text-slate-900 transition-all">
+                                RETURN TO PORTAL
                             </Link>
                         </div>
                     </div>

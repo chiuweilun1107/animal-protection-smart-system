@@ -10,7 +10,10 @@
       "Bash(npm install:*)",
       "mcp__ide__getDiagnostics",
       "Bash(npm run dev:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Skill(playwright-skill)",
+      "Bash(grep:*)",
+      "Bash(mdls:*)"
     ]
   }
 }

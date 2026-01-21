@@ -21,7 +21,7 @@ const HERO_SLIDES = [
         title: '守護每一顆心跳',
         subtitle: '守護每一個生命，不只是口號，更是我們對新北市動物的最高承諾',
         cta: '即刻通報',
-        link: '/report/general',
+        link: '/smart-guide',
         color: 'from-orange-500/20 to-orange-900/40',
         tag: '核心任務'
     },
@@ -31,7 +31,7 @@ const HERO_SLIDES = [
         title: '專業精英救援',
         subtitle: '專業救援團隊：24小時全年無休，守護受難生命的第一線部署',
         cta: '了解流程',
-        link: '/guide',
+        link: '/smart-guide',
         color: 'from-blue-600/20 to-slate-900/40',
         tag: '快速響應'
     },
@@ -41,7 +41,7 @@ const HERO_SLIDES = [
         title: '環境安全維護',
         subtitle: '生態與安全共存：專業蜂案處理團隊，平衡城市安全與生態保護',
         cta: '通報處理',
-        link: '/report/bee',
+        link: '/smart-guide',
         color: 'from-yellow-400/20 to-yellow-900/40',
         tag: '特殊勤務'
     }
@@ -221,7 +221,7 @@ export const Home: React.FC = () => {
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
-                                <Link to="/report/general" className="group relative aspect-square rounded-[2rem] overflow-hidden">
+                                <Link to="/smart-guide" className="group relative aspect-square rounded-[2rem] overflow-hidden">
                                     <img src={imgGeneralReport} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                                     <div className="absolute inset-0 bg-slate-900/20 group-hover:bg-transparent transition-colors"></div>
                                     <div className="absolute bottom-6 left-6 text-white">
@@ -232,7 +232,7 @@ export const Home: React.FC = () => {
                                         </div>
                                     </div>
                                 </Link>
-                                <Link to="/report/bee" className="group relative aspect-square rounded-[2rem] overflow-hidden">
+                                <Link to="/smart-guide" className="group relative aspect-square rounded-[2rem] overflow-hidden">
                                     <img src={imgBeeRemoval} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                                     <div className="absolute inset-0 bg-slate-900/20 group-hover:bg-transparent transition-colors"></div>
                                     <div className="absolute bottom-6 left-6 text-white">

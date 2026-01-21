@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { createMapIcon } from '../../utils/mapIcons';
 import { type LatLngTuple } from 'leaflet';
-import { Link } from 'react-router-dom';
+
 
 export interface CaseMarker {
     id: string;
@@ -12,6 +12,10 @@ export interface CaseMarker {
     type: 'general' | 'bee';
     title: string;
     status: 'pending' | 'processing' | 'resolved';
+    address: string;
+    reporter: string;
+    photoUrl?: string; // Optional photo
+    description?: string;
 }
 
 interface CaseMapProps {
@@ -26,6 +30,15 @@ export const CaseMap: React.FC<CaseMapProps> = ({ cases }) => {
         if (status === 'resolved') return 'green';
         if (type === 'bee') return 'orange';
         return 'red'; // general + pending/processing
+    };
+
+    const handleRoutePlanning = (lat: number, lng: number) => {
+        window.open(`https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`, '_blank');
+    };
+
+    const handleDispatch = (id: string, title: string) => {
+        const event = new CustomEvent('open-dispatch-dialog', { detail: { id, title } });
+        window.dispatchEvent(event);
     };
 
     return (
@@ -46,17 +59,53 @@ export const CaseMap: React.FC<CaseMapProps> = ({ cases }) => {
                         position={[c.lat, c.lng]}
                         icon={createMapIcon(getIconColor(c.type, c.status) as any, 24)}
                     >
-                        <Popup>
-                            <div className="p-1 min-w-[150px]">
-                                <div className="flex items-center gap-2 mb-2">
-                                    <span className={`w-2 h-2 rounded-full ${c.type === 'bee' ? 'bg-orange-500' : 'bg-red-500'}`}></span>
-                                    <span className="font-bold text-slate-800">{c.type === 'bee' ? '蜂案' : '一般案件'}</span>
+                        <Popup className="custom-popup">
+                            <div className="min-w-[240px] p-1">
+                                {c.photoUrl && (
+                                    <div className="mb-3 rounded-lg overflow-hidden relative aspect-video group">
+                                        <img src={c.photoUrl} alt="現場照片" className="w-full h-full object-cover transition-transform group-hover:scale-110" />
+                                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+                                    </div>
+                                )}
+
+                                <div className="flex items-center gap-2 mb-3">
+                                    <span className={`w-2.5 h-2.5 rounded-full shadow-sm ${c.type === 'bee' ? 'bg-orange-500' : 'bg-red-500'}`}></span>
+                                    <span className="font-bold text-slate-800 text-sm">{c.type === 'bee' ? '蜂案通報' : '一般案件'}</span>
+                                    <span className={`ml-auto text-[10px] px-2 py-0.5 rounded-full border font-medium ${c.status === 'resolved' ? 'bg-green-50 border-green-200 text-green-700' :
+                                        c.status === 'processing' ? 'bg-blue-50 border-blue-200 text-blue-700' :
+                                            'bg-red-50 border-red-200 text-red-700'
+                                        }`}>
+                                        {c.status === 'resolved' ? '已結案' : c.status === 'processing' ? '處理中' : '待處理'}
+                                    </span>
                                 </div>
-                                <h3 className="text-sm font-medium text-slate-700 mb-1">{c.title}</h3>
-                                <div className="text-xs text-slate-500 mb-2">狀態: {c.status}</div>
-                                <Link to={`/status?id=${c.id}`} className="text-xs text-primary-600 hover:underline">
-                                    查看詳情
-                                </Link>
+
+                                <h3 className="text-lg font-black text-slate-900 mb-2 leading-tight tracking-tight">{c.title}</h3>
+
+                                <div className="space-y-2 mb-4">
+                                    <div className="flex items-start gap-2 text-xs text-slate-600">
+                                        <span className="font-bold text-slate-400 shrink-0">地點</span>
+                                        <span className="leading-relaxed">{c.address}</span>
+                                    </div>
+                                    <div className="flex items-center gap-2 text-xs text-slate-600">
+                                        <span className="font-bold text-slate-400 shrink-0">通報</span>
+                                        <span>{c.reporter}</span>
+                                    </div>
+                                </div>
+
+                                <div className="flex gap-2 pt-2 border-t border-slate-100">
+                                    <button
+                                        onClick={() => handleRoutePlanning(c.lat, c.lng)}
+                                        className="flex-1 bg-white border border-slate-200 text-slate-600 text-xs font-bold py-2 rounded-lg hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm active:scale-95"
+                                    >
+                                        路線規劃
+                                    </button>
+                                    <button
+                                        onClick={() => handleDispatch(c.id, c.title)}
+                                        className="flex-1 bg-slate-900 text-white text-xs font-bold py-2 rounded-lg hover:bg-slate-800 hover:shadow-lg hover:shadow-slate-900/20 transition-all shadow-md active:scale-95"
+                                    >
+                                        指派任務
+                                    </button>
+                                </div>
                             </div>
                         </Popup>
                     </Marker>

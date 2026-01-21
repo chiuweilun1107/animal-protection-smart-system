@@ -31,7 +31,7 @@ export const Navbar: React.FC = () => {
 
     const navItems = [
         { label: '首頁', path: '/', icon: <Home size={18} /> },
-        { label: '案件通報', path: '/report/general', icon: <FileText size={18} /> },
+        { label: '案件通報', path: '/smart-guide', icon: <FileText size={18} /> },
         { label: '進度查詢', path: '/status', icon: <Search size={18} /> },
         { label: '案件地圖', path: '/map', icon: <Map size={18} /> },
         { label: '教育資源', path: '/resources', icon: <BookOpen size={18} /> },
