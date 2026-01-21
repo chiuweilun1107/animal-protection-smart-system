@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CaseMap, type CaseMarker } from '../../components/map/CaseMap';
-import { Filter, Layers, ArrowLeft, MapPin } from 'lucide-react';
+import { Filter, Layers, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const MapView: React.FC = () => {
@@ -353,9 +353,6 @@ export const MapView: React.FC = () => {
                 <div className="absolute bottom-6 right-6 bg-white/95 backdrop-blur-md p-6 rounded-[2rem] shadow-2xl z-[1000] border border-slate-200 min-w-[280px]">
                     <div className="space-y-4">
                         <div className="flex items-center gap-3 mb-4">
-                            <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
-                                <MapPin size={20} />
-                            </div>
                             <div>
                                 <h3 className="text-sm font-black text-slate-900 tracking-tight">快速通報</h3>
                                 <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Quick Report</p>
@@ -392,7 +389,7 @@ export const MapView: React.FC = () => {
                         <div className="pt-3 border-t border-slate-200">
                             <div className="flex items-center gap-2 text-[10px] text-slate-500 font-medium">
                                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
-                                系統在線，支援即時通報
+                                已啟動定位，支援即時通報
                             </div>
                         </div>
                     </div>
