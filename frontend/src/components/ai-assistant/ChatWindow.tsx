@@ -18,73 +18,20 @@ export function ChatWindow({ messages, onClose, onSendMessage }: ChatWindowProps
 
   const [inputValue, setInputValue] = useState('');
   const [hasInitialized, setHasInitialized] = useState(false);
-  const autoFlowRef = useRef<{ stage: 'idle' | 'waiting_first_response' | 'waiting_second' }>({ stage: 'idle' });
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // 自動滾動到最新消息
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // 自動流程：初始化時延遲 3 秒後再填入輸入欄
+  // 初始化時立即填入輸入欄（不自動發送）
   useEffect(() => {
     if (!hasInitialized && messages.length === 0) {
       setHasInitialized(true);
-
       const firstMessage = '我想了解這週發生了多少緊急事件';
-      let sendTimer: ReturnType<typeof setTimeout> | null = null;
-
-      // 延遲 3 秒後填入輸入欄
-      const fillInputTimer = setTimeout(() => {
-        setInputValue(firstMessage);
-
-        // 再延遲一點後自動發送
-        sendTimer = setTimeout(() => {
-          onSendMessage(firstMessage);
-          autoFlowRef.current.stage = 'waiting_first_response';
-          setInputValue('');
-        }, 300);
-      }, 3000);
-
-      return () => {
-        clearTimeout(fillInputTimer);
-        if (sendTimer !== null) {
-          clearTimeout(sendTimer);
-        }
-      };
+      setInputValue(firstMessage);
     }
-  }, [hasInitialized]);
-
-  // 自動流程：接收到 AI 回覆後，3秒後自動輸入第二條消息
-  useEffect(() => {
-    if (autoFlowRef.current.stage === 'waiting_first_response' && messages.length >= 2) {
-      // 已收到用戶消息和 AI 回覆
-      autoFlowRef.current.stage = 'waiting_second';
-
-      // 清除之前的計時器（如果有的話）
-      if (timeoutRef.current !== null) {
-        clearTimeout(timeoutRef.current as ReturnType<typeof setTimeout>);
-      }
-
-      timeoutRef.current = setTimeout(() => {
-        const secondMessage = '我想查看相關報告';
-        setInputValue(secondMessage);
-
-        // 再延遲一點自動發送
-        setTimeout(() => {
-          onSendMessage(secondMessage);
-          setInputValue('');
-          autoFlowRef.current.stage = 'idle';
-        }, 300);
-      }, 3000) as unknown as ReturnType<typeof setTimeout>;
-    }
-
-    return () => {
-      if (timeoutRef.current !== null) {
-        clearTimeout(timeoutRef.current as ReturnType<typeof setTimeout>);
-      }
-    };
-  }, [messages, onSendMessage]);
+  }, [hasInitialized, messages.length]);
 
   return (
     <div
@@ -113,12 +60,6 @@ export function ChatWindow({ messages, onClose, onSendMessage }: ChatWindowProps
         <button
           onClick={(e) => {
             e.stopPropagation();
-            // 清理自動流程
-            if (timeoutRef.current !== null) {
-              clearTimeout(timeoutRef.current as ReturnType<typeof setTimeout>);
-              timeoutRef.current = null;
-            }
-            autoFlowRef.current.stage = 'idle';
             setHasInitialized(false);
             onClose();
           }}
