@@ -16,6 +16,8 @@ export const MapView: React.FC = () => {
     const [notification, setNotification] = useState<{ id: string; type: string; location: string } | null>(null);
     const [mapCenter, setMapCenter] = useState<[number, number]>([25.012, 121.465]);
     const [mapZoom, setMapZoom] = useState<number>(14);
+    const [showLegend, setShowLegend] = useState(false);
+    const [showQuickReport, setShowQuickReport] = useState(false);
 
     useEffect(() => {
         const handleOpenDispatch = (e: CustomEvent<{ id: string; title: string }>) => {
@@ -281,12 +283,12 @@ export const MapView: React.FC = () => {
 
             {/* Floating Header */}
             <div className="absolute top-6 left-6 right-6 z-[1000] flex items-start justify-between pointer-events-none">
-                <div className="bg-slate-900/90 backdrop-blur-md border border-white/10 p-6 rounded-[2rem] shadow-2xl pointer-events-auto flex items-center gap-6">
-                    <Link to="/" className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-white hover:bg-white/20 transition-all border border-white/5">
+                <div className="bg-slate-900/90 backdrop-blur-md border border-white/10 p-4 md:p-6 rounded-[2rem] shadow-2xl pointer-events-auto flex items-center gap-4 md:gap-6">
+                    <Link to="/" className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/5 flex items-center justify-center text-white hover:bg-white/20 transition-all border border-white/5 shrink-0">
                         <ArrowLeft size={20} />
                     </Link>
                     <div>
-                        <div className="flex items-center gap-2 mb-1">
+                        <div className="hidden md:flex items-center gap-2 mb-1">
                             <div className="bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-widest border border-blue-500/20">
                                 LIVE MAP SYSTEM
                             </div>
@@ -294,7 +296,7 @@ export const MapView: React.FC = () => {
                                 {filteredCases.length} ACTIVE CASES
                             </div>
                         </div>
-                        <h1 className="text-2xl font-black tracking-tighter text-white">案件熱點圖資中心</h1>
+                        <h1 className="text-lg md:text-2xl font-black tracking-tighter text-white whitespace-nowrap">案件熱點圖資中心</h1>
                     </div>
                 </div>
 
@@ -392,86 +394,140 @@ export const MapView: React.FC = () => {
                     zoom={mapZoom}
                 />
 
-                {/* Legend Overlay */}
-                <div className="absolute bottom-6 left-6 bg-slate-900/90 backdrop-blur-md p-6 rounded-[2rem] shadow-2xl z-[1000] border border-white/10 min-w-[240px]">
-                    <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">即時狀態圖例</h3>
-                    <div className="space-y-3">
-                        <div className="flex items-center gap-3 group cursor-pointer">
-                            <span className="relative flex h-3 w-3">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-                            </span>
-                            <span className="text-sm font-bold text-white group-hover:text-red-400 transition-colors">一般案件 (處理中)</span>
+                {/* Collapsible Legend Overlay */}
+                <div className="absolute bottom-6 left-6 z-[1000] flex flex-col items-start gap-4">
+                    {showLegend ? (
+                        <div className="bg-slate-900/90 backdrop-blur-md p-6 rounded-[2rem] shadow-2xl border border-white/10 min-w-[240px] animate-in fade-in slide-in-from-bottom-4">
+                            <div className="flex items-center justify-between mb-4">
+                                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">即時狀態圖例</h3>
+                                <button
+                                    onClick={() => setShowLegend(false)}
+                                    className="p-1 hover:bg-white/10 rounded-lg text-slate-400 hover:text-white transition-colors"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                                </button>
+                            </div>
+                            <div className="space-y-3">
+                                <div className="flex items-center gap-3 group">
+                                    <span className="relative flex h-3 w-3">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                                    </span>
+                                    <span className="text-sm font-bold text-white">一般案件 (處理中)</span>
+                                </div>
+                                <div className="flex items-center gap-3 group">
+                                    <span className="relative flex h-3 w-3">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-3 w-3 bg-orange-500"></span>
+                                    </span>
+                                    <span className="text-sm font-bold text-white">蜂案 (處理中)</span>
+                                </div>
+                                <div className="flex items-center gap-3 group">
+                                    <span className="w-3 h-3 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></span>
+                                    <span className="text-sm font-bold text-white">已結案</span>
+                                </div>
+                            </div>
                         </div>
-                        <div className="flex items-center gap-3 group cursor-pointer">
-                            <span className="relative flex h-3 w-3">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-3 w-3 bg-orange-500"></span>
-                            </span>
-                            <span className="text-sm font-bold text-white group-hover:text-orange-400 transition-colors">蜂案 (處理中)</span>
-                        </div>
-                        <div className="flex items-center gap-3 group cursor-pointer">
-                            <span className="w-3 h-3 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></span>
-                            <span className="text-sm font-bold text-white group-hover:text-emerald-400 transition-colors">已結案</span>
-                        </div>
-                    </div>
+                    ) : (
+                        <button
+                            onClick={() => setShowLegend(true)}
+                            className="w-12 h-12 bg-slate-900/90 backdrop-blur-md p-3 rounded-full shadow-xl border border-white/10 text-white hover:bg-slate-800 transition-all flex items-center justify-center"
+                            title="顯示圖例"
+                        >
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </button>
+                    )}
                 </div>
 
 
-                {/* Quick Report Widget */}
-                <div className="absolute bottom-6 right-6 bg-white/95 backdrop-blur-md p-6 rounded-[2rem] shadow-2xl z-[1000] border border-slate-200 min-w-[280px]">
-                    <div className="space-y-4">
-                        <div className="flex items-center gap-3 mb-4">
-                            <div>
-                                <h3 className="text-sm font-black text-slate-900 tracking-tight">快速通報</h3>
-                                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Quick Report</p>
+                {/* Collapsible Quick Report Widget */}
+                <div className="absolute bottom-6 right-6 z-[1000] flex flex-col items-end gap-4">
+                    {showQuickReport ? (
+                        <div className="bg-white/95 backdrop-blur-md p-6 rounded-[2rem] shadow-2xl border border-slate-200 min-w-[280px] animate-in fade-in slide-in-from-bottom-4">
+                            <div className="space-y-4">
+                                <div className="flex items-center justify-between mb-4">
+                                    <div>
+                                        <h3 className="text-sm font-black text-slate-900 tracking-tight">快速通報</h3>
+                                        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Quick Report</p>
+                                    </div>
+                                    <button
+                                        onClick={() => setShowQuickReport(false)}
+                                        className="p-1 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-slate-600 transition-colors"
+                                    >
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </button>
+                                </div>
+
+                                <div className="space-y-3">
+                                    <Link
+                                        to="/smart-guide"
+                                        className="flex items-center justify-between w-full bg-blue-600 hover:bg-blue-500 transition-all p-4 rounded-2xl shadow-lg"
+                                    >
+                                        <span className="text-sm font-black text-white tracking-tight">啟動智能引導報案</span>
+                                        <ArrowLeft size={16} className="text-white rotate-180" />
+                                    </Link>
+
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <Link
+                                            to="/report/general"
+                                            className="p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 hover:border-slate-300 transition-all text-center"
+                                        >
+                                            <div className="text-xs font-black text-slate-900 mb-1">一般救援</div>
+                                            <div className="text-[10px] text-slate-500 font-medium">動物受傷或受困</div>
+                                        </Link>
+                                        <Link
+                                            to="/report/bee"
+                                            className="p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 hover:border-slate-300 transition-all text-center"
+                                        >
+                                            <div className="text-xs font-black text-slate-900 mb-1">捕蜂抓蛇</div>
+                                            <div className="text-[10px] text-slate-500 font-medium">蜂蛇移除勤務</div>
+                                        </Link>
+                                    </div>
+
+                                    <div className="flex items-center gap-2 pt-2 border-t border-slate-100">
+                                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                        <span className="text-[10px] font-bold text-slate-400">已啟動定位，支援即時通報</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    ) : (
+                        <button
+                            onClick={() => setShowQuickReport(true)}
+                            className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-4 rounded-full shadow-xl shadow-blue-500/30 flex items-center gap-3 transition-all active:scale-95"
+                        >
+                            <span className="text-sm font-black tracking-widest uppercase">快速通報</span>
+                            <ArrowLeft size={16} className="rotate-180" />
+                        </button>
+                    )}
+                </div>
 
-                        <div className="space-y-3">
-                            <Link
-                                to="/smart-guide"
-                                className="flex items-center justify-between w-full bg-blue-600 hover:bg-blue-500 transition-all p-4 rounded-2xl shadow-lg"
-                            >
-                                <span className="text-sm font-black text-white tracking-tight">啟動智能引導報案</span>
-                                <ArrowLeft size={16} className="text-white rotate-180" />
-                            </Link>
-
-                            <div className="grid grid-cols-2 gap-3">
-                                <Link
-                                    to="/report/general"
-                                    className="p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 hover:border-slate-300 transition-all"
-                                >
-                                    <div className="text-xs font-black text-slate-900 mb-1">一般救援</div>
-                                    <div className="text-[10px] text-slate-500 font-medium">動物受傷或受困</div>
-                                </Link>
-                                <Link
-                                    to="/report/bee"
-                                    className="p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 hover:border-slate-300 transition-all"
-                                >
-                                    <div className="text-xs font-black text-slate-900 mb-1">捕蜂抓蛇</div>
-                                    <div className="text-[10px] text-slate-500 font-medium">蜂蛇移除勤務</div>
-                                </Link>
-                            </div>
-                        </div>
-
-                        <div className="pt-3 border-t border-slate-200">
-                            <div className="flex items-center gap-2 text-[10px] text-slate-500 font-medium">
-                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
-                                已啟動定位，支援即時通報
-                            </div>
-                        </div>
-                    </div>
+                <div className="flex items-center gap-2 pt-2 border-t border-slate-100">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span className="text-[10px] font-bold text-slate-400">已啟動定位，支援即時通報</span>
                 </div>
             </div>
-
-            {/* Dispatch Dialog */}
-            <DispatchDialog
-                isOpen={showDispatchDialog}
-                onClose={() => setShowDispatchDialog(false)}
-                caseInfo={selectedCase}
-            />
         </div>
+                        </div >
+                    ) : (
+    <button
+        onClick={() => setShowQuickReport(true)}
+        className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-4 rounded-full shadow-xl shadow-blue-500/30 flex items-center gap-3 transition-all active:scale-95"
+    >
+        <span className="text-sm font-black tracking-widest uppercase">快速通報</span>
+        <ArrowLeft size={16} className="rotate-180" />
+    </button>
+)}
+                </div >
+            </div >
+
+    {/* Dispatch Dialog */ }
+    < DispatchDialog
+isOpen = { showDispatchDialog }
+onClose = {() => setShowDispatchDialog(false)}
+caseInfo = { selectedCase }
+    />
+        </div >
     );
 };
 
