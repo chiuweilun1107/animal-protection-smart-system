@@ -547,11 +547,52 @@ export const mockApi = {
     // ===== 報表 =====
     generateReport: async (type: string, filters?: any) => {
         await delay(1200);
+        const filteredCases = mockCases.filter(c => !filters || Object.entries(filters).every(([k, v]) => (c as any)[k] === v));
+
+        // 統計數據
+        const totalCases = filteredCases.length;
+        const resolvedCases = filteredCases.filter(c => c.status === 'resolved').length;
+        const pendingCases = filteredCases.filter(c => c.status === 'pending').length;
+        const urgentCases = filteredCases.filter(c => c.priority === 'urgent').length;
+
+        const chartData = {
+            statusDistribution: [
+                { name: '已結案', value: resolvedCases, percentage: Math.round((resolvedCases / totalCases) * 100) || 0 },
+                { name: '待處理', value: pendingCases, percentage: Math.round((pendingCases / totalCases) * 100) || 0 },
+                { name: '處理中', value: filteredCases.filter(c => c.status === 'processing').length, percentage: Math.round((filteredCases.filter(c => c.status === 'processing').length / totalCases) * 100) || 0 },
+            ],
+            priorityDistribution: [
+                { name: '緊急', value: urgentCases, color: '#ef4444' },
+                { name: '普通', value: filteredCases.filter(c => c.priority === 'normal').length, color: '#f59e0b' },
+                { name: '低', value: filteredCases.filter(c => c.priority === 'low').length, color: '#10b981' },
+            ],
+            weeklyStats: [
+                { week: '第1週', cases: Math.floor(Math.random() * 20) + 5, resolved: Math.floor(Math.random() * 15) + 2 },
+                { week: '第2週', cases: Math.floor(Math.random() * 20) + 5, resolved: Math.floor(Math.random() * 15) + 2 },
+                { week: '第3週', cases: Math.floor(Math.random() * 20) + 5, resolved: Math.floor(Math.random() * 15) + 2 },
+                { week: '第4週', cases: Math.floor(Math.random() * 20) + 5, resolved: Math.floor(Math.random() * 15) + 2 },
+            ],
+        };
+
         return {
             id: `R${Date.now()}`,
             type,
             generatedAt: new Date().toISOString(),
-            data: mockCases.filter(c => !filters || Object.entries(filters).every(([k, v]) => (c as any)[k] === v)),
+            summary: {
+                totalCases,
+                resolvedCases,
+                pendingCases,
+                urgentCases,
+                averageResolutionTime: '3.5 天',
+                satisfactionRate: '92%',
+            },
+            chartData,
+            topCaseWorkers: [
+                { name: '李承辦人', casesHandled: 28, avgResolutionTime: '2.8 天' },
+                { name: '陳承辦人', casesHandled: 24, avgResolutionTime: '3.2 天' },
+                { name: '張主管', casesHandled: 18, avgResolutionTime: '3.1 天' },
+            ],
+            data: filteredCases.slice(0, 10), // 只返回前 10 筆案件作為詳細資料
         };
     },
 };
