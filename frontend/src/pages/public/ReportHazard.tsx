@@ -196,15 +196,16 @@ export const ReportHazard: React.FC = () => {
                                 </div>
                             </div>
 
-                            {/* Section 02: Hazard Details (Bee/Snake Specific) */}
+                            {/* Section 02: Case Details Summary */}
                             <div className="bg-white rounded-[3rem] border border-slate-100 shadow-2xl overflow-hidden group hover:border-orange-500/30 transition-all duration-500">
                                 <div className="p-10 md:p-16">
                                     <div className="flex items-center gap-6 mb-12">
                                         <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold text-sm">02</div>
-                                        <h2 className="text-2xl font-black tracking-tighter text-slate-900 uppercase">{target === 'bee' ? '蜂巢資訊描述' : '蛇隻特徵描述'}</h2>
+                                        <h2 className="text-2xl font-black tracking-tighter text-slate-900 uppercase">案件詳情簡述</h2>
                                     </div>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                                    {/* Target Specific Info */}
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
                                         {target === 'bee' ? (
                                             <>
                                                 <div className="space-y-4">
@@ -245,8 +246,27 @@ export const ReportHazard: React.FC = () => {
                                             </>
                                         )}
                                     </div>
+
+                                    {/* Contact Info Integrated */}
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-12 border-t border-slate-50">
+                                        <div className="space-y-3">
+                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">報案人姓名</label>
+                                            <div className="relative">
+                                                <User className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+                                                <input type="text" value={contactName} onChange={(e) => setContactName(e.target.value)} className={`w-full pl-16 pr-6 py-5 bg-slate-50 border border-slate-100 rounded-3xl font-bold outline-none transition-all focus:ring-4 ${target === 'snake' ? 'focus:ring-emerald-500/10' : 'focus:ring-orange-500/10'}`} />
+                                            </div>
+                                        </div>
+                                        <div className="space-y-3">
+                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">手機聯絡電話</label>
+                                            <div className="relative">
+                                                <Phone className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+                                                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className={`w-full pl-16 pr-6 py-5 bg-slate-50 border border-slate-100 rounded-3xl font-bold outline-none transition-all focus:ring-4 ${target === 'snake' ? 'focus:ring-emerald-500/10' : 'focus:ring-orange-500/10'}`} />
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
 
                             {/* Section 03: Visual Evidence (Matching Screenshot) */}
                             <div className="bg-white rounded-[3rem] border border-slate-100 shadow-2xl overflow-hidden group hover:border-orange-500/30 transition-all duration-500">
@@ -284,31 +304,7 @@ export const ReportHazard: React.FC = () => {
                                 </div>
                             </div>
 
-                            {/* Section 04: Contact Information */}
-                            <div className="bg-white rounded-[3rem] border border-slate-100 shadow-2xl overflow-hidden group hover:border-orange-500/30 transition-all duration-500">
-                                <div className="p-10 md:p-16">
-                                    <div className="flex items-center gap-6 mb-12">
-                                        <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold text-sm">04</div>
-                                        <h2 className="text-2xl font-black tracking-tighter text-slate-900 uppercase">報案人資訊</h2>
-                                    </div>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                        <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">聯絡人姓名</label>
-                                            <div className="relative">
-                                                <User className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-                                                <input type="text" value={contactName} onChange={(e) => setContactName(e.target.value)} className="w-full pl-16 pr-6 py-5 bg-slate-50 border border-slate-100 rounded-3xl font-bold focus:ring-4 focus:ring-orange-500/10 outline-none transition-all" />
-                                            </div>
-                                        </div>
-                                        <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">手機聯絡電話</label>
-                                            <div className="relative">
-                                                <Phone className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-                                                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full pl-16 pr-6 py-5 bg-slate-50 border border-slate-100 rounded-3xl font-bold focus:ring-4 focus:ring-orange-500/10 outline-none transition-all" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
 
                             {/* Actions */}
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-10">

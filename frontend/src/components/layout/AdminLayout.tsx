@@ -195,7 +195,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                                                         : 'text-slate-400 hover:text-white hover:bg-white/5'}
                                                 `}
                                             >
-                                                <item.icon size={20} className={({ isActive }: any) => isActive ? 'text-white' : 'text-slate-500 group-hover:text-blue-400 transition-colors'} />
+                                                <item.icon size={20} className={isActiveRoute ? 'text-white' : 'text-slate-500 group-hover:text-blue-400 transition-colors'} />
                                                 <span>{item.label}</span>
                                             </NavLink>
                                         );
