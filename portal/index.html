@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>動物保護處 - 勤務及案管整合智慧系統</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="container navbar-content">
+            <div class="logo">
+                <img src="images/logo.png" alt="Office Logo" class="logo-img">
+                <div class="logo-text">
+                    <div class="city-name">[City Name]</div>
+                    <div class="office-name">Animal Protection Office</div>
+                </div>
+            </div>
+
+            <div class="nav-actions">
+                <div class="search-bar">
+                    <i data-lucide="search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+
+                <div class="ext-nav">
+                    <div class="lang-switch">
+                        <i data-lucide="globe"></i>
+                        <span>EN | 中</span>
+                    </div>
+                    <div class="auth-buttons">
+                        <button class="btn btn-primary btn-login">民眾登入</button>
+                        <button class="btn btn-dark btn-login">承辦人登入</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Dashboard Section -->
+        <section class="dashboard-section">
+            <div class="container">
+                <h2>即時數據儀表板</h2>
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <h3>今日通報數</h3>
+                        <div class="stat-value">152 <span class="arrow">➚</span></div>
+                        <div class="chart-container">
+                            <canvas id="chart1"></canvas>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>處理中案件</h3>
+                        <div class="stat-value">85</div>
+                        <div class="progress-container">
+                            <div class="progress-ring">
+                                <span class="ring-value">85</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>本月已結案</h3>
+                        <div class="stat-value">320</div>
+                        <div class="chart-container">
+                            <canvas id="chart2"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="announcement-bar">
+                    <div class="ann-label">
+                        <i data-lucide="megaphone"></i>
+                        <span>重要公告：</span>
+                    </div>
+                    <div class="ann-content">
+                        <marquee scrollamount="5">[2024-05-20] 夏季野生動物救援新規定發布，請民眾注意相關流程及通報方式...</marquee>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Entry Section -->
+        <section class="quick-entry-section">
+            <div class="container">
+                <h2 class="section-title">快速通報入口</h2>
+                <div class="quick-grid">
+                    <div class="entry-card">
+                        <div class="entry-img-wrapper">
+                            <img src="images/dog.png" alt="救援案件通報" class="entry-img photo">
+                        </div>
+                        <h3>救援案件通報</h3>
+                        <p>救援通報</p>
+                        <button class="btn btn-primary btn-cta">立即通報</button>
+                    </div>
+                    <div class="entry-card">
+                        <div class="entry-img-wrapper">
+                            <img src="images/bee.png" alt="蜂案通報" class="entry-img photo">
+                        </div>
+                        <h3>蜂案通報</h3>
+                        <p>蜂案通報</p>
+                        <button class="btn btn-primary btn-cta">立即通報</button>
+                    </div>
+                    <div class="entry-card">
+                        <div class="entry-icon-box call">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" class="phone-svg">
+                                <path
+                                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.81 12.81 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l2.27-2.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                </path>
+                            </svg>
+                            <span class="badget-text">1999</span>
+                        </div>
+                        <div class="entry-text-group">
+                            <h3>1999 快速案件</h3>
+                            <p>快速案件</p>
+                        </div>
+                        <button class="btn btn-orange btn-cta">撥打 1999</button>
+                    </div>
+                    <div class="entry-card">
+                        <div class="entry-icon-box hotline">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" class="phone-svg">
+                                <path
+                                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.81 12.81 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l2.27-2.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                </path>
+                            </svg>
+                            <span class="badget-text">1959</span>
+                        </div>
+                        <div class="entry-text-group">
+                            <h3>1959 動保專線</h3>
+                            <p>動保專線</p>
+                        </div>
+                        <button class="btn btn-orange btn-cta">撥打 1959</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Map Section -->
+        <section class="case-map-section">
+            <div class="container">
+                <h2 class="section-title">案件分佈地圖</h2>
+                <div class="map-wrapper">
+                    <iframe class="map-frame"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d115682.31682333735!2d121.43981245820313!3d25.033964100000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442ac68623cf577%3A0x6bba52d7085750d4!2z6Ie65YyX5biC5pS_5bqc5YuV54mp5L-d6K236JmV!5e0!3m2!1szh-TW!2stw!4v1705220000000!5m2!1szh-TW!2stw"
+                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+
+                    <div class="pins-layer">
+                        <div class="pin red" style="top: 45%; left: 48%;"></div>
+                        <div class="pin red" style="top: 38%; left: 52%;"></div>
+                        <div class="pin red" style="top: 55%; left: 42%;"></div>
+                        <div class="pin yellow" style="top: 42%; left: 45%;"></div>
+                        <div class="pin yellow" style="top: 35%; left: 47%;"></div>
+                        <div class="pin yellow" style="top: 50%; left: 55%;"></div>
+                        <div class="pin blue" style="top: 48%; left: 50%;"></div>
+                        <div class="pin blue" style="top: 40%; left: 43%;"></div>
+                        <div class="pin blue" style="top: 58%; left: 47%;"></div>
+                        <div class="pin blue" style="top: 32%; left: 58%;"></div>
+                        <div class="pin red" style="top: 62%; left: 53%;"></div>
+                        <div class="pin yellow" style="top: 45%; left: 60%;"></div>
+                        <div class="pin blue" style="top: 52%; left: 38%;"></div>
+                    </div>
+
+                    <!-- Map Floating UI -->
+                    <div class="map-floating-box">
+                        <div class="legend-area">
+                            <h4>L. 案例</h4>
+                            <div class="legend-item"><span class="dot red"></span> 救援案件</div>
+                            <div class="legend-item"><span class="dot yellow"></span> 蜂案案件</div>
+                            <div class="legend-item"><span class="dot blue"></span> 一般案件</div>
+                        </div>
+                        <div class="filter-controls">
+                            <select>
+                                <option>依區域</option>
+                            </select>
+                            <select>
+                                <option>依各種類</option>
+                            </select>
+                            <select>
+                                <option>依類型</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="map-controls">
+                        <div class="control-btn"><i data-lucide="user"></i></div>
+                        <div class="zoom-btns">
+                            <div class="control-btn">+</div>
+                            <div class="control-btn">-</div>
+                        </div>
+                    </div>
+
+                    <div class="map-brand">
+                        <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"
+                            alt="Google" width="60">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3><i data-lucide="search"></i> 案件查詢</h3>
+                    <p class="footer-subtext">輸入案件 ID</p>
+                    <div class="footer-search-box">
+                        <input type="text" placeholder="輸入案件 ID 名">
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3><i data-lucide="download"></i> 下載專區</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">● 下載專區</a></li>
+                        <li><a href="#">● 填報指南</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3><i data-lucide="help-circle"></i> 常見問題</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">● 常見問題</a></li>
+                        <li><a href="#">● 報案問題找學</a></li>
+                        <li><a href="#">● 常見問題</a></li>
+                        <li><a href="#">● 活動結合介紹</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3><i data-lucide="phone"></i> 聯絡客服</h3>
+                    <ul class="footer-info">
+                        <li><i data-lucide="phone"></i> 091-239-3531</li>
+                        <li><i data-lucide="mail"></i> 電子 email</li>
+                        <li><i data-lucide="clock"></i> 09:00 ~ 17:00</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="copyright">
+                    © 2024 市政府動保處維護 | 隱私權政策 | 意見管道說明
+                </div>
+                <div class="accessibility-badges">
+                    <i data-lucide="accessibility" class="badge-icon"></i>
+                    <i data-lucide="check-circle" class="badge-icon"></i>
+                    <i data-lucide="globe" class="badge-icon"></i>
+                </div>
+            </div>
+
+            <!-- Decorative element like in target image -->
+            <div class="footer-sparkle">✦</div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

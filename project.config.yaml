@@ -1,0 +1,23 @@
+project:
+  meta:
+    name: "勤務及案管整合智慧系統"
+    version: "0.1.0"
+    description: "基於 React + Node.js (Mock DB) 的勤務通報與管理系統展示雛型"
+  tech_stack:
+    frontend:
+      framework: "React"
+      uikit: "Tailwind CSS"
+      build_tool: "Vite"
+      language: "TypeScript"
+    backend:
+      framework: "Node.js (Express)"
+      database: "None (In-Memory/JSON)"
+      language: "TypeScript"
+  paths:
+    docs_root: "docs/"
+    frontend_root: "frontend/"
+    backend_root: "backend/"
+  conventions:
+    files: "kebab-case"
+    classes: "PascalCase"
+    variables: "camelCase"

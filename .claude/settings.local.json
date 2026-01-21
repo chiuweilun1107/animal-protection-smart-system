@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(tree:*)",
+      "Bash(for file in Dashboard.tsx CaseList.tsx Users.tsx Integration.tsx Analytics.tsx AuditLogs.tsx Proxy.tsx Workflows.tsx Reports.tsx Settings.tsx)",
+      "Bash(do)",
+      "Bash(echo:*)",
+      "Bash(done)",
+      "Bash(npm install:*)",
+      "mcp__ide__getDiagnostics",
+      "Bash(npm run dev:*)",
+      "Bash(npm run build:*)"
+    ]
+  }
+}
