@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams, useNavigate, Link } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 
 interface CaseStatus {
     id: string;
@@ -19,7 +19,6 @@ interface CaseStatus {
 
 export const Status: React.FC = () => {
     const [searchParams] = useSearchParams();
-    const navigate = useNavigate();
     const [caseId, setCaseId] = useState(searchParams.get('id') || 'ANS-20231120001');
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState<CaseStatus | null>(null);
