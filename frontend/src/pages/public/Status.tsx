@@ -64,36 +64,30 @@ export const Status: React.FC = () => {
     }, [searchParams]);
 
     return (
-        <div className="min-h-screen bg-[#F8FAFC] pb-40 overflow-hidden">
-            {/* Background Layer */}
-            <div className="fixed top-0 left-0 w-full h-[600px] bg-slate-900 pointer-events-none rounded-b-[5rem] overflow-hidden transition-all duration-1000">
-                <div className="absolute inset-0 bg-gradient-to-b from-blue-600/10 to-transparent"></div>
-                <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }}></div>
-            </div>
-
-            <div className="relative z-10 pt-32 px-6">
+        <div className="min-h-screen bg-[#FDFDFD] pb-40">
+            <div className="pt-32 px-6">
                 <div className="max-w-6xl mx-auto">
                     {/* Header Command Area */}
                     <div className="flex flex-col lg:flex-row items-end justify-between gap-12 mb-20 animate-in fade-in slide-in-from-bottom-10 duration-1000">
                         <div className="max-w-2xl">
-                            <Link to="/" className="inline-flex items-center gap-3 px-6 py-3 bg-white/10 backdrop-blur-md rounded-xl border border-white/10 text-white font-black text-[10px] uppercase tracking-[0.2em] hover:bg-white hover:text-slate-900 transition-all mb-10">
+                            <Link to="/" className="inline-flex items-center gap-3 px-6 py-3 bg-slate-100 rounded-xl border border-slate-200 text-slate-600 font-black text-[10px] uppercase tracking-[0.2em] hover:bg-slate-900 hover:text-white transition-all mb-10">
                                 BACK TO PORTAL
                             </Link>
-                            <h1 className="text-7xl md:text-8xl font-black tracking-tighter text-white leading-[0.85] uppercase">
+                            <h1 className="text-7xl md:text-8xl font-black tracking-tighter text-slate-950 leading-[0.85] uppercase">
                                 案件進度<br />
-                                <span className="text-blue-500">查詢中心</span>
+                                <span className="text-blue-600">查詢中心</span>
                             </h1>
                         </div>
 
                         <div className="w-full lg:w-[480px]">
-                            <div className="bg-white/5 backdrop-blur-2xl border border-white/10 p-2 pr-2 rounded-[2.5rem] flex items-center shadow-2xl">
+                            <div className="bg-white border-2 border-slate-200 p-2 pr-2 rounded-[2.5rem] flex items-center shadow-xl">
                                 <div className="relative flex-1 group pl-4">
                                     <input
                                         type="text"
                                         value={caseId}
                                         onChange={(e) => setCaseId(e.target.value)}
                                         placeholder="輸入案件編號..."
-                                        className="w-full px-6 py-5 bg-transparent text-white font-black text-xl tracking-tight outline-none placeholder:text-slate-600"
+                                        className="w-full px-6 py-5 bg-transparent text-slate-900 font-black text-xl tracking-tight outline-none placeholder:text-slate-300"
                                     />
                                 </div>
                                 <button

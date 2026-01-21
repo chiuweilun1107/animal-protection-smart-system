@@ -63,26 +63,20 @@ export const FAQ: React.FC = () => {
     );
 
     return (
-        <div className="min-h-screen bg-[#F8FAFC] pb-40 overflow-hidden">
-            {/* Background Decorative Elements */}
-            <div className="fixed top-0 left-0 w-full h-[600px] bg-slate-900 pointer-events-none rounded-b-[5rem] overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-b from-blue-600/10 to-transparent"></div>
-                <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }}></div>
-            </div>
-
-            <div className="relative z-10 pt-32 px-6">
+        <div className="min-h-screen bg-[#FDFDFD] pb-40">
+            <div className="pt-32 px-6">
                 <div className="max-w-6xl mx-auto">
                     {/* Header */}
                     <div className="flex flex-col lg:flex-row items-end justify-between gap-12 mb-20">
                         <div className="max-w-2xl">
-                            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-500/10 text-blue-400 rounded-full text-[10px] font-black uppercase tracking-[0.3em] mb-6 border border-blue-500/20">
+                            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-[0.3em] mb-6 border border-blue-100">
                                 智慧服務門戶
                             </div>
-                            <h1 className="text-7xl md:text-8xl font-black tracking-tighter text-white leading-[0.85] uppercase">
+                            <h1 className="text-7xl md:text-8xl font-black tracking-tighter text-slate-950 leading-[0.85] uppercase">
                                 服務<br />
-                                <span className="text-blue-500">百科手冊</span>
+                                <span className="text-blue-600">百科手冊</span>
                             </h1>
-                            <p className="mt-8 text-slate-400 text-xl font-medium border-l-4 border-blue-600 pl-6">
+                            <p className="mt-8 text-slate-500 text-xl font-medium border-l-4 border-blue-600 pl-6">
                                 智慧服務百科：整合新北市動保處所有業務流程、法規諮詢與常見問答，為您提供最即時的知識支援。
                             </p>
                         </div>
@@ -93,7 +87,7 @@ export const FAQ: React.FC = () => {
                                     placeholder="搜尋智慧索引..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full px-8 py-5 bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] text-white focus:ring-4 focus:ring-blue-500/20 outline-none transition-all font-bold placeholder:text-slate-600"
+                                    className="w-full px-8 py-5 bg-white border-2 border-slate-200 rounded-[2rem] text-slate-900 focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-bold placeholder:text-slate-300 shadow-sm"
                                 />
                             </div>
                         </div>
@@ -103,7 +97,10 @@ export const FAQ: React.FC = () => {
                     <div className="flex flex-wrap gap-4 mb-16">
                         <button
                             onClick={() => setActiveSection('all')}
-                            className={`px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${activeSection === 'all' ? 'bg-blue-600 text-white shadow-xl shadow-blue-600/30' : 'bg-white/5 border border-white/10 text-slate-400 hover:text-white hover:bg-white/10'}`}
+                            className={`px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${activeSection === 'all'
+                                    ? 'bg-blue-600 text-white shadow-xl shadow-blue-600/30'
+                                    : 'bg-slate-100 border border-slate-200 text-slate-400 hover:text-slate-900 hover:bg-slate-200'
+                                }`}
                         >
                             所有類別
                         </button>
@@ -111,7 +108,10 @@ export const FAQ: React.FC = () => {
                             <button
                                 key={s.id}
                                 onClick={() => setActiveSection(s.id)}
-                                className={`px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${activeSection === s.id ? 'bg-slate-900 border border-blue-500 text-white shadow-xl shadow-blue-500/10' : 'bg-white/5 border border-white/10 text-slate-400 hover:text-white hover:bg-white/10'}`}
+                                className={`px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${activeSection === s.id
+                                        ? 'bg-slate-900 border border-blue-500 text-white shadow-xl shadow-blue-500/10'
+                                        : 'bg-slate-100 border border-slate-200 text-slate-400 hover:text-slate-900 hover:bg-slate-200'
+                                    }`}
                             >
                                 {s.title}
                             </button>

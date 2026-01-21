@@ -1,12 +1,15 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { MessageCircle } from 'lucide-react';
 import { ChatWindow } from './ChatWindow';
+import { useDraggable } from './useDraggable';
 import { mockAIService } from '../../services/mockAIService';
 import type { Message } from './types';
 
 export function AIAssistantWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const { position, isDragging } = useDraggable(buttonRef);
 
   const handleSendMessage = useCallback(
     async (userMessage: string) => {
@@ -49,21 +52,36 @@ export function AIAssistantWidget() {
     []
   );
 
+  const handleClick = () => {
+    // 只有在不拖曳時才打開聊天窗口
+    if (!isDragging) {
+      setIsOpen(true);
+    }
+  };
+
   return (
     <>
-      {/* 浮動按鈕 */}
+      {/* 浮動按鈕 - 可拖曳 */}
       <button
-        className="fixed bottom-6 right-6 z-50 w-16 h-16
+        ref={buttonRef}
+        className="fixed z-50 w-16 h-16
                    bg-gradient-to-br from-blue-600 to-purple-600
                    rounded-2xl shadow-2xl shadow-blue-600/30
                    hover:shadow-blue-600/50 hover:scale-110
                    transition-all duration-300
-                   flex items-center justify-center group"
-        onClick={() => setIsOpen(true)}
+                   flex items-center justify-center group
+                   drag-handle cursor-grab active:cursor-grabbing"
+        onClick={handleClick}
         title="打開 AI 助手"
+        style={{
+          bottom: '24px',
+          right: '24px',
+          transform: `translate(${position.x}px, ${position.y}px)`,
+          cursor: isDragging ? 'grabbing' : 'grab'
+        }}
       >
         <MessageCircle
-          className="text-white group-hover:scale-110 transition-transform"
+          className="text-white group-hover:scale-110 transition-transform pointer-events-none"
           size={28}
         />
       </button>
