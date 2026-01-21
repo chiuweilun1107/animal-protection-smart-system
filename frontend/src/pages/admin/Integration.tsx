@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import {
-  RefreshCw, Settings, AlertCircle, CheckCircle2,
-  Link2, Zap, Shield, Cpu, ExternalLink,
-  Terminal, Globe, Activity, ArrowRight
+  RefreshCw, Settings,
+  Link2, Cpu, ExternalLink,
+  Terminal, Globe, Activity, ArrowRight, Clock, AlertTriangle
 } from 'lucide-react';
-import React from 'react';
 import { mockApi } from '../../services/mockApi';
 import type { IntegrationConfig } from '../../types/schema';
 
@@ -13,10 +12,18 @@ export function IntegrationPage() {
   const [loading, setLoading] = useState(true);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [syncingId, setSyncingId] = useState<string | null>(null);
+  const [integrationLogs, setIntegrationLogs] = useState<any[]>([]);
+  const [logsLoading, setLogsLoading] = useState(false);
 
   useEffect(() => {
     loadIntegrations();
   }, []);
+
+  useEffect(() => {
+    if (selectedId) {
+      loadIntegrationLogs(selectedId);
+    }
+  }, [selectedId]);
 
   const loadIntegrations = async () => {
     setLoading(true);
@@ -31,6 +38,18 @@ export function IntegrationPage() {
     }
   };
 
+  const loadIntegrationLogs = async (integrationId: string) => {
+    setLogsLoading(true);
+    try {
+      const logs = await mockApi.getIntegrationLogs({ integrationId });
+      setIntegrationLogs(logs);
+    } catch (error) {
+      console.error('Failed to load logs:', error);
+    } finally {
+      setLogsLoading(false);
+    }
+  };
+
   const handleSync = async (id: string) => {
     setSyncingId(id);
     try {
@@ -38,9 +57,56 @@ export function IntegrationPage() {
       setIntegrations(integrations.map(i =>
         i.id === id ? { ...i, lastSync: new Date().toISOString() } : i
       ));
+      await loadIntegrationLogs(id);
     } finally {
       setSyncingId(null);
     }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'success':
+        return 'bg-emerald-50 border-emerald-200';
+      case 'failed':
+        return 'bg-red-50 border-red-200';
+      case 'partial':
+        return 'bg-amber-50 border-amber-200';
+      default:
+        return 'bg-slate-50 border-slate-200';
+    }
+  };
+
+  const getStatusBadgeColor = (status: string) => {
+    switch (status) {
+      case 'success':
+        return 'bg-emerald-100 text-emerald-700 border border-emerald-300';
+      case 'failed':
+        return 'bg-red-100 text-red-700 border border-red-300';
+      case 'partial':
+        return 'bg-amber-100 text-amber-700 border border-amber-300';
+      default:
+        return 'bg-slate-100 text-slate-700 border border-slate-300';
+    }
+  };
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'success':
+        return '成功';
+      case 'failed':
+        return '失敗';
+      case 'partial':
+        return '部分成功';
+      default:
+        return '未知';
+    }
+  };
+
+  const formatDuration = (ms: number) => {
+    if (ms < 1000) {
+      return `${ms}ms`;
+    }
+    return `${(ms / 1000).toFixed(2)}s`;
   };
 
   const selectedIntegration = integrations.find(i => i.id === selectedId);
@@ -214,6 +280,140 @@ export function IntegrationPage() {
                   <p className="text-sm text-slate-500 mt-2 max-w-sm">所有安全握手已執行。資料完整性 99.99%。已準備進行同步交易。</p>
                 </div>
                 <div className="absolute -top-10 -right-10 w-40 h-40 bg-indigo-300/10 rounded-full blur-3xl"></div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Integration Logs Section */}
+      <div className="mt-16">
+        <div className="mb-8">
+          <h2 className="text-base font-black text-indigo-600 uppercase tracking-[0.3em]">介接紀錄</h2>
+          <p className="text-3xl font-black tracking-tighter text-slate-900 uppercase mt-2">執行歷程</p>
+        </div>
+
+        <div className="bg-white rounded-[3rem] border border-slate-100 shadow-2xl shadow-slate-200/50 overflow-hidden">
+          {/* Logs Header */}
+          <div className="px-10 py-8 border-b border-slate-50 bg-gradient-to-r from-slate-50 to-slate-50/50">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-600">
+                  <Clock size={20} />
+                </div>
+                <div>
+                  <p className="text-base font-black text-slate-400 uppercase tracking-widest">日誌</p>
+                  <p className="text-sm text-slate-500 font-black uppercase tracking-widest mt-1">{integrationLogs.length} 筆記錄</p>
+                </div>
+              </div>
+              {logsLoading && (
+                <div className="flex items-center gap-2 text-indigo-600">
+                  <div className="w-2 h-2 bg-indigo-600 rounded-full animate-pulse"></div>
+                  <span className="text-sm font-black uppercase tracking-widest">載入中</span>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Logs Content */}
+          <div className="overflow-x-auto">
+            {integrationLogs.length === 0 ? (
+              <div className="px-10 py-16 text-center">
+                <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 mx-auto mb-4">
+                  <Activity size={24} />
+                </div>
+                <p className="text-slate-500 font-black uppercase tracking-widest">暫無紀錄</p>
+              </div>
+            ) : (
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-slate-100 bg-slate-50/50">
+                    <th className="px-8 py-4 text-left text-base font-black text-slate-400 uppercase tracking-widest">時間</th>
+                    <th className="px-8 py-4 text-left text-base font-black text-slate-400 uppercase tracking-widest">操作</th>
+                    <th className="px-8 py-4 text-left text-base font-black text-slate-400 uppercase tracking-widest">狀態</th>
+                    <th className="px-8 py-4 text-left text-base font-black text-slate-400 uppercase tracking-widest">記錄數</th>
+                    <th className="px-8 py-4 text-left text-base font-black text-slate-400 uppercase tracking-widest">執行時間</th>
+                    <th className="px-8 py-4 text-left text-base font-black text-slate-400 uppercase tracking-widest">說明</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {integrationLogs.map((log, idx) => (
+                    <tr
+                      key={log.id || idx}
+                      className={`border-b border-slate-50 hover:bg-slate-50/50 transition-colors ${getStatusColor(
+                        log.status
+                      )}`}
+                    >
+                      <td className="px-8 py-5">
+                        <span className="text-sm font-bold text-slate-700 font-mono">
+                          {new Date(log.executedAt).toLocaleString('zh-TW')}
+                        </span>
+                      </td>
+                      <td className="px-8 py-5">
+                        <span className="text-base font-black text-slate-600 uppercase tracking-tight">{log.action}</span>
+                      </td>
+                      <td className="px-8 py-5">
+                        <span
+                          className={`inline-block px-4 py-2 rounded-lg text-xs font-black uppercase tracking-widest ${getStatusBadgeColor(
+                            log.status
+                          )}`}
+                        >
+                          {getStatusText(log.status)}
+                        </span>
+                      </td>
+                      <td className="px-8 py-5">
+                        <span className="text-base font-black text-slate-700 tabular-nums">{log.recordCount}</span>
+                      </td>
+                      <td className="px-8 py-5">
+                        <span className="text-sm font-mono font-bold text-slate-600">{formatDuration(log.duration)}</span>
+                      </td>
+                      <td className="px-8 py-5">
+                        {log.status === 'failed' && log.errorMessage ? (
+                          <div className="flex items-start gap-2">
+                            <AlertTriangle size={16} className="flex-shrink-0 text-red-500 mt-0.5" />
+                            <span className="text-xs text-red-600 font-black">{log.errorMessage}</span>
+                          </div>
+                        ) : log.metadata ? (
+                          <span className="text-xs text-slate-600 font-mono">{JSON.stringify(log.metadata)}</span>
+                        ) : (
+                          <span className="text-xs text-slate-400">-</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+
+          {/* Logs Footer Stats */}
+          {integrationLogs.length > 0 && (
+            <div className="px-10 py-8 border-t border-slate-50 bg-gradient-to-r from-slate-50 to-slate-50/50">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div className="flex flex-col">
+                  <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-2">成功</p>
+                  <p className="text-2xl font-black text-emerald-600">
+                    {integrationLogs.filter(l => l.status === 'success').length}
+                  </p>
+                </div>
+                <div className="flex flex-col">
+                  <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-2">失敗</p>
+                  <p className="text-2xl font-black text-red-600">
+                    {integrationLogs.filter(l => l.status === 'failed').length}
+                  </p>
+                </div>
+                <div className="flex flex-col">
+                  <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-2">部分成功</p>
+                  <p className="text-2xl font-black text-amber-600">
+                    {integrationLogs.filter(l => l.status === 'partial').length}
+                  </p>
+                </div>
+                <div className="flex flex-col">
+                  <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-2">總記錄數</p>
+                  <p className="text-2xl font-black text-indigo-600">
+                    {integrationLogs.reduce((sum, l) => sum + (l.recordCount || 0), 0)}
+                  </p>
+                </div>
               </div>
             </div>
           )}
