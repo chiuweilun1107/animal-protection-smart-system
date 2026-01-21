@@ -24,10 +24,6 @@ export const Status: React.FC = () => {
     const [result, setResult] = useState<CaseStatus | null>(null);
     const [error, setError] = useState('');
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
-
     const mockFetchStatus = (id: string) => {
         setLoading(true);
         setError('');
@@ -48,8 +44,8 @@ export const Status: React.FC = () => {
                         hour: '2-digit',
                         minute: '2-digit'
                     }),
-                    location: '新北市板橋區四川路一段 157 巷口 7-11 前',
-                    description: '發現一隻橘色浪貓，左前腳似乎受傷跛行，但在路邊坐著不動，希望能派員協助救援。',
+                    location: '新北市板橋區四川路一段 157 巷口',
+                    description: '發現受傷貓咪，左前肢骨折，需緊急救援。現場已由民眾初步固定。',
                     timeline: isNewCase ? [
                         // New case: only first step completed
                         {

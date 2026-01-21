@@ -52,7 +52,7 @@ export const MapView: React.FC = () => {
                 reporter: '線上通報',
                 photoUrl: notification.type === '捕蜂抓蛇'
                     ? 'https://images.unsplash.com/photo-1579383618796-08e67bbc3363?auto=format&fit=crop&q=80&w=300'
-                    : 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=300', // Clear Orange Cat
+                    : '/report_evidence_demo.png', // Match Report page image
                 description: notification.type === '捕蜂抓蛇'
                     ? '室內發現蜂窩，需要專業人員移除。'
                     : '發現一隻橘色浪貓，左前腳似乎受傷跛行，但在路邊坐著不動，希望能派員協助救援。'
@@ -66,7 +66,7 @@ export const MapView: React.FC = () => {
                 status: 'pending',
                 address: '新北市板橋區縣民大道二段7號',
                 reporter: '王小明',
-                photoUrl: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=300', // Clear Orange Cat
+                photoUrl: '/report_evidence_demo.png', // Match Report page image
                 description: '發現一隻橘色浪貓，左前腳似乎受傷跛行，但在路邊坐著不動，希望能派員協助救援。'
             },
             {
@@ -129,6 +129,75 @@ export const MapView: React.FC = () => {
                 description: '黑色大型犬，無項圈，看起來很餓。'
             },
             {
+                id: 'C20231021007',
+                lat: 25.005,
+                lng: 121.475,
+                type: 'bee',
+                title: '路燈桿上蜂窩',
+                status: 'resolved',
+                address: '新北市板橋區四川路二段',
+                reporter: '趙技安',
+                description: '虎頭蜂窩，已請相關單位移除。'
+            },
+            {
+                id: 'C20231021008',
+                lat: 25.018,
+                lng: 121.462,
+                type: 'general',
+                title: '受困幼貓',
+                status: 'processing',
+                address: '新北市板橋區實踐路',
+                reporter: '吳淑芬',
+                photoUrl: 'https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&q=80&w=300',
+                description: '卡在車底盤，需要協助誘捕。'
+            },
+            {
+                id: 'C20231021009',
+                lat: 25.035,
+                lng: 121.445,
+                type: 'bee',
+                title: '校園操場蜂窩',
+                status: 'pending',
+                address: '新北市板橋區大觀路一段',
+                reporter: '陳老師',
+                photoUrl: 'https://images.unsplash.com/photo-1528696892704-5e1122852276?auto=format&fit=crop&q=80&w=300',
+                description: '學生發現足球門旁有蜂窩。'
+            },
+            {
+                id: 'C20231021010',
+                lat: 25.010,
+                lng: 121.485,
+                type: 'general',
+                title: '捕獸夾誤傷犬隻',
+                status: 'pending',
+                address: '新北市板橋區三民路一段',
+                reporter: '劉志明',
+                description: '狗狗右腳被夾住，需要緊急救援。'
+            },
+            {
+                id: 'C20231021011',
+                lat: 25.022,
+                lng: 121.458,
+                type: 'bee',
+                title: '變電箱蜂窩',
+                status: 'processing',
+                address: '新北市板橋區南雅南路二段',
+                reporter: '台電人員',
+                description: '維修時發現，暫停作業中。'
+            },
+            {
+                id: 'C20231021012',
+                lat: 25.028,
+                lng: 121.468,
+                type: 'general',
+                title: '流浪貓結紮回置',
+                status: 'resolved',
+                address: '新北市板橋區民生路二段',
+                reporter: '愛媽小玲',
+                photoUrl: 'https://images.unsplash.com/photo-1519052537078-e6302a4968ef?auto=format&fit=crop&q=80&w=300',
+                description: '已完成絕育手術，剪耳標記。'
+            },
+            {
                 id: 'C20231021013',
                 lat: 25.016,
                 lng: 121.452,
@@ -139,6 +208,17 @@ export const MapView: React.FC = () => {
                 reporter: '林先生',
                 photoUrl: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&q=80&w=300',
                 description: '黃色柴犬，紅色項圈，叫聲宏亮。'
+            },
+            {
+                id: 'C20231021014',
+                lat: 25.006,
+                lng: 121.466,
+                type: 'bee',
+                title: '陽台築巢',
+                status: 'pending',
+                address: '新北市板橋區貴興路',
+                reporter: '張太太',
+                description: '一早起來發現好多蜜蜂。'
             },
             {
                 id: 'C20231021015',
@@ -153,7 +233,7 @@ export const MapView: React.FC = () => {
             }
         ];
         setCases(mockCases);
-    }, [notification]);
+    }, []);
 
     const filteredCases = cases.filter(c => {
         if (filterType !== 'all' && c.type !== filterType) return false;

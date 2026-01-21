@@ -21,8 +21,8 @@ export const mockAIService = {
       緊急: {
         text: '根據系統數據，本週共發生 12 起緊急事件，其中已解決 8 起，還有 4 起正在處理中。需要我查看具體的緊急案件詳情嗎？',
         links: [
-          { text: '查看緊急案件列表', url: '/admin/cases?filter=attention', label: '緊急案件' },
-          { text: '查看詳細報告', url: '/admin/reports', label: '報表' }
+          { text: '查看緊急案件列表', url: '/admin/cases?priority=critical', label: '緊急案件' },
+          { text: '查看詳細報告', url: '/admin/reports?priority=critical', label: '報表' }
         ]
       },
       事件: {

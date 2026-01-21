@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
   Download, Filter, Calendar, BarChart3, PieChart,
   FileText, ArrowRight, CheckCircle, AlertCircle, TrendingUp,
@@ -8,11 +9,14 @@ import { mockApi } from '../../services/mockApi';
 import type { Case } from '../../types/schema';
 
 export function ReportsPage() {
+  const [searchParams] = useSearchParams();
+  const urlPriority = searchParams.get('priority') || '';
+
   const [reportType, setReportType] = useState('inspection');
   const [startDate, setStartDate] = useState('2023-11-01');
   const [endDate, setEndDate] = useState('2023-11-30');
   const [caseStatus, setCaseStatus] = useState('');
-  const [casePriority, setCasePriority] = useState('');
+  const [casePriority, setCasePriority] = useState(urlPriority);
   const [loading, setLoading] = useState(false);
   const [reportData, setReportData] = useState<any>(null);
 
@@ -38,6 +42,27 @@ export function ReportsPage() {
       setLoading(false);
     }
   };
+
+  // 頁面載入時自動生成報告（考慮 URL 參數過濾）
+  useEffect(() => {
+    const generateInitialReport = async () => {
+      setLoading(true);
+      try {
+        const filters: any = {};
+        if (urlPriority) {
+          filters.priority = urlPriority;
+        }
+        const data = await mockApi.generateReport(reportType, filters);
+        setReportData(data);
+      } catch (error) {
+        console.error('Report generation failed');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    generateInitialReport();
+  }, [urlPriority]);
 
   const handleDownload = (format: string) => {
     alert(`Initiating ${format.toUpperCase()} Protocol Download...`);
