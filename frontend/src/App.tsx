@@ -4,6 +4,7 @@ import { Layout } from './components/layout/Layout';
 import { AdminLayout } from './components/layout/AdminLayout';
 import { Home } from './pages/public/Home';
 import { Report } from './pages/public/Report';
+import { ReportHazard } from './pages/public/ReportHazard';
 import { ReportSuccess } from './pages/public/ReportSuccess';
 import { MapView } from './pages/public/MapView';
 import { Status } from './pages/public/Status';
@@ -32,6 +33,7 @@ function App() {
         {/* 公開路由 */}
         <Route path="/" element={<Layout><Home /></Layout>} />
         <Route path="/report/success" element={<Layout><ReportSuccess /></Layout>} />
+        <Route path="/report/hazard" element={<Layout><ReportHazard /></Layout>} />
         <Route path="/report/:type" element={<Layout><Report /></Layout>} />
         <Route path="/status" element={<Layout><Status /></Layout>} />
         <Route path="/map" element={<MapView />} />
