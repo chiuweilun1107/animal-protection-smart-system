@@ -14,7 +14,7 @@ export function ChatInput({ onSend, value: externalValue, onChange: externalOnCh
 
   // 使用外部值或內部值
   const value = externalValue !== undefined ? externalValue : internalValue;
-  const setValue = externalOnChange || setInternalValue;
+  const setValue = externalOnChange !== undefined ? externalOnChange : setInternalValue;
 
   const handleSend = async () => {
     if (!value.trim() || isSending) return;

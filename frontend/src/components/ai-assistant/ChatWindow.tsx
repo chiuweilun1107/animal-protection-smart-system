@@ -32,15 +32,15 @@ export function ChatWindow({ messages, onClose, onSendMessage }: ChatWindowProps
       setHasInitialized(true);
 
       const firstMessage = '我想了解這週發生了多少緊急事件';
-      let sendTimer: ReturnType<typeof setTimeout>;
+      let sendTimer: ReturnType<typeof setTimeout> | null = null;
 
       // 延遲 3 秒後填入輸入欄
       const fillInputTimer = setTimeout(() => {
         setInputValue(firstMessage);
 
         // 再延遲一點後自動發送
-        sendTimer = setTimeout(async () => {
-          await onSendMessage(firstMessage);
+        sendTimer = setTimeout(() => {
+          onSendMessage(firstMessage);
           autoFlowRef.current.stage = 'waiting_first_response';
           setInputValue('');
         }, 300);
@@ -48,12 +48,12 @@ export function ChatWindow({ messages, onClose, onSendMessage }: ChatWindowProps
 
       return () => {
         clearTimeout(fillInputTimer);
-        if (sendTimer) {
+        if (sendTimer !== null) {
           clearTimeout(sendTimer);
         }
       };
     }
-  }, [hasInitialized, messages.length, onSendMessage]);
+  }, [hasInitialized]);
 
   // 自動流程：接收到 AI 回覆後，3秒後自動輸入第二條消息
   useEffect(() => {
