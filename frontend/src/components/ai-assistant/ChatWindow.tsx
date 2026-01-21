@@ -37,12 +37,8 @@ export function ChatWindow({ messages, onClose, onSendMessage }: ChatWindowProps
       }}
     >
       {/* Header - 可拖曳區域 */}
-      <div
-        className="drag-handle cursor-move
-                    bg-gradient-to-r from-blue-600 to-purple-600
-                    px-6 py-4 flex items-center justify-between flex-shrink-0"
-      >
-        <div className="flex items-center gap-3 flex-1">
+      <div className="drag-handle cursor-move bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4 flex items-center justify-between flex-shrink-0">
+        <div className="flex items-center gap-3 flex-1 pointer-events-none">
           <Sparkles className="text-white flex-shrink-0" size={24} />
           <div className="min-w-0">
             <h3 className="text-lg font-black text-white truncate">AI 助手</h3>
@@ -50,8 +46,11 @@ export function ChatWindow({ messages, onClose, onSendMessage }: ChatWindowProps
           </div>
         </div>
         <button
-          onClick={onClose}
-          className="p-2 hover:bg-white/20 rounded-lg transition-colors flex-shrink-0"
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose();
+          }}
+          className="p-2 hover:bg-white/20 rounded-lg transition-colors flex-shrink-0 pointer-events-auto"
           title="關閉"
         >
           <X className="text-white" size={20} />

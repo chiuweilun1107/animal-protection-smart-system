@@ -30,14 +30,37 @@ export const Status: React.FC = () => {
 
         setTimeout(() => {
             if (id.toUpperCase().startsWith('ANS-')) {
+                // Check if this is a newly submitted case (from report form)
+                const isNewCase = id.toUpperCase() === 'ANS-20231120001';
+
                 setResult({
                     id: id.toUpperCase(),
                     type: '救援行動 / 動物保護',
-                    status: 'processing',
-                    createDate: '2023-11-20 14:30',
+                    status: isNewCase ? 'pending' : 'processing',
+                    createDate: new Date().toLocaleString('zh-TW', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }),
                     location: '新北市板橋區四川路一段 157 巷口',
                     description: '發現受傷貓咪，左前肢骨折，需緊急救援。現場已由民眾初步固定。',
-                    timeline: [
+                    timeline: isNewCase ? [
+                        // New case: only first step completed
+                        {
+                            date: new Date().toLocaleDateString('zh-TW'),
+                            time: new Date().toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit' }),
+                            title: '案件受理',
+                            desc: '案件受理：系統已接收您的通報資料，案號已生成並鏈接至地理資訊中心。',
+                            done: true
+                        },
+                        { date: '-', time: '-', title: '資料審核', desc: '等待中心人員審核資料內容並確認案件優先級。', done: false },
+                        { date: '-', time: '-', title: '單位派勤', desc: '審核完成後將指派最近之勤務小組前往處理。', done: false },
+                        { date: '-', time: '-', title: '現場處置', desc: '勤務人員將抵達現場進行處置。', done: false },
+                        { date: '-', time: '-', title: '任務完成', desc: '完成處置後將更新最終結案報告。', done: false }
+                    ] : [
+                        // Existing case: multiple steps completed
                         { date: '2023-11-20', time: '14:30', title: '案件受理', desc: '案件受理：系統已接收您的通報資料，案號已生成並鏈接至地理資訊中心。', done: true },
                         { date: '2023-11-20', time: '14:45', title: '資料審核', desc: '初步審核：中心人員已審核資料內容，確認為緊急優先案件。', done: true },
                         { date: '2023-11-20', time: '15:10', title: '單位派勤', desc: '單位派勤：已指派最近之板橋區勤務小組前往，部署車號: ADC-8899。', done: true },

@@ -46,9 +46,8 @@ export const useDraggable = (
 
       // 直接更新 DOM，不觸發 React 重新渲染
       // 使用 will-change 啟用硬體加速
-      element.style.willChange = 'left, top';
-      element.style.left = `calc(100vw - 96px + ${newPos.x}px)`;
-      element.style.top = `calc(100vh - 96px + ${newPos.y}px)`;
+      element.style.willChange = 'transform';
+      element.style.transform = `translate(${newPos.x}px, ${newPos.y}px)`;
 
       // 只有在移動時才更新狀態
       positionRef.current = newPos;
