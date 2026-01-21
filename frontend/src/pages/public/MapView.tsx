@@ -50,7 +50,12 @@ export const MapView: React.FC = () => {
                 status: 'pending' as const,
                 address: notification.location,
                 reporter: '線上通報',
-                description: '剛剛提交的新案件，等待處理中。'
+                photoUrl: notification.type === '捕蜂抓蛇'
+                    ? 'https://images.unsplash.com/photo-1579383618796-08e67bbc3363?auto=format&fit=crop&q=80&w=300'
+                    : 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=300',
+                description: notification.type === '捕蜂抓蛇'
+                    ? '室內發現蜂窩，需要專業人員移除。'
+                    : '發現受傷或需要救援的動物，等待處理中。'
             }] : []),
             {
                 id: 'C20231021001',
