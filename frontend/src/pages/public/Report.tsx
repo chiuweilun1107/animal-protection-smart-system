@@ -57,7 +57,7 @@ export const Report: React.FC = () => {
         <div className="min-h-screen bg-[#F8FAFC] pb-40 overflow-hidden">
             {/* Emergency Alert Banner */}
             {isEmergency && (
-                <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-red-600 to-rose-600 text-white py-4 px-6 shadow-2xl animate-in slide-in-from-top-5">
+                <div className="fixed top-20 left-0 right-0 z-40 bg-gradient-to-r from-red-600 to-rose-600 text-white py-4 px-6 shadow-2xl animate-in slide-in-from-top-5">
                     <div className="max-w-4xl mx-auto flex items-center gap-4">
                         <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center font-black text-xl animate-pulse">
                             !!!
@@ -85,10 +85,10 @@ export const Report: React.FC = () => {
                     {/* Header */}
                     <div className="flex flex-col md:flex-row items-center gap-12 mb-20 animate-in fade-in slide-in-from-bottom-10 duration-1000">
                         <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-2xl font-black text-xl ${isEmergency
-                                ? 'bg-red-600 shadow-red-600/50 animate-pulse'
-                                : isBee
-                                    ? 'bg-orange-500 shadow-orange-500/50'
-                                    : 'bg-slate-800 shadow-slate-900/50'
+                            ? 'bg-red-600 shadow-red-600/50 animate-pulse'
+                            : isBee
+                                ? 'bg-orange-500 shadow-orange-500/50'
+                                : 'bg-slate-800 shadow-slate-900/50'
                             }`}>
                             {isEmergency ? '!!!' : isBee ? 'B' : 'A'}
                         </div>
