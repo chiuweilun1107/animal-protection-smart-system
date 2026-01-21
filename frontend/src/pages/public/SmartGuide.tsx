@@ -155,7 +155,7 @@ export const SmartGuide: React.FC = () => {
                             </div>
                             <div className="mt-20 flex flex-wrap justify-center gap-6">
                                 <button onClick={() => goTo('start')} className="px-12 py-6 bg-white text-slate-400 rounded-3xl font-black text-sm uppercase tracking-widest border border-rose-100 hover:bg-rose-100 hover:text-rose-600 transition-all">返回首頁</button>
-                                <button onClick={() => navigate('/report/general')} className="px-12 py-6 bg-rose-600 text-white rounded-3xl font-black text-sm uppercase tracking-widest shadow-xl shadow-rose-600/30">仍要網頁通報</button>
+                                <button onClick={() => navigate('/report/general?emergency=true')} className="px-12 py-6 bg-rose-600 text-white rounded-3xl font-black text-sm uppercase tracking-widest shadow-xl shadow-rose-600/30">仍要網頁通報</button>
                             </div>
                         </div>
                     </div>

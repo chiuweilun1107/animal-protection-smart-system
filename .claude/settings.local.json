@@ -14,7 +14,8 @@
       "Skill(playwright-skill)",
       "Bash(grep:*)",
       "Bash(mdls:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(wc:*)"
     ]
   }
 }

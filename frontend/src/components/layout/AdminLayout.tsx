@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, FileText, Settings, LogOut, Shield, Users, Zap, BarChart3, FileCheck, Lock, GitBranch, ChevronDown } from 'lucide-react';
 import { mockApi } from '../../services/mockApi';
+import { AIAssistantWidget } from '../ai-assistant/AIAssistantWidget';
 
 interface AdminLayoutProps {
     children?: ReactNode;
@@ -227,6 +228,9 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                     </div>
                 </div>
             </main>
+
+            {/* AI Assistant Widget */}
+            <AIAssistantWidget />
         </div>
     );
 };
