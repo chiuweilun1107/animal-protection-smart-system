@@ -153,31 +153,29 @@ export function AdminDashboard() {
   ];
 
   return (
-    <div className="space-y-10 animate-in fade-in duration-700">
+    <div className="space-y-6 md:space-y-10 animate-in fade-in duration-700">
       {/* Page Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
         <div>
           <div className="text-[10px] font-black text-blue-600 uppercase tracking-[0.3em] mb-2">平台概覽</div>
-          <h1 className="text-5xl font-black tracking-tighter text-slate-900 uppercase">儀表板</h1>
+          <h1 className="text-3xl md:text-5xl font-black tracking-tighter text-slate-900 uppercase">儀表板</h1>
         </div>
-        <div className="flex items-center gap-3 bg-white p-2 rounded-2xl border border-slate-200 shadow-sm">
+        <div className="flex items-center gap-2 md:gap-3 bg-white p-1.5 md:p-2 rounded-2xl border border-slate-200 shadow-sm w-full md:w-auto">
           <button
             onClick={() => setViewMode('realtime')}
-            className={`px-6 py-2 rounded-xl text-xs font-black uppercase tracking-widest shadow-lg transition-all ${
-              viewMode === 'realtime'
+            className={`flex-1 md:flex-none px-4 md:px-6 py-2 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest shadow-lg transition-all ${viewMode === 'realtime'
                 ? 'bg-slate-900 text-white shadow-slate-900/20'
                 : 'text-slate-400 hover:text-slate-900'
-            }`}
+              }`}
           >
             即時數據
           </button>
           <button
             onClick={() => setViewMode('history')}
-            className={`px-6 py-2 rounded-xl text-xs font-black uppercase tracking-widest shadow-lg transition-all ${
-              viewMode === 'history'
+            className={`flex-1 md:flex-none px-4 md:px-6 py-2 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest shadow-lg transition-all ${viewMode === 'history'
                 ? 'bg-slate-900 text-white shadow-slate-900/20'
                 : 'text-slate-400 hover:text-slate-900'
-            }`}
+              }`}
           >
             歷史數據
           </button>
@@ -185,12 +183,12 @@ export function AdminDashboard() {
       </div>
 
       {/* Metrics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6">
         {metricCards.map((card, i) => (
-          <div key={i} className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-slate-300/40 transition-all group overflow-hidden relative">
-            <div className="flex items-center justify-between mb-8 relative z-10">
-              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${card.bg} ${card.color} group-hover:scale-110 transition-transform duration-500`}>
-                <card.icon size={24} />
+          <div key={i} className="bg-white p-6 md:p-8 rounded-[2rem] border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-slate-300/40 transition-all group overflow-hidden relative">
+            <div className="flex items-center justify-between mb-6 md:mb-8 relative z-10">
+              <div className={`w-10 h-10 md:w-12 md:h-12 rounded-2xl flex items-center justify-center ${card.bg} ${card.color} group-hover:scale-110 transition-transform duration-500`}>
+                <card.icon size={20} className="md:w-6 md:h-6" />
               </div>
               <div className={`flex items-center gap-1 text-[10px] font-black ${card.up ? 'text-emerald-500' : 'text-red-500'}`}>
                 {card.up ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
@@ -199,7 +197,7 @@ export function AdminDashboard() {
             </div>
             <div className="relative z-10">
               <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{card.label}</div>
-              <div className="text-4xl font-black text-slate-900 tracking-tighter leading-none">{card.value}</div>
+              <div className="text-3xl md:text-4xl font-black text-slate-900 tracking-tighter leading-none">{card.value}</div>
             </div>
             <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-slate-50 rounded-full group-hover:scale-150 transition-transform duration-700 -z-0 opacity-50"></div>
           </div>
@@ -208,228 +206,228 @@ export function AdminDashboard() {
 
       {/* 歷史數據：多維度統計分析區 */}
       {viewMode === 'history' && (
-      <div className="space-y-8">
-        {/* 時間範圍選擇器和標題 */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <h2 className="text-2xl font-black text-slate-900 tracking-tighter">多維度統計分析</h2>
-          <DateRangeSelector value={dateRange} onChange={setDateRange} isLoading={loading} />
-        </div>
+        <div className="space-y-8">
+          {/* 時間範圍選擇器和標題 */}
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <h2 className="text-xl md:text-2xl font-black text-slate-900 tracking-tighter">多維度統計分析</h2>
+            <DateRangeSelector value={dateRange} onChange={setDateRange} isLoading={loading} />
+          </div>
 
-        {/* 趨勢分析圖表 */}
-        {timeSeriesData.length > 0 && (
-          <ChartWithAIAnalysis
-            title="案件趨勢分析"
-            analysis="過去 30 天內，總案件數呈現波動趨勢。平均每天約有 2-3 件新案件通報，其中待處理案件數在 1-2 件之間波動。已結案數量逐步增加，顯示承辦效率持續改善。最近 7 天已結案數量明顯提升，表示工作效率改善效果顯著。"
-            insight="建議持續保持目前的工作效率，特別是對待處理案件的追蹤。同時注意到每週的案件量不均勻，可考慮優化分派機制以平衡工作負荷。"
-          >
-            <TrendLineChart
-              data={timeSeriesData}
-              lines={[
-                { dataKey: 'totalCases', name: '總案件數', color: '#3b82f6' },
-                { dataKey: 'resolvedCases', name: '已結案', color: '#10b981' },
-                { dataKey: 'pendingCases', name: '待處理', color: '#f59e0b' },
-              ]}
-              title="案件趨勢分析"
-              subtitle="過去 30 天的案件數據變化趨勢"
-              height={350}
-            />
-          </ChartWithAIAnalysis>
-        )}
-
-        {/* 對比分析區 - 左右分欄 */}
-        {weeklyData.length > 0 && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* 趨勢分析圖表 */}
+          {timeSeriesData.length > 0 && (
             <ChartWithAIAnalysis
-              title="每週案件統計"
-              analysis="最近 4 週中，第 3 週的案件量達到峰值 15 件，比第 1 週增加 88%。這可能反映出特定時期的投訴增加或季節性變化。第 4 週案件量略有下降至 13 件，仍保持在較高水平。建議加強人力資源配置以應對高峰期。"
-              insight="案件數量的波動可能與特定事件或季節有關。應分析高峰期的案件類型，以便提前準備相應的資源和人力。"
+              title="案件趨勢分析"
+              analysis="過去 30 天內，總案件數呈現波動趨勢。平均每天約有 2-3 件新案件通報，其中待處理案件數在 1-2 件之間波動。已結案數量逐步增加，顯示承辦效率持續改善。最近 7 天已結案數量明顯提升，表示工作效率改善效果顯著。"
+              insight="建議持續保持目前的工作效率，特別是對待處理案件的追蹤。同時注意到每週的案件量不均勻，可考慮優化分派機制以平衡工作負荷。"
             >
-              <ComparisonBarChart
-                data={weeklyData}
-                series={[
-                  { dataKey: 'totalCases', name: '總案件', color: '#3b82f6' }
+              <TrendLineChart
+                data={timeSeriesData}
+                lines={[
+                  { dataKey: 'totalCases', name: '總案件數', color: '#3b82f6' },
+                  { dataKey: 'resolvedCases', name: '已結案', color: '#10b981' },
+                  { dataKey: 'pendingCases', name: '待處理', color: '#f59e0b' },
                 ]}
-                title="每週案件統計"
-                subtitle="最近 4 週的案件數統計"
-                xAxisKey="week"
-                height={300}
+                title="案件趨勢分析"
+                subtitle="過去 30 天的案件數據變化趨勢"
+                height={350}
               />
             </ChartWithAIAnalysis>
+          )}
 
-            {weeklyData.length > 0 && (
+          {/* 對比分析區 - 左右分欄 */}
+          {weeklyData.length > 0 && (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
               <ChartWithAIAnalysis
-                title="每週狀態分布"
-                analysis="案件結案率呈逐週上升趨勢。第 1-2 週的結案率約 60-65%，第 3-4 週上升至 70-75%。這表示承辦團隊的效率在持續改善。待處理案件比例相應下降，從 35-40% 降至 25-30%。"
-                insight="結案率的提升非常積極，表明工作流程優化取得成效。應繼續維持此趨勢，並分析原因以推廣最佳實踐。"
+                title="每週案件統計"
+                analysis="最近 4 週中，第 3 週的案件量達到峰值 15 件，比第 1 週增加 88%。這可能反映出特定時期的投訴增加或季節性變化。第 4 週案件量略有下降至 13 件，仍保持在較高水平。建議加強人力資源配置以應對高峰期。"
+                insight="案件數量的波動可能與特定事件或季節有關。應分析高峰期的案件類型，以便提前準備相應的資源和人力。"
               >
-                <StackedBarChart
+                <ComparisonBarChart
                   data={weeklyData}
-                  stacks={[
-                    { dataKey: 'resolved', name: '已結案', color: '#10b981' },
-                    { dataKey: 'pending', name: '待處理', color: '#f59e0b' },
+                  series={[
+                    { dataKey: 'totalCases', name: '總案件', color: '#3b82f6' }
                   ]}
-                  title="每週狀態分布"
-                  subtitle="案件狀態的週度分布"
+                  title="每週案件統計"
+                  subtitle="最近 4 週的案件數統計"
                   xAxisKey="week"
                   height={300}
                 />
               </ChartWithAIAnalysis>
+
+              {weeklyData.length > 0 && (
+                <ChartWithAIAnalysis
+                  title="每週狀態分布"
+                  analysis="案件結案率呈逐週上升趨勢。第 1-2 週的結案率約 60-65%，第 3-4 週上升至 70-75%。這表示承辦團隊的效率在持續改善。待處理案件比例相應下降，從 35-40% 降至 25-30%。"
+                  insight="結案率的提升非常積極，表明工作流程優化取得成效。應繼續維持此趨勢，並分析原因以推廣最佳實踐。"
+                >
+                  <StackedBarChart
+                    data={weeklyData}
+                    stacks={[
+                      { dataKey: 'resolved', name: '已結案', color: '#10b981' },
+                      { dataKey: 'pending', name: '待處理', color: '#f59e0b' },
+                    ]}
+                    title="每週狀態分布"
+                    subtitle="案件狀態的週度分布"
+                    xAxisKey="week"
+                    height={300}
+                  />
+                </ChartWithAIAnalysis>
+              )}
+            </div>
+          )}
+
+          {/* 分布分析區 - 三等分 */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+            {typeDistribution.length > 0 && (
+              <ChartWithAIAnalysis
+                title="案件類型分布"
+                analysis="一般動物案件佔比最高，約佔 65%，說明民眾投訴最多的是流浪犬、棄養動物等一般動物問題。蜂蛇案件約佔 35%，呈現季節性特徵（冬季相對較少）。1999 通報和 1959 救援案件數量較少，各佔 5% 以下。"
+                insight="應繼續加強一般動物問題的宣傳和教育，同時為蜂蛇案件高發期做好準備。考慮增加相關物資和人力儲備。"
+              >
+                <DistributionPieChart
+                  data={typeDistribution}
+                  title="案件類型分布"
+                  subtitle="不同案件類型的佔比"
+                  height={280}
+                />
+              </ChartWithAIAnalysis>
+            )}
+
+            {priorityDistribution.length > 0 && (
+              <ChartWithAIAnalysis
+                title="優先級分布"
+                analysis="最緊急案件佔 25%，高優先級案件佔 30%，表示 55% 的案件需要快速處理。普通優先級佔 35%，低優先級佔 10%。高優先級案件的比例較高，需要確保有足夠的資源進行即時處理。"
+                insight="建議建立優先級快速響應機制，確保高優先級案件在 24 小時內得到初步處理。同時監控最緊急案件，避免任何延誤。"
+              >
+                <DistributionPieChart
+                  data={priorityDistribution}
+                  title="優先級分布"
+                  subtitle="不同優先級案件的佔比"
+                  height={280}
+                />
+              </ChartWithAIAnalysis>
+            )}
+
+            {assigneeStats.length > 0 && (
+              <ChartWithAIAnalysis
+                title="承辦人工作量"
+                analysis="工作負荷分布呈現不均勻狀態。李承辦人處理案件數最多，陳承辦人次之。建議考慮根據工作能力和效率重新分配案件，確保每位承辦人的工作量在合理範圍內。"
+                insight="高工作負荷的承辦人容易疲勞並影響工作質量。建議進行工作量平衡調整或招聘額外人手，以提高整體效率和服務質量。"
+              >
+                <ComparisonBarChart
+                  data={assigneeStats}
+                  series={[
+                    { dataKey: 'cases', name: '案件數', color: '#6366f1' }
+                  ]}
+                  title="承辦人工作量"
+                  subtitle="各承辦人處理的案件數"
+                  xAxisKey="name"
+                  height={280}
+                />
+              </ChartWithAIAnalysis>
             )}
           </div>
-        )}
-
-        {/* 分布分析區 - 三等分 */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {typeDistribution.length > 0 && (
-            <ChartWithAIAnalysis
-              title="案件類型分布"
-              analysis="一般動物案件佔比最高，約佔 65%，說明民眾投訴最多的是流浪犬、棄養動物等一般動物問題。蜂蛇案件約佔 35%，呈現季節性特徵（冬季相對較少）。1999 通報和 1959 救援案件數量較少，各佔 5% 以下。"
-              insight="應繼續加強一般動物問題的宣傳和教育，同時為蜂蛇案件高發期做好準備。考慮增加相關物資和人力儲備。"
-            >
-              <DistributionPieChart
-                data={typeDistribution}
-                title="案件類型分布"
-                subtitle="不同案件類型的佔比"
-                height={280}
-              />
-            </ChartWithAIAnalysis>
-          )}
-
-          {priorityDistribution.length > 0 && (
-            <ChartWithAIAnalysis
-              title="優先級分布"
-              analysis="最緊急案件佔 25%，高優先級案件佔 30%，表示 55% 的案件需要快速處理。普通優先級佔 35%，低優先級佔 10%。高優先級案件的比例較高，需要確保有足夠的資源進行即時處理。"
-              insight="建議建立優先級快速響應機制，確保高優先級案件在 24 小時內得到初步處理。同時監控最緊急案件，避免任何延誤。"
-            >
-              <DistributionPieChart
-                data={priorityDistribution}
-                title="優先級分布"
-                subtitle="不同優先級案件的佔比"
-                height={280}
-              />
-            </ChartWithAIAnalysis>
-          )}
-
-          {assigneeStats.length > 0 && (
-            <ChartWithAIAnalysis
-              title="承辦人工作量"
-              analysis="工作負荷分布呈現不均勻狀態。李承辦人處理案件數最多，陳承辦人次之。建議考慮根據工作能力和效率重新分配案件，確保每位承辦人的工作量在合理範圍內。"
-              insight="高工作負荷的承辦人容易疲勞並影響工作質量。建議進行工作量平衡調整或招聘額外人手，以提高整體效率和服務質量。"
-            >
-              <ComparisonBarChart
-                data={assigneeStats}
-                series={[
-                  { dataKey: 'cases', name: '案件數', color: '#6366f1' }
-                ]}
-                title="承辦人工作量"
-                subtitle="各承辦人處理的案件數"
-                xAxisKey="name"
-                height={280}
-              />
-            </ChartWithAIAnalysis>
-          )}
         </div>
-      </div>
       )}
 
       {/* 即時數據：效能分析和基礎設施 */}
       {viewMode === 'realtime' && (
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* User Engagement */}
-        <div className="lg:col-span-2 bg-slate-950 rounded-[2.5rem] p-10 text-white shadow-2xl relative overflow-hidden group">
-          <div className="relative z-10 h-full flex flex-col justify-between">
-            <div>
-              <div className="flex items-start justify-between mb-12">
-                <div>
-                  <div className="text-[10px] font-black text-blue-400 uppercase tracking-[0.3em] mb-2">效能分析</div>
-                  <h3 className="text-3xl font-black tracking-tighter">處理量能分析</h3>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+          {/* User Engagement */}
+          <div className="lg:col-span-2 bg-slate-950 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-10 text-white shadow-2xl relative overflow-hidden group">
+            <div className="relative z-10 h-full flex flex-col justify-between">
+              <div>
+                <div className="flex items-start justify-between mb-8 md:mb-12">
+                  <div>
+                    <div className="text-[10px] font-black text-blue-400 uppercase tracking-[0.3em] mb-2">效能分析</div>
+                    <h3 className="text-2xl md:text-3xl font-black tracking-tighter">處理量能分析</h3>
+                  </div>
+                  <div className="p-3 md:p-4 bg-white/5 rounded-2xl border border-white/10">
+                    <TrendingUp className="text-blue-400" size={24} />
+                  </div>
                 </div>
-                <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
-                  <TrendingUp className="text-blue-400" size={24} />
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8">
+                  <div>
+                    <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">系統活躍度</div>
+                    <div className="text-3xl md:text-4xl font-black tracking-tighter">98%</div>
+                    <div className="w-full h-1 bg-white/5 rounded-full mt-4 overflow-hidden">
+                      <div className="w-[98%] h-full bg-blue-500"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">結案率 (平均)</div>
+                    <div className="text-3xl md:text-4xl font-black tracking-tighter">84.5%</div>
+                    <div className="w-full h-1 bg-white/5 rounded-full mt-4 overflow-hidden">
+                      <div className="w-[84%] h-full bg-emerald-500"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">平均回應時間 (h)</div>
+                    <div className="text-3xl md:text-4xl font-black tracking-tighter">1.2h</div>
+                    <div className="w-full h-1 bg-white/5 rounded-full mt-4 overflow-hidden">
+                      <div className="w-[45%] h-full bg-indigo-500"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-8">
-                <div>
-                  <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">系統活躍度</div>
-                  <div className="text-4xl font-black tracking-tighter">98%</div>
-                  <div className="w-full h-1 bg-white/5 rounded-full mt-4 overflow-hidden">
-                    <div className="w-[98%] h-full bg-blue-500"></div>
-                  </div>
-                </div>
-                <div>
-                  <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">結案率 (平均)</div>
-                  <div className="text-4xl font-black tracking-tighter">84.5%</div>
-                  <div className="w-full h-1 bg-white/5 rounded-full mt-4 overflow-hidden">
-                    <div className="w-[84%] h-full bg-emerald-500"></div>
-                  </div>
-                </div>
-                <div>
-                  <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">平均回應時間 (h)</div>
-                  <div className="text-4xl font-black tracking-tighter">1.2h</div>
-                  <div className="w-full h-1 bg-white/5 rounded-full mt-4 overflow-hidden">
-                    <div className="w-[45%] h-full bg-indigo-500"></div>
-                  </div>
-                </div>
+              <div className="pt-8 md:pt-12 flex flex-col sm:flex-row items-center gap-4 md:gap-6">
+                <button className="w-full sm:flex-1 py-4 bg-blue-600 hover:bg-blue-500 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all">
+                  導出完整報告
+                </button>
+                <button className="w-full sm:flex-1 py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all">
+                  查看詳細趨勢
+                </button>
               </div>
             </div>
 
-            <div className="pt-12 flex items-center gap-6">
-              <button className="flex-1 py-4 bg-blue-600 hover:bg-blue-500 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all">
-                導出完整報告
-              </button>
-              <button className="flex-1 py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all">
-                查看詳細趨勢
-              </button>
+            {/* Background Decors */}
+            <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-blue-600/10 to-transparent"></div>
+            <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-blue-600/10 rounded-full blur-[100px]"></div>
+          </div>
+
+          {/* System Status Table */}
+          <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-10 border border-slate-100 shadow-xl shadow-slate-200/50">
+            <h3 className="text-lg md:text-xl font-black tracking-tighter text-slate-900 mb-6 md:mb-8 uppercase flex items-center gap-3">
+              <Shield className="text-blue-600" size={20} />
+              基礎設施
+            </h3>
+            <div className="space-y-4 md:space-y-6">
+              {[
+                { name: '主要資料庫 Cluster', status: 'Healthy', val: '12ms', color: 'bg-emerald-500' },
+                { name: 'API Gateway v2', status: 'Active', val: '99.9%', color: 'bg-emerald-500' },
+                { name: '1999 系統介接', status: 'Synched', val: '2m ago', color: 'bg-blue-500' },
+                { name: '地理資訊伺服器', status: 'Idle', val: '正常', color: 'bg-emerald-500' },
+              ].map((s, i) => (
+                <div key={i} className="flex items-center justify-between p-4 rounded-2xl bg-slate-50 border border-slate-100 group hover:border-blue-600 transition-all">
+                  <div>
+                    <div className="text-sm font-black text-slate-900">{s.name}</div>
+                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{s.status}</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-[10px] font-black text-slate-900">{s.val}</div>
+                    <div className={`w-2 h-2 rounded-full ${s.color} ml-auto mt-1 animate-pulse`}></div>
+                  </div>
+                </div>
+              ))}
             </div>
+
+            <button className="w-full mt-6 md:mt-8 py-4 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-blue-600 transition-all">
+              系統日誌中心
+            </button>
           </div>
-
-          {/* Background Decors */}
-          <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-blue-600/10 to-transparent"></div>
-          <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-blue-600/10 rounded-full blur-[100px]"></div>
         </div>
-
-        {/* System Status Table */}
-        <div className="bg-white rounded-[2.5rem] p-10 border border-slate-100 shadow-xl shadow-slate-200/50">
-          <h3 className="text-xl font-black tracking-tighter text-slate-900 mb-8 uppercase flex items-center gap-3">
-            <Shield className="text-blue-600" size={20} />
-            基礎設施
-          </h3>
-          <div className="space-y-6">
-            {[
-              { name: '主要資料庫 Cluster', status: 'Healthy', val: '12ms', color: 'bg-emerald-500' },
-              { name: 'API Gateway v2', status: 'Active', val: '99.9%', color: 'bg-emerald-500' },
-              { name: '1999 系統介接', status: 'Synched', val: '2m ago', color: 'bg-blue-500' },
-              { name: '地理資訊伺服器', status: 'Idle', val: '正常', color: 'bg-emerald-500' },
-            ].map((s, i) => (
-              <div key={i} className="flex items-center justify-between p-4 rounded-2xl bg-slate-50 border border-slate-100 group hover:border-blue-600 transition-all">
-                <div>
-                  <div className="text-sm font-black text-slate-900">{s.name}</div>
-                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{s.status}</div>
-                </div>
-                <div className="text-right">
-                  <div className="text-[10px] font-black text-slate-900">{s.val}</div>
-                  <div className={`w-2 h-2 rounded-full ${s.color} ml-auto mt-1 animate-pulse`}></div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <button className="w-full mt-8 py-4 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-blue-600 transition-all">
-            系統日誌中心
-          </button>
-        </div>
-      </div>
       )}
 
       {/* Rapid Actions */}
-      <div className="bg-indigo-600 rounded-[2.5rem] p-10 text-white shadow-2xl shadow-indigo-600/30 flex flex-col md:flex-row items-center justify-between gap-8">
+      <div className="bg-indigo-600 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-10 text-white shadow-2xl shadow-indigo-600/30 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
         <div>
-          <h3 className="text-3xl font-black tracking-tighter mb-2">需要處理緊急案件嗎？</h3>
-          <p className="text-indigo-100 font-medium">系統已為您篩選出 3 個高優先等級案件，請立即指派承辦人。</p>
+          <h3 className="text-2xl md:text-3xl font-black tracking-tighter mb-2">需要處理緊急案件嗎？</h3>
+          <p className="text-indigo-100 font-medium text-sm md:text-base">系統已為您篩選出 3 個高優先等級案件，請立即指派承辦人。</p>
         </div>
         <div className="flex items-center gap-4 w-full md:w-auto">
-          <a href="/admin/cases?priority=critical" className="flex-1 md:flex-none px-10 py-5 bg-white text-indigo-600 rounded-2xl font-black text-lg hover:bg-indigo-50 transition-all text-center">
+          <a href="/admin/cases?priority=critical" className="flex-1 md:flex-none px-8 md:px-10 py-4 md:py-5 bg-white text-indigo-600 rounded-2xl font-black text-base md:text-lg hover:bg-indigo-50 transition-all text-center">
             立即處理
           </a>
         </div>

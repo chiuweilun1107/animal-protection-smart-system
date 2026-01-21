@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
-  Download, Filter, Calendar, BarChart3, PieChart,
-  FileText, ArrowRight, CheckCircle, AlertCircle, TrendingUp,
-  ChevronRight, Zap
+  Filter, Calendar, BarChart3, PieChart,
+  FileText, ArrowRight, TrendingUp,
+  Zap
 } from 'lucide-react';
 import { mockApi } from '../../services/mockApi';
 import type { Case } from '../../types/schema';
@@ -70,37 +70,37 @@ export function ReportsPage() {
   };
 
   return (
-    <div className="space-y-10 animate-in fade-in duration-700">
+    <div className="space-y-6 md:space-y-10 animate-in fade-in duration-700">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6">
         <div>
-          <div className="text-[10px] font-black text-emerald-600 uppercase tracking-[0.3em] mb-2">情報矩陣</div>
-          <h1 className="text-5xl font-black tracking-tighter text-slate-900 uppercase">報表中心</h1>
+          <div className="text-[10px] font-black text-blue-600 uppercase tracking-[0.3em] mb-2">情報矩陣</div>
+          <h1 className="text-3xl md:text-5xl font-black tracking-tighter text-slate-900 uppercase">報表中心</h1>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-        {/* Side Selector */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-10">
+        {/* Side Selector (Mobile: Horizontal Scroll, Desktop: Vertical List) */}
         <div className="lg:col-span-3 space-y-6">
-          <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-xl shadow-slate-200/40 p-8">
-            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 px-2">矩陣分類</h3>
-            <div className="space-y-2">
+          <div className="bg-white rounded-[2rem] border border-slate-200 shadow-sm p-4 md:p-8">
+            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 md:mb-6 px-2">矩陣分類</h3>
+            <div className="flex lg:flex-col gap-2 overflow-x-auto pb-2 lg:pb-0 scrollbar-hide">
               {reportTypes.map(rt => (
                 <button
                   key={rt.id}
                   onClick={() => setReportType(rt.id)}
-                  className={`w-full text-left px-6 py-5 rounded-2xl transition-all group relative overflow-hidden ${reportType === rt.id
-                      ? 'bg-slate-950 text-white shadow-xl shadow-slate-950/20'
-                      : 'hover:bg-slate-50 text-slate-500'
+                  className={`flex-shrink-0 w-64 lg:w-full text-left px-4 md:px-6 py-4 md:py-5 rounded-xl transition-all group relative overflow-hidden flex flex-col justify-center ${reportType === rt.id
+                      ? 'bg-slate-900 text-white shadow-lg shadow-slate-900/20'
+                      : 'hover:bg-slate-50 text-slate-500 border border-transparent hover:border-slate-100'
                     }`}
                 >
-                  <div className="flex items-center gap-4 relative z-10">
-                    <div className={`transition-colors ${reportType === rt.id ? 'text-blue-400' : 'text-slate-300'}`}>
+                  <div className="flex items-center gap-3 relative z-10">
+                    <div className={`transition-colors ${reportType === rt.id ? 'text-blue-400' : 'text-slate-400'}`}>
                       {rt.icon}
                     </div>
                     <div>
                       <p className="font-black text-xs uppercase tracking-widest">{rt.label}</p>
-                      <p className={`text-[10px] font-bold mt-1 ${reportType === rt.id ? 'text-slate-400' : 'text-slate-400'}`}>{rt.description}</p>
+                      <p className={`text-[10px] font-bold mt-0.5 ${reportType === rt.id ? 'text-slate-400' : 'text-slate-400'}`}>{rt.description}</p>
                     </div>
                   </div>
                   {reportType === rt.id && <div className="absolute right-0 top-0 bottom-0 w-1 bg-blue-500"></div>}
@@ -109,8 +109,8 @@ export function ReportsPage() {
             </div>
           </div>
 
-          {/* Visual Analytics Preview Card */}
-          <div className="bg-gradient-to-br from-emerald-600 to-emerald-900 rounded-[2.5rem] p-8 text-white shadow-xl shadow-emerald-600/20">
+          {/* Visual Analytics Preview Card - Hidden on Mobile to save space, or keep if critical */}
+          <div className="hidden lg:block bg-gradient-to-br from-emerald-600 to-emerald-900 rounded-[2.5rem] p-8 text-white shadow-xl shadow-emerald-600/20">
             <BarChart3 className="text-emerald-300 mb-6" size={32} />
             <h4 className="text-xl font-black tracking-tighter mb-4 uppercase">智慧數據分析</h4>
             <p className="text-emerald-100/70 text-sm font-medium leading-relaxed mb-6">
@@ -123,73 +123,77 @@ export function ReportsPage() {
         </div>
 
         {/* Main Action Area */}
-        <div className="lg:col-span-9 space-y-8">
+        <div className="lg:col-span-9 space-y-6 md:space-y-8">
           {/* Configuration */}
-          <div className="bg-white rounded-[3rem] border border-slate-100 shadow-2xl shadow-slate-200/50 p-10">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-10 h-10 rounded-xl bg-slate-100 text-slate-900 flex items-center justify-center">
+          <div className="bg-white rounded-[2rem] md:rounded-[3rem] border border-slate-200 shadow-sm p-6 md:p-10">
+            <div className="flex items-center gap-3 mb-6 md:mb-8">
+              <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
                 <Filter size={20} />
               </div>
-              <h3 className="text-xl font-black tracking-tighter text-slate-900 uppercase">篩選條件校準</h3>
+              <h3 className="text-lg md:text-xl font-black tracking-tighter text-slate-900 uppercase">篩選條件校準</h3>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">時間範圍開始</label>
                 <div className="relative">
-                  <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={16} />
+                  <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
                   <input
                     type="date"
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
-                    className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-blue-600 outline-none transition-all font-bold text-xs"
+                    className="w-full pl-12 pr-4 py-3 md:py-4 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-blue-600 outline-none transition-all font-bold text-xs"
                   />
                 </div>
               </div>
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">時間範圍結束</label>
                 <div className="relative">
-                  <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={16} />
+                  <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
                   <input
                     type="date"
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
-                    className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-blue-600 outline-none transition-all font-bold text-xs"
+                    className="w-full pl-12 pr-4 py-3 md:py-4 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-blue-600 outline-none transition-all font-bold text-xs"
                   />
                 </div>
               </div>
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">目標狀態</label>
-                <select
-                  value={caseStatus}
-                  onChange={(e) => setCaseStatus(e.target.value)}
-                  className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-blue-600 outline-none transition-all font-bold text-xs appearance-none"
-                >
-                  <option value="">全部狀態</option>
-                  <option value="pending">待審核</option>
-                  <option value="processing">進行中</option>
-                  <option value="resolved">已完成</option>
-                </select>
+                <div className="relative">
+                  <select
+                    value={caseStatus}
+                    onChange={(e) => setCaseStatus(e.target.value)}
+                    className="w-full px-5 py-3 md:py-4 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-blue-600 outline-none transition-all font-bold text-xs appearance-none"
+                  >
+                    <option value="">全部狀態</option>
+                    <option value="pending">待審核</option>
+                    <option value="processing">進行中</option>
+                    <option value="resolved">已完成</option>
+                  </select>
+                </div>
               </div>
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">優先級向量</label>
-                <select
-                  value={casePriority}
-                  onChange={(e) => setCasePriority(e.target.value)}
-                  className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-blue-600 outline-none transition-all font-bold text-xs appearance-none"
-                >
-                  <option value="">所有優先級</option>
-                  <option value="critical">CRITICAL</option>
-                  <option value="high">HIGH</option>
-                  <option value="medium">MEDIUM</option>
-                </select>
+                <div className="relative">
+                  <select
+                    value={casePriority}
+                    onChange={(e) => setCasePriority(e.target.value)}
+                    className="w-full px-5 py-3 md:py-4 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-blue-600 outline-none transition-all font-bold text-xs appearance-none"
+                  >
+                    <option value="">所有優先級</option>
+                    <option value="critical">CRITICAL</option>
+                    <option value="high">HIGH</option>
+                    <option value="medium">MEDIUM</option>
+                  </select>
+                </div>
               </div>
             </div>
 
             <button
               onClick={handleGenerateReport}
               disabled={loading}
-              className="w-full mt-10 bg-slate-950 text-white py-5 rounded-2xl font-black text-xs uppercase tracking-[0.3em] shadow-xl shadow-slate-950/20 hover:bg-blue-600 transition-all flex items-center justify-center gap-3 disabled:bg-slate-200"
+              className="w-full mt-8 md:mt-10 bg-slate-900 text-white py-4 md:py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-lg shadow-slate-900/20 hover:bg-blue-600 transition-all flex items-center justify-center gap-3 disabled:bg-slate-200"
             >
               {loading ? <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin"></div> : <TrendingUp size={18} />}
               {loading ? '初始化資料流...' : '提交報表生成'}
@@ -198,50 +202,41 @@ export function ReportsPage() {
 
           {/* Result Interface */}
           {reportData ? (
-            <div className="space-y-8 animate-in slide-in-from-bottom-10 duration-700">
+            <div className="space-y-6 md:space-y-8 animate-in slide-in-from-bottom-10 duration-700">
               {/* Summary Stats */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="bg-white rounded-2xl border border-slate-100 shadow-lg p-6">
-                  <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">總案件數</div>
-                  <div className="text-4xl font-black text-slate-900">{reportData.summary.totalCases}</div>
-                  <div className="text-xs text-slate-500 mt-2">本期所有案件</div>
-                </div>
-                <div className="bg-white rounded-2xl border border-slate-100 shadow-lg p-6">
-                  <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">已結案</div>
-                  <div className="text-4xl font-black text-emerald-600">{reportData.summary.resolvedCases}</div>
-                  <div className="text-xs text-slate-500 mt-2">完成率 {reportData.summary.totalCases > 0 ? Math.round((reportData.summary.resolvedCases / reportData.summary.totalCases) * 100) : 0}%</div>
-                </div>
-                <div className="bg-white rounded-2xl border border-slate-100 shadow-lg p-6">
-                  <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">緊急案件</div>
-                  <div className="text-4xl font-black text-red-600">{reportData.summary.urgentCases}</div>
-                  <div className="text-xs text-slate-500 mt-2">需要優先處理</div>
-                </div>
-                <div className="bg-white rounded-2xl border border-slate-100 shadow-lg p-6">
-                  <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">平均解決時間</div>
-                  <div className="text-3xl font-black text-blue-600">{reportData.summary.averageResolutionTime}</div>
-                  <div className="text-xs text-slate-500 mt-2">滿意度 {reportData.summary.satisfactionRate}</div>
-                </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                {[
+                  { label: '總案件數', value: reportData.summary.totalCases, sub: '本期所有案件', color: 'text-slate-900' },
+                  { label: '已結案', value: reportData.summary.resolvedCases, sub: `完成率 ${reportData.summary.totalCases > 0 ? Math.round((reportData.summary.resolvedCases / reportData.summary.totalCases) * 100) : 0}%`, color: 'text-emerald-600' },
+                  { label: '緊急案件', value: reportData.summary.urgentCases, sub: '需要優先處理', color: 'text-red-600' },
+                  { label: '平均解決時間', value: reportData.summary.averageResolutionTime, sub: `滿意度 ${reportData.summary.satisfactionRate}`, color: 'text-blue-600' }
+                ].map((stat, i) => (
+                  <div key={i} className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition-shadow">
+                    <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">{stat.label}</div>
+                    <div className={`text-3xl md:text-4xl font-black ${stat.color}`}>{stat.value}</div>
+                    <div className="text-xs text-slate-500 mt-2 font-bold">{stat.sub}</div>
+                  </div>
+                ))}
               </div>
 
               {/* Charts and Analysis */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Status Distribution */}
-                <div className="bg-white rounded-2xl border border-slate-100 shadow-lg p-6">
-                  <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest mb-6">案件狀態分佈</h4>
-                  <div className="space-y-4">
+                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+                  <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest mb-6 border-b border-slate-100 pb-2">案件狀態分佈</h4>
+                  <div className="space-y-5">
                     {reportData.chartData.statusDistribution.map((item: any, idx: number) => (
                       <div key={idx}>
                         <div className="flex justify-between mb-2">
-                          <span className="text-sm font-bold text-slate-600">{item.name}</span>
-                          <span className="text-sm font-black text-slate-900">{item.value} ({item.percentage}%)</span>
+                          <span className="text-xs font-bold text-slate-600">{item.name}</span>
+                          <span className="text-xs font-black text-slate-900">{item.value} ({item.percentage}%)</span>
                         </div>
-                        <div className="h-3 bg-slate-100 rounded-full overflow-hidden">
+                        <div className="h-2.5 bg-slate-100 rounded-full overflow-hidden">
                           <div
-                            className={`h-full ${
-                              item.name === '已結案' ? 'bg-emerald-500' :
-                              item.name === '待處理' ? 'bg-orange-500' :
-                              'bg-blue-500'
-                            }`}
+                            className={`h-full ${item.name === '已結案' ? 'bg-emerald-500' :
+                                item.name === '待處理' ? 'bg-orange-500' :
+                                  'bg-blue-500'
+                              }`}
                             style={{ width: `${item.percentage || 0}%` }}
                           />
                         </div>
@@ -251,15 +246,15 @@ export function ReportsPage() {
                 </div>
 
                 {/* Priority Distribution */}
-                <div className="bg-white rounded-2xl border border-slate-100 shadow-lg p-6">
-                  <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest mb-6">優先級分布</h4>
+                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+                  <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest mb-6 border-b border-slate-100 pb-2">優先級分布</h4>
                   <div className="space-y-4">
                     {reportData.chartData.priorityDistribution.map((item: any, idx: number) => (
-                      <div key={idx} className="flex items-center gap-4">
-                        <div className="w-4 h-4 rounded-full" style={{ backgroundColor: item.color }}></div>
+                      <div key={idx} className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-50">
+                        <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: item.color }}></div>
                         <div className="flex-1">
-                          <div className="flex justify-between mb-1">
-                            <span className="text-sm font-bold text-slate-600">{item.name}</span>
+                          <div className="flex justify-between items-center">
+                            <span className="text-xs font-bold text-slate-600">{item.name}</span>
                             <span className="text-sm font-black text-slate-900">{item.value}</span>
                           </div>
                         </div>
@@ -269,109 +264,51 @@ export function ReportsPage() {
                 </div>
               </div>
 
-              {/* Weekly Stats */}
-              <div className="bg-white rounded-2xl border border-slate-100 shadow-lg p-6">
-                <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest mb-6">週次統計</h4>
-                <div className="grid grid-cols-4 gap-4">
-                  {reportData.chartData.weeklyStats.map((week: any, idx: number) => (
-                    <div key={idx} className="text-center">
-                      <div className="text-[10px] font-bold text-slate-500 mb-3">{week.week}</div>
-                      <div className="relative h-20 bg-slate-50 rounded-lg flex items-end justify-center gap-1 p-2">
-                        <div
-                          className="flex-1 bg-emerald-500 rounded-t"
-                          style={{ height: `${(week.resolved / (week.cases + 10)) * 80}%`, minHeight: '4px' }}
-                          title={`已解決: ${week.resolved}`}
-                        />
-                        <div
-                          className="flex-1 bg-orange-400 rounded-t"
-                          style={{ height: `${((week.cases - week.resolved) / (week.cases + 10)) * 80}%`, minHeight: '4px' }}
-                          title={`待解決: ${week.cases - week.resolved}`}
-                        />
-                      </div>
-                      <div className="text-xs font-black text-slate-900 mt-2">共 {week.cases}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Top Case Workers */}
-              <div className="bg-white rounded-2xl border border-slate-100 shadow-lg p-6">
-                <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest mb-6">頂尖承辦人</h4>
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-slate-100">
-                      <th className="text-left pb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">排名</th>
-                      <th className="text-left pb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">承辦人</th>
-                      <th className="text-center pb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">案件數</th>
-                      <th className="text-right pb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">平均解決時間</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-50">
-                    {reportData.topCaseWorkers.map((worker: any, idx: number) => (
-                      <tr key={idx}>
-                        <td className="py-4">
-                          <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-black text-xs">
-                            #{idx + 1}
-                          </div>
-                        </td>
-                        <td className="py-4">
-                          <span className="font-bold text-slate-900">{worker.name}</span>
-                        </td>
-                        <td className="py-4 text-center">
-                          <span className="font-black text-slate-900">{worker.casesHandled}</span>
-                        </td>
-                        <td className="py-4 text-right">
-                          <span className="text-sm font-bold text-slate-600">{worker.avgResolutionTime}</span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
               {/* Case Details */}
-              <div className="bg-white rounded-[3rem] border border-slate-100 shadow-2xl shadow-slate-200/50 overflow-hidden">
-                <div className="px-10 py-8 border-b border-slate-50 flex items-center justify-between bg-slate-50/50">
+              <div className="bg-white rounded-[2rem] md:rounded-[3rem] border border-slate-200 shadow-sm overflow-hidden">
+                <div className="px-6 md:px-10 py-6 md:py-8 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-50/50">
                   <div className="flex items-center gap-3">
-                    <h3 className="text-xl font-black tracking-tighter text-slate-900 uppercase">案件詳細資料</h3>
-                    <span className="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-[9px] font-black uppercase tracking-widest">即時預覽</span>
+                    <h3 className="text-lg md:text-xl font-black tracking-tighter text-slate-900 uppercase">案件詳細資料</h3>
+                    <span className="px-2.5 py-1 bg-blue-100 text-blue-600 rounded-full text-[9px] font-black uppercase tracking-widest hidden sm:inline-block">即時預覽</span>
                   </div>
-                  <div className="flex gap-2">
-                    <button onClick={() => handleDownload('odt')} className="px-4 py-2 bg-slate-100 text-slate-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-200 transition-all">ODF 協議</button>
-                    <button onClick={() => handleDownload('pdf')} className="px-4 py-2 bg-red-50 text-red-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all">匯出 PDF</button>
-                    <button onClick={() => handleDownload('xlsx')} className="px-4 py-2 bg-emerald-50 text-emerald-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-600 hover:text-white transition-all">匯出 Excel</button>
+                  <div className="flex gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0 scrollbar-hide">
+                    {['odt', 'pdf', 'xlsx'].map(fmt => (
+                      <button key={fmt} onClick={() => handleDownload(fmt)} className="flex-shrink-0 px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all shadow-sm">
+                        {fmt}
+                      </button>
+                    ))}
                   </div>
                 </div>
 
-                <div className="p-10">
-                  <table className="w-full text-left">
+                <div className="p-0 md:p-10 overflow-x-auto">
+                  <table className="w-full text-left min-w-[600px]">
                     <thead>
-                      <tr className="border-b border-slate-100">
-                        <th className="pb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">ID / 向量</th>
-                        <th className="pb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">類型</th>
-                        <th className="pb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">狀態</th>
-                        <th className="pb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">實體名稱</th>
+                      <tr className="border-b border-slate-100 bg-slate-50/30">
+                        <th className="pl-6 md:pl-0 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">ID / 向量</th>
+                        <th className="py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">類型</th>
+                        <th className="py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">狀態</th>
+                        <th className="pr-6 md:pr-0 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">實體名稱</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-50">
                       {reportData.data.slice(0, 6).map((item: Case) => (
-                        <tr key={item.id} className="group">
-                          <td className="py-6">
+                        <tr key={item.id} className="group hover:bg-slate-50/50 transition-colors">
+                          <td className="pl-6 md:pl-0 py-4 md:py-6">
                             <div className="text-xs font-black text-blue-600 font-mono mb-1">{item.id}</div>
-                            <div className="text-sm font-bold text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-1">{item.title}</div>
+                            <div className="text-sm font-bold text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-1 max-w-[200px]">{item.title}</div>
                           </td>
-                          <td className="py-6 text-center">
-                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{item.type}</span>
+                          <td className="py-4 md:py-6 text-center">
+                            <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{item.type}</span>
                           </td>
-                          <td className="py-6 text-center">
+                          <td className="py-4 md:py-6 text-center">
                             <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border ${item.status === 'pending' ? 'bg-orange-50 text-orange-600 border-orange-100' :
-                                item.status === 'processing' ? 'bg-blue-50 text-blue-600 border-blue-100' :
-                                  'bg-emerald-50 text-emerald-600 border-emerald-100'
+                              item.status === 'processing' ? 'bg-blue-50 text-blue-600 border-blue-100' :
+                                'bg-emerald-50 text-emerald-600 border-emerald-100'
                               }`}>
                               {item.status}
                             </div>
                           </td>
-                          <td className="py-6 text-right">
+                          <td className="pr-6 md:pr-0 py-4 md:py-6 text-right">
                             <div className="text-sm font-black text-slate-900">{item.reporterName}</div>
                             <div className="text-[10px] font-bold text-slate-400">{new Date(item.createdAt).toLocaleDateString()}</div>
                           </td>
@@ -379,23 +316,24 @@ export function ReportsPage() {
                       ))}
                     </tbody>
                   </table>
-                  <div className="mt-8 pt-8 border-t border-slate-50 flex items-center justify-between">
-                    <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                      流結束 • 共編譯 {reportData.data.length} 筆記錄
-                    </div>
-                    <button className="flex items-center gap-2 text-blue-600 font-black text-[10px] uppercase tracking-widest hover:gap-4 transition-all">
-                      載入完整集合 <ArrowRight size={14} />
-                    </button>
+                </div>
+
+                <div className="px-6 md:px-10 pb-8 pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center sm:text-left">
+                    流結束 • 共編譯 {reportData.data.length} 筆記錄
                   </div>
+                  <button className="flex items-center gap-2 text-blue-600 font-black text-[10px] uppercase tracking-widest hover:gap-4 transition-all bg-blue-50 px-4 py-2 rounded-full">
+                    載入完整集合 <ArrowRight size={14} />
+                  </button>
                 </div>
               </div>
             </div>
           ) : (
-            <div className="bg-slate-50 rounded-[3rem] border border-dashed border-slate-200 p-32 text-center">
-              <div className="flex flex-col items-center opacity-20">
-                <TrendingUp size={64} className="mb-6" />
-                <p className="text-2xl font-black uppercase tracking-widest text-slate-900">等待校準</p>
-                <p className="text-sm font-bold mt-2">調整參數並提交生成以查看情報</p>
+            <div className="bg-slate-50 rounded-[2rem] border border-dashed border-slate-300 p-10 md:p-32 text-center">
+              <div className="flex flex-col items-center opacity-40">
+                <TrendingUp size={48} className="mb-4 md:mb-6 text-slate-400" />
+                <p className="text-lg md:text-2xl font-black uppercase tracking-widest text-slate-900">等待校準</p>
+                <p className="text-xs md:text-sm font-bold mt-2 text-slate-500">調整參數並提交生成以查看情報</p>
               </div>
             </div>
           )}

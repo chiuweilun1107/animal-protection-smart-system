@@ -261,7 +261,11 @@ export const ReportHazard: React.FC = () => {
 
                                     {hasImage ? (
                                         <div className="relative w-full h-80 rounded-[2.5rem] overflow-hidden group/image cursor-pointer">
-                                            <img src="/report_evidence_demo.png" alt="Evidence" className="w-full h-full object-cover transition-transform duration-700 group-hover/image:scale-105" />
+                                            <img
+                                                src={target === 'bee' ? '/report_bee_demo.png' : target === 'snake' ? '/report_snake_demo.png' : '/report_evidence_demo.png'}
+                                                alt="Evidence"
+                                                className="w-full h-full object-cover transition-transform duration-700 group-hover/image:scale-105"
+                                            />
                                             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/image:opacity-100 transition-opacity flex items-center justify-center gap-4">
                                                 <button type="button" onClick={() => setHasImage(false)} className="px-6 py-3 bg-white/20 backdrop-blur-md rounded-2xl text-white font-black text-xs uppercase tracking-widest hover:bg-red-500/80 transition-all border border-white/30">REMOVE</button>
                                                 <div className="px-6 py-3 bg-white rounded-2xl text-slate-900 font-black text-xs uppercase tracking-widest">CHANGE PHOTO</div>
