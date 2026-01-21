@@ -61,29 +61,31 @@ export function AIAssistantWidget() {
 
   return (
     <>
-      {/* 浮動按鈕 - 可拖曳 */}
-      <button
-        ref={buttonRef}
-        className="fixed z-50 w-16 h-16
-                   bg-gradient-to-br from-blue-600 to-purple-600
-                   rounded-2xl shadow-2xl shadow-blue-600/30
-                   hover:shadow-blue-600/50 hover:scale-110
-                   transition-shadow duration-300
-                   flex items-center justify-center group
-                   drag-handle cursor-grab active:cursor-grabbing"
-        onClick={handleClick}
-        title="打開 AI 助手"
-        style={{
-          left: `calc(100vw - 96px + ${position.x}px)`,
-          top: `calc(100vh - 96px + ${position.y}px)`,
-          cursor: isDragging ? 'grabbing' : 'grab'
-        }}
-      >
-        <MessageCircle
-          className="text-white group-hover:scale-110 transition-transform pointer-events-none"
-          size={28}
-        />
-      </button>
+      {/* 浮動按鈕 - 可拖曳 (聊天窗口打開時隱藏) */}
+      {!isOpen && (
+        <button
+          ref={buttonRef}
+          className="fixed z-50 w-16 h-16
+                     bg-gradient-to-br from-blue-600 to-purple-600
+                     rounded-2xl shadow-2xl shadow-blue-600/30
+                     hover:shadow-blue-600/50 hover:scale-110
+                     transition-shadow duration-300
+                     flex items-center justify-center group
+                     drag-handle cursor-grab active:cursor-grabbing"
+          onClick={handleClick}
+          title="打開 AI 助手"
+          style={{
+            left: `calc(100vw - 96px + ${position.x}px)`,
+            top: `calc(100vh - 96px + ${position.y}px)`,
+            cursor: isDragging ? 'grabbing' : 'grab'
+          }}
+        >
+          <MessageCircle
+            className="text-white group-hover:scale-110 transition-transform pointer-events-none"
+            size={28}
+          />
+        </button>
+      )}
 
       {/* 聊天窗口 */}
       {isOpen && (
