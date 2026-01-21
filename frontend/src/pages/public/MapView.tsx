@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CaseMap, type CaseMarker } from '../../components/map/CaseMap';
-import { Filter, Layers, ArrowLeft } from 'lucide-react';
+import { Filter, Layers, ArrowLeft, Zap, AlertCircle, MessageSquare, Camera } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const MapView: React.FC = () => {
@@ -11,6 +11,8 @@ export const MapView: React.FC = () => {
     const [showDispatchDialog, setShowDispatchDialog] = useState(false);
     const [selectedCase, setSelectedCase] = useState<{ id: string; title: string } | null>(null);
     const [showFilters, setShowFilters] = useState(false);
+    const [activeLayer, setActiveLayer] = useState<'osm' | 'satellite' | 'dark'>('osm');
+    const [showLayerMenu, setShowLayerMenu] = useState(false);
 
     useEffect(() => {
         const handleOpenDispatch = (e: CustomEvent<{ id: string; title: string }>) => {
@@ -235,8 +237,8 @@ export const MapView: React.FC = () => {
                 <div className="pointer-events-auto flex flex-col items-end gap-2">
                     <div className="bg-white p-2 rounded-2xl shadow-xl flex flex-col gap-2">
                         <button
-                            onClick={() => alert('圖層切換功能 (衛星/街道/地形) 開發中')}
-                            className="w-10 h-10 rounded-xl bg-slate-50 text-slate-400 hover:bg-slate-900 hover:text-white transition-all flex items-center justify-center cursor-pointer active:scale-95"
+                            onClick={() => setShowLayerMenu(!showLayerMenu)}
+                            className={`w-10 h-10 rounded-xl transition-all flex items-center justify-center cursor-pointer active:scale-95 ${showLayerMenu ? 'bg-slate-900 text-white shadow-lg shadow-slate-900/30' : 'bg-slate-50 text-slate-400 hover:bg-slate-900 hover:text-white'}`}
                             title="切換圖層"
                         >
                             <Layers size={20} />
@@ -249,6 +251,33 @@ export const MapView: React.FC = () => {
                             <Filter size={20} />
                         </button>
                     </div>
+
+                    {/* Layer Menu */}
+                    {showLayerMenu && (
+                        <div className="bg-white p-4 rounded-2xl shadow-xl mt-2 w-48 border border-slate-100 animate-in fade-in slide-in-from-top-2 mr-1">
+                            <h3 className="text-sm font-bold text-slate-900 mb-3">地圖圖層</h3>
+                            <div className="space-y-2">
+                                <button
+                                    onClick={() => { setActiveLayer('osm'); setShowLayerMenu(false); }}
+                                    className={`w-full text-left px-3 py-2 rounded-lg text-xs font-bold transition-all ${activeLayer === 'osm' ? 'bg-blue-50 text-blue-600 border border-blue-100' : 'text-slate-500 hover:bg-slate-50'}`}
+                                >
+                                    標準地圖 (Standard)
+                                </button>
+                                <button
+                                    onClick={() => { setActiveLayer('satellite'); setShowLayerMenu(false); }}
+                                    className={`w-full text-left px-3 py-2 rounded-lg text-xs font-bold transition-all ${activeLayer === 'satellite' ? 'bg-blue-50 text-blue-600 border border-blue-100' : 'text-slate-500 hover:bg-slate-50'}`}
+                                >
+                                    衛星影像 (Satellite)
+                                </button>
+                                <button
+                                    onClick={() => { setActiveLayer('dark'); setShowLayerMenu(false); }}
+                                    className={`w-full text-left px-3 py-2 rounded-lg text-xs font-bold transition-all ${activeLayer === 'dark' ? 'bg-blue-50 text-blue-600 border border-blue-100' : 'text-slate-500 hover:bg-slate-50'}`}
+                                >
+                                    黑夜模式 (Dark)
+                                </button>
+                            </div>
+                        </div>
+                    )}
 
                     {/* Filter Panel */}
                     {showFilters && (
@@ -292,7 +321,7 @@ export const MapView: React.FC = () => {
             </div>
 
             <div className="absolute inset-0 z-0">
-                <CaseMap cases={filteredCases} />
+                <CaseMap cases={filteredCases} activeLayer={activeLayer} />
 
                 {/* Legend Overlay */}
                 <div className="absolute bottom-6 left-6 bg-slate-900/90 backdrop-blur-md p-6 rounded-[2rem] shadow-2xl z-[1000] border border-white/10 min-w-[240px]">
@@ -315,6 +344,70 @@ export const MapView: React.FC = () => {
                         <div className="flex items-center gap-3 group cursor-pointer">
                             <span className="w-3 h-3 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></span>
                             <span className="text-sm font-bold text-white group-hover:text-emerald-400 transition-colors">已結案</span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Quick Report AI Widget */}
+                <div className="absolute bottom-6 right-6 bg-slate-900/90 backdrop-blur-md p-6 rounded-[2rem] shadow-2xl z-[1000] border border-white/10 min-w-[280px] group overflow-hidden">
+                    {/* Background Glow Effect */}
+                    <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/10 blur-[80px] group-hover:bg-blue-500/20 transition-all duration-700"></div>
+
+                    <div className="relative z-10">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400 border border-blue-500/20">
+                                <Zap size={20} className="animate-pulse" />
+                            </div>
+                            <div>
+                                <h3 className="text-sm font-black text-white tracking-tighter">快速通報 AI 助理</h3>
+                                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Intelligent Reporting</p>
+                            </div>
+                        </div>
+
+                        <div className="space-y-4">
+                            <Link
+                                to="/smart-guide"
+                                className="flex items-center justify-between w-full bg-white hover:bg-blue-50 transition-all p-4 rounded-2xl group/btn shadow-lg"
+                            >
+                                <span className="text-sm font-black text-slate-900 tracking-tighter">啟動智能引導報案</span>
+                                <div className="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center group-hover/btn:scale-110 transition-transform">
+                                    <MessageSquare size={16} />
+                                </div>
+                            </Link>
+
+                            <div className="grid grid-cols-3 gap-2">
+                                <Link
+                                    to="/report/general"
+                                    className="aspect-square rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/20 transition-all flex flex-col items-center justify-center gap-1 group/item"
+                                    title="一般救援"
+                                >
+                                    <AlertCircle size={18} className="text-red-400 group-hover/item:scale-110 transition-transform" />
+                                    <span className="text-[9px] font-black text-slate-400">救援</span>
+                                </Link>
+                                <Link
+                                    to="/report/bee"
+                                    className="aspect-square rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/20 transition-all flex flex-col items-center justify-center gap-1 group/item"
+                                    title="捕蜂抓蛇"
+                                >
+                                    <Zap size={18} className="text-orange-400 group-hover/item:scale-110 transition-transform" />
+                                    <span className="text-[9px] font-black text-slate-400">捕蜂</span>
+                                </Link>
+                                <Link
+                                    to="/report/general"
+                                    className="aspect-square rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/20 transition-all flex flex-col items-center justify-center gap-1 group/item"
+                                    title="影像上傳"
+                                >
+                                    <Camera size={18} className="text-emerald-400 group-hover/item:scale-110 transition-transform" />
+                                    <span className="text-[9px] font-black text-slate-400">上傳</span>
+                                </Link>
+                            </div>
+                        </div>
+
+                        <div className="mt-4 pt-4 border-t border-white/5">
+                            <div className="flex items-center gap-2 text-[10px] text-slate-500 font-bold">
+                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                                AI 系統在線，支援即時影像辨識
+                            </div>
                         </div>
                     </div>
                 </div>

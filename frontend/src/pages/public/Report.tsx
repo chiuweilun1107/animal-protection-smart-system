@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 
 export const Report: React.FC = () => {
@@ -15,6 +15,33 @@ export const Report: React.FC = () => {
     const [contactName, setContactName] = useState('王小明');
     const [phone, setPhone] = useState('0912-345-678');
     const [hasImage, setHasImage] = useState(true);
+    const [isDetecting, setIsDetecting] = useState(false);
+    const [detectionSuccess, setDetectionSuccess] = useState(false);
+
+    const handleGeoDetect = async () => {
+        setIsDetecting(true);
+        setDetectionSuccess(false);
+
+        // Mock geolocation detection (simulating GPS + Geocoding)
+        setTimeout(() => {
+            // Mock detected location data
+            const mockLocations = [
+                { region: '新北市 - 板橋區', address: '四川路一段 157 巷口 7-11 前' },
+                { region: '新北市 - 板橋區', address: '縣民大道二段 7 號附近' },
+                { region: '新北市 - 新莊區', address: '中正路 516 號前' },
+                { region: '新北市 - 板橋區', address: '文化路一段 188 巷 5 弄口' },
+            ];
+            const randomLocation = mockLocations[Math.floor(Math.random() * mockLocations.length)];
+
+            setRegion(randomLocation.region);
+            setAddress(randomLocation.address);
+            setIsDetecting(false);
+            setDetectionSuccess(true);
+
+            // Hide success indicator after 2 seconds
+            setTimeout(() => setDetectionSuccess(false), 2000);
+        }, 1500);
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -58,7 +85,33 @@ export const Report: React.FC = () => {
                                         <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold text-sm">01</div>
                                         <h2 className="text-2xl font-black tracking-tighter text-slate-900 uppercase">地理座標數據</h2>
                                     </div>
-                                    <button type="button" className="px-8 py-3 bg-slate-50 text-slate-400 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all">定址偵測</button>
+                                    <button
+                                        type="button"
+                                        onClick={handleGeoDetect}
+                                        disabled={isDetecting}
+                                        className={`px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 ${isDetecting
+                                            ? 'bg-blue-500 text-white cursor-wait'
+                                            : detectionSuccess
+                                                ? 'bg-emerald-500 text-white'
+                                                : 'bg-slate-50 text-slate-400 hover:bg-slate-900 hover:text-white'
+                                            }`}
+                                    >
+                                        {isDetecting ? (
+                                            <>
+                                                <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                                定位中...
+                                            </>
+                                        ) : detectionSuccess ? (
+                                            <>
+                                                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                                </svg>
+                                                定位成功
+                                            </>
+                                        ) : (
+                                            '定址偵測'
+                                        )}
+                                    </button>
                                 </div>
 
                                 <div className="space-y-8">

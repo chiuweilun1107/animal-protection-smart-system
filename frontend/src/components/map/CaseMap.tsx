@@ -20,11 +20,12 @@ export interface CaseMarker {
 
 interface CaseMapProps {
     cases: CaseMarker[];
+    activeLayer?: 'osm' | 'satellite' | 'dark';
 }
 
 const DEFAULT_CENTER: LatLngTuple = [25.0118, 121.4658];
 
-export const CaseMap: React.FC<CaseMapProps> = ({ cases }) => {
+export const CaseMap: React.FC<CaseMapProps> = ({ cases, activeLayer = 'osm' }) => {
 
     const getIconColor = (type: string, status: string) => {
         if (status === 'resolved') return 'green';
@@ -41,6 +42,33 @@ export const CaseMap: React.FC<CaseMapProps> = ({ cases }) => {
         window.dispatchEvent(event);
     };
 
+    const getTileLayer = () => {
+        switch (activeLayer) {
+            case 'satellite':
+                return (
+                    <TileLayer
+                        attribution='Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+                        url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+                    />
+                );
+            case 'dark':
+                return (
+                    <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+                        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+                    />
+                );
+            case 'osm':
+            default:
+                return (
+                    <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                );
+        }
+    };
+
     return (
         <div className="w-full h-full rounded-lg overflow-hidden border border-slate-200 shadow-md">
             <MapContainer
@@ -48,10 +76,7 @@ export const CaseMap: React.FC<CaseMapProps> = ({ cases }) => {
                 zoom={12}
                 style={{ height: '100%', width: '100%' }}
             >
-                <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributor'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
+                {getTileLayer()}
 
                 {cases.map((c) => (
                     <Marker

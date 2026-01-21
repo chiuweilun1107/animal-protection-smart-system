@@ -80,13 +80,13 @@ export const SmartGuide: React.FC = () => {
 
                             <div className="grid grid-cols-1 gap-6">
                                 <ChoiceCard
-                                    onClick={() => navigate('/report?type=general&category=rescue')}
+                                    onClick={() => navigate('/report/general?category=rescue')}
                                     title="動物受傷或受困"
                                     description="動物有明顯外傷、流血、無法移動，或受困於無法自行脫困的場所（如高處、溝渠）。"
                                     label="RESCUE NEEDED"
                                 />
                                 <ChoiceCard
-                                    onClick={() => navigate('/report?type=general&category=abuse')}
+                                    onClick={() => navigate('/report/general?category=abuse')}
                                     title="疑似受虐或不當飼養"
                                     description="發現有人為虐待動物行為，或飼養環境極其惡劣（無水無食、空間過小）。"
                                     label="CRUELTY REPORT"
@@ -115,13 +115,13 @@ export const SmartGuide: React.FC = () => {
 
                             <div className="grid grid-cols-1 gap-6">
                                 <ChoiceCard
-                                    onClick={() => navigate('/report?type=bee&category=indoor')}
+                                    onClick={() => navigate('/report/bee?category=indoor')}
                                     title="位於室內或居住區"
                                     description="目標位於住家內部、陽台、校園教室等人員密集活動區域。"
                                     label="RESIDENTIAL"
                                 />
                                 <ChoiceCard
-                                    onClick={() => navigate('/report?type=bee&category=outdoor')}
+                                    onClick={() => navigate('/report/bee?category=outdoor')}
                                     title="位於戶外公共區域"
                                     description="目標位於公園、行道樹、路燈桿等開放空間。"
                                     label="PUBLIC AREA"
@@ -155,7 +155,7 @@ export const SmartGuide: React.FC = () => {
                             </div>
                             <div className="mt-20 flex flex-wrap justify-center gap-6">
                                 <button onClick={() => goTo('start')} className="px-12 py-6 bg-white text-slate-400 rounded-3xl font-black text-sm uppercase tracking-widest border border-rose-100 hover:bg-rose-100 hover:text-rose-600 transition-all">返回首頁</button>
-                                <button onClick={() => navigate('/report')} className="px-12 py-6 bg-rose-600 text-white rounded-3xl font-black text-sm uppercase tracking-widest shadow-xl shadow-rose-600/30">仍要網頁通報</button>
+                                <button onClick={() => navigate('/report/general')} className="px-12 py-6 bg-rose-600 text-white rounded-3xl font-black text-sm uppercase tracking-widest shadow-xl shadow-rose-600/30">仍要網頁通報</button>
                             </div>
                         </div>
                     </div>
