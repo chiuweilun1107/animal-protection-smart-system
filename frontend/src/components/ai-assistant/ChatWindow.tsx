@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { Sparkles, X } from 'lucide-react';
 import { ChatMessage } from './ChatMessage';
 import { ChatInput } from './ChatInput';
@@ -16,10 +16,64 @@ export function ChatWindow({ messages, onClose, onSendMessage }: ChatWindowProps
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { position, isDragging } = useDraggable(windowRef, '.drag-handle');
 
+  const [inputValue, setInputValue] = useState('');
+  const [hasInitialized, setHasInitialized] = useState(false);
+  const autoFlowRef = useRef<{ stage: 'idle' | 'waiting_first_response' | 'waiting_second' }>({ stage: 'idle' });
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   // 自動滾動到最新消息
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  // 自動流程：初始化時自動發送第一條消息
+  useEffect(() => {
+    if (!hasInitialized && messages.length === 0) {
+      setHasInitialized(true);
+      const firstMessage = '我想了解這週發生了多少緊急事件';
+      setInputValue(firstMessage);
+
+      // 延遲一點後自動發送
+      const sendFirstMessage = async () => {
+        await onSendMessage(firstMessage);
+        autoFlowRef.current.stage = 'waiting_first_response';
+        setInputValue('');
+      };
+
+      setTimeout(sendFirstMessage, 500);
+    }
+  }, [hasInitialized, messages.length, onSendMessage]);
+
+  // 自動流程：接收到 AI 回覆後，3秒後自動輸入第二條消息
+  useEffect(() => {
+    if (autoFlowRef.current.stage === 'waiting_first_response' && messages.length >= 2) {
+      // 已收到用戶消息和 AI 回覆
+      autoFlowRef.current.stage = 'waiting_second';
+
+      // 清除之前的計時器（如果有的話）
+      if (timeoutRef.current !== null) {
+        clearTimeout(timeoutRef.current as ReturnType<typeof setTimeout>);
+      }
+
+      timeoutRef.current = setTimeout(() => {
+        const secondMessage = '我想查看相關報告';
+        setInputValue(secondMessage);
+
+        // 再延遲一點自動發送
+        setTimeout(() => {
+          onSendMessage(secondMessage);
+          setInputValue('');
+          autoFlowRef.current.stage = 'idle';
+        }, 300);
+      }, 3000) as unknown as ReturnType<typeof setTimeout>;
+    }
+
+    return () => {
+      if (timeoutRef.current !== null) {
+        clearTimeout(timeoutRef.current as ReturnType<typeof setTimeout>);
+      }
+    };
+  }, [messages, onSendMessage]);
 
   return (
     <div
@@ -48,6 +102,13 @@ export function ChatWindow({ messages, onClose, onSendMessage }: ChatWindowProps
         <button
           onClick={(e) => {
             e.stopPropagation();
+            // 清理自動流程
+            if (timeoutRef.current !== null) {
+              clearTimeout(timeoutRef.current as ReturnType<typeof setTimeout>);
+              timeoutRef.current = null;
+            }
+            autoFlowRef.current.stage = 'idle';
+            setHasInitialized(false);
             onClose();
           }}
           className="p-2 hover:bg-white/20 rounded-lg transition-colors flex-shrink-0 pointer-events-auto"
@@ -75,7 +136,11 @@ export function ChatWindow({ messages, onClose, onSendMessage }: ChatWindowProps
       </div>
 
       {/* Input Area */}
-      <ChatInput onSend={onSendMessage} />
+      <ChatInput
+        onSend={onSendMessage}
+        value={inputValue}
+        onChange={setInputValue}
+      />
     </div>
   );
 }

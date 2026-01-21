@@ -56,6 +56,8 @@ export function AIAssistantWidget() {
   const handleClick = () => {
     // 只有在沒有拖曳移動時才打開聊天窗口
     if (!hasMoved) {
+      // 打開時清空消息，重新開始自動流程
+      setMessages([]);
       setIsOpen(true);
     }
   };

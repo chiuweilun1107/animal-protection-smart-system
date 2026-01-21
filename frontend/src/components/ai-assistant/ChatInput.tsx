@@ -4,11 +4,17 @@ import { VoiceInput } from './VoiceInput';
 
 interface ChatInputProps {
   onSend: (message: string) => Promise<void>;
+  value?: string;
+  onChange?: (value: string) => void;
 }
 
-export function ChatInput({ onSend }: ChatInputProps) {
-  const [value, setValue] = useState('');
+export function ChatInput({ onSend, value: externalValue, onChange: externalOnChange }: ChatInputProps) {
+  const [internalValue, setInternalValue] = useState('');
   const [isSending, setIsSending] = useState(false);
+
+  // 使用外部值或內部值
+  const value = externalValue !== undefined ? externalValue : internalValue;
+  const setValue = externalOnChange || setInternalValue;
 
   const handleSend = async () => {
     if (!value.trim() || isSending) return;

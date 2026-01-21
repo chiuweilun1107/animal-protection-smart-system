@@ -43,20 +43,19 @@ export const MapView: React.FC = () => {
             // Add new case if notification exists
             ...(notification ? [{
                 id: notification.id,
-                // Use a unique location slightly different from existing cases
-                lat: 25.0135,
-                lng: 121.4645,
+                lat: 25.012,
+                lng: 121.465,
                 type: notification.type === '捕蜂抓蛇' ? 'bee' as const : 'general' as const,
-                title: notification.type === '捕蜂抓蛇' ? '室內蜂窩通報' : '受傷動物救援',
+                title: `${notification.type} - 新提交案件`,
                 status: 'pending' as const,
                 address: notification.location,
                 reporter: '線上通報',
                 photoUrl: notification.type === '捕蜂抓蛇'
                     ? 'https://images.unsplash.com/photo-1579383618796-08e67bbc3363?auto=format&fit=crop&q=80&w=300'
-                    : 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=300',
+                    : 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=300', // Orange cat photo
                 description: notification.type === '捕蜂抓蛇'
                     ? '室內發現蜂窩，需要專業人員移除。'
-                    : '發現受傷或需要救援的動物，等待處理中。'
+                    : '發現一隻橘色浪貓，左前腳似乎受傷跛行，但在路邊坐著不動，希望能派員協助救援。' // Matching description
             }] : []),
             {
                 id: 'C20231021001',
@@ -251,8 +250,8 @@ export const MapView: React.FC = () => {
                         onClick={() => {
                             if (notification) {
                                 // Zoom to the new case location
-                                setMapCenter([25.0135, 121.4645]);
-                                setMapZoom(18);
+                                setMapCenter([25.012, 121.465]);
+                                setMapZoom(17);
                                 // Close notification after zooming
                                 setTimeout(() => setNotification(null), 1500);
                             }
