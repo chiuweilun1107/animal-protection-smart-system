@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
-type Step = 'start' | 'animal_v_bee' | 'animal_detail' | 'bee_detail' | 'result_emergency' | 'result_normal';
+type Step = 'start' | 'animal_v_bee' | 'animal_detail' | 'bee_snake_selection' | 'result_emergency' | 'result_normal';
 
 const ChoiceCard: React.FC<{
     title: string;
@@ -58,7 +58,7 @@ export const SmartGuide: React.FC = () => {
                                     label="ANIMAL WELFARE"
                                 />
                                 <ChoiceCard
-                                    onClick={() => goTo('bee_detail')}
+                                    onClick={() => goTo('bee_snake_selection')}
                                     title="蜂蛇移除勤務"
                                     description="發現具危險性之蜂巢、蛇類侵入住家或威脅公眾安全之緊急移除需求。"
                                     label="HAZARD REMOVAL"
@@ -103,28 +103,28 @@ export const SmartGuide: React.FC = () => {
                     </div>
                 );
 
-            case 'bee_detail':
+            case 'bee_snake_selection':
                 return (
                     <div className="animate-in fade-in slide-in-from-right-10 duration-700">
                         <div className="max-w-4xl mx-auto">
                             <button onClick={() => goTo('start')} className="mb-12 text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-slate-900 transition-all flex items-center gap-2">
                                 返回上一步
                             </button>
-                            <h2 className="text-5xl font-black tracking-tighter text-slate-900 mb-6 uppercase">蜂蛇危害評估</h2>
-                            <p className="text-xl text-slate-500 font-medium mb-16 max-w-2xl">確認蜂巢或蛇類的位置與狀態，以利專業人員攜帶正確裝備。</p>
+                            <h2 className="text-5xl font-black tracking-tighter text-slate-900 mb-6 uppercase">危害類型評估</h2>
+                            <p className="text-xl text-slate-500 font-medium mb-16 max-w-2xl">請確認您所遇到的目標類型，以便系統提供正確的防護建議與通報表單。</p>
 
                             <div className="grid grid-cols-1 gap-6">
                                 <ChoiceCard
-                                    onClick={() => navigate('/report/bee?category=indoor')}
-                                    title="位於室內或居住區"
-                                    description="目標位於住家內部、陽台、校園教室等人員密集活動區域。"
-                                    label="RESIDENTIAL"
+                                    onClick={() => navigate('/report/hazard?target=bee')}
+                                    title="蜂窩 / 蜂群"
+                                    description="發現蜂巢、大量蜂群聚集或具攻擊性之蜂類（如虎頭蜂）。"
+                                    label="BEE / WASP HIVE"
                                 />
                                 <ChoiceCard
-                                    onClick={() => navigate('/report/bee?category=outdoor')}
-                                    title="位於戶外公共區域"
-                                    description="目標位於公園、行道樹、路燈桿等開放空間。"
-                                    label="PUBLIC AREA"
+                                    onClick={() => navigate('/report/hazard?target=snake')}
+                                    title="蛇類出沒"
+                                    description="發現蛇類侵入住居、或是出現於人潮密集之公共場所。"
+                                    label="SNAKE SIGHTING"
                                 />
                                 <ChoiceCard
                                     onClick={() => goTo('result_emergency')}
