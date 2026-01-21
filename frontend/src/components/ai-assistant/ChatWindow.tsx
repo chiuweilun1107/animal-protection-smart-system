@@ -26,21 +26,32 @@ export function ChatWindow({ messages, onClose, onSendMessage }: ChatWindowProps
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // 自動流程：初始化時自動發送第一條消息
+  // 自動流程：初始化時延遲 3 秒後再填入輸入欄
   useEffect(() => {
     if (!hasInitialized && messages.length === 0) {
       setHasInitialized(true);
+
       const firstMessage = '我想了解這週發生了多少緊急事件';
-      setInputValue(firstMessage);
+      let sendTimer: ReturnType<typeof setTimeout>;
 
-      // 延遲一點後自動發送
-      const sendFirstMessage = async () => {
-        await onSendMessage(firstMessage);
-        autoFlowRef.current.stage = 'waiting_first_response';
-        setInputValue('');
+      // 延遲 3 秒後填入輸入欄
+      const fillInputTimer = setTimeout(() => {
+        setInputValue(firstMessage);
+
+        // 再延遲一點後自動發送
+        sendTimer = setTimeout(async () => {
+          await onSendMessage(firstMessage);
+          autoFlowRef.current.stage = 'waiting_first_response';
+          setInputValue('');
+        }, 300);
+      }, 3000);
+
+      return () => {
+        clearTimeout(fillInputTimer);
+        if (sendTimer) {
+          clearTimeout(sendTimer);
+        }
       };
-
-      setTimeout(sendFirstMessage, 500);
     }
   }, [hasInitialized, messages.length, onSendMessage]);
 

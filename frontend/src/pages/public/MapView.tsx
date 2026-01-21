@@ -62,12 +62,12 @@ export const MapView: React.FC = () => {
                 lat: 25.012,
                 lng: 121.465,
                 type: 'general',
-                title: '板橋區流浪犬聚集',
+                title: '發現橘色浪貓',
                 status: 'pending',
                 address: '新北市板橋區縣民大道二段7號',
                 reporter: '王小明',
-                photoUrl: 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80&w=300',
-                description: '三隻流浪犬在公園遊蕩，有追車行為。'
+                photoUrl: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=300',
+                description: '發現一隻橘色浪貓，左前腳似乎受傷跛行，但在路邊坐著不動，希望能派員協助救援。'
             },
             {
                 id: 'C20231021002',
