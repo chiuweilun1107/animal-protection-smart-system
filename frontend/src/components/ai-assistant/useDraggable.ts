@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef, RefObject } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import type { RefObject } from 'react';
 import type { Position } from './types';
 
 export const useDraggable = (
-  elementRef: RefObject<HTMLElement>,
+  elementRef: RefObject<HTMLElement | null>,
   handleSelector: string = '.drag-handle'
 ) => {
   const [position, setPosition] = useState<Position>({ x: 0, y: 0 });
@@ -24,8 +25,8 @@ export const useDraggable = (
     if (!handle) return;
 
     const handlePointerDown = (e: PointerEvent) => {
-      // 使用 setPointerCapture 綁定指針到元素
-      (handle as any).setPointerCapture(e.pointerId);
+      // 使用 setPointerCapture 綁定指針到主元素
+      (element as any).setPointerCapture(e.pointerId);
 
       setIsDragging(true);
       dragStartPos.current = { x: e.clientX, y: e.clientY };
@@ -64,15 +65,15 @@ export const useDraggable = (
     };
 
     handle.addEventListener('pointerdown', handlePointerDown);
-    handle.addEventListener('pointermove', handlePointerMove);
-    handle.addEventListener('pointerup', handlePointerUp);
-    handle.addEventListener('pointercancel', handlePointerUp);
+    document.addEventListener('pointermove', handlePointerMove);
+    document.addEventListener('pointerup', handlePointerUp);
+    document.addEventListener('pointercancel', handlePointerUp);
 
     return () => {
       handle.removeEventListener('pointerdown', handlePointerDown);
-      handle.removeEventListener('pointermove', handlePointerMove);
-      handle.removeEventListener('pointerup', handlePointerUp);
-      handle.removeEventListener('pointercancel', handlePointerUp);
+      document.removeEventListener('pointermove', handlePointerMove);
+      document.removeEventListener('pointerup', handlePointerUp);
+      document.removeEventListener('pointercancel', handlePointerUp);
     };
   }, [elementRef, handleSelector]);
 

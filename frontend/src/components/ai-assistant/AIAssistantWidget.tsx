@@ -75,8 +75,9 @@ export function AIAssistantWidget() {
           onClick={handleClick}
           title="打開 AI 助手"
           style={{
-            left: `calc(100vw - 96px + ${position.x}px)`,
-            top: `calc(100vh - 96px + ${position.y}px)`,
+            bottom: '24px',
+            right: '24px',
+            transform: `translate(${position.x}px, ${position.y}px)`,
             cursor: isDragging ? 'grabbing' : 'grab'
           }}
         >

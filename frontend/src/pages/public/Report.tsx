@@ -49,6 +49,16 @@ export const Report: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
+
+        // Store notification for map page
+        const notification = {
+            id: 'ANS-20231120001',
+            type: isBee ? '捕蜂抓蛇' : '一般救援',
+            location: `${region} ${address}`,
+            timestamp: new Date().toISOString()
+        };
+        localStorage.setItem('newCaseNotification', JSON.stringify(notification));
+
         setTimeout(() => {
             setIsSubmitting(false);
             navigate('/status?id=ANS-20231120001');

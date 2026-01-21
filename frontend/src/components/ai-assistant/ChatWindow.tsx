@@ -29,7 +29,7 @@ export function ChatWindow({ messages, onClose, onSendMessage }: ChatWindowProps
                  flex flex-col overflow-hidden
                  animate-in fade-in zoom-in-95 duration-300"
       style={{
-        bottom: '100px',
+        bottom: '120px',
         right: '24px',
         transform: `translate(${position.x}px, ${position.y}px)`,
         cursor: isDragging ? 'grabbing' : 'default',

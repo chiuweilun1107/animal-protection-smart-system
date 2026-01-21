@@ -13,17 +13,27 @@ export const MapView: React.FC = () => {
     const [showFilters, setShowFilters] = useState(false);
     const [activeLayer, setActiveLayer] = useState<'osm' | 'satellite' | 'dark'>('osm');
     const [showLayerMenu, setShowLayerMenu] = useState(false);
+    const [notification, setNotification] = useState<{ id: string; type: string; location: string } | null>(null);
 
     useEffect(() => {
         const handleOpenDispatch = (e: CustomEvent<{ id: string; title: string }>) => {
             setSelectedCase(e.detail);
             setShowDispatchDialog(true);
         };
+        window.addEventListener('openDispatch', handleOpenDispatch as EventListener);
 
-        window.addEventListener('open-dispatch-dialog', handleOpenDispatch as EventListener);
-        return () => {
-            window.removeEventListener('open-dispatch-dialog', handleOpenDispatch as EventListener);
-        };
+        // Check for new case notification
+        const storedNotification = localStorage.getItem('newCaseNotification');
+        if (storedNotification) {
+            const notif = JSON.parse(storedNotification);
+            setNotification(notif);
+            // Clear notification after showing
+            localStorage.removeItem('newCaseNotification');
+            // Auto-hide after 8 seconds
+            setTimeout(() => setNotification(null), 8000);
+        }
+
+        return () => window.removeEventListener('openDispatch', handleOpenDispatch as EventListener);
     }, []);
 
     useEffect(() => {
@@ -215,6 +225,29 @@ export const MapView: React.FC = () => {
 
     return (
         <div className="relative h-screen w-full bg-slate-950">
+            {/* New Case Notification Toast */}
+            {notification && (
+                <div className="absolute top-6 left-1/2 -translate-x-1/2 z-[2000] animate-in slide-in-from-top-4 fade-in">
+                    <div className="bg-emerald-500 text-white px-8 py-4 rounded-2xl shadow-2xl flex items-center gap-4 border-2 border-emerald-400">
+                        <svg className="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <div>
+                            <div className="font-black text-sm">新案件已建立</div>
+                            <div className="text-xs font-medium opacity-90">{notification.id} - {notification.type} - {notification.location}</div>
+                        </div>
+                        <button
+                            onClick={() => setNotification(null)}
+                            className="ml-4 hover:bg-white/20 rounded-lg p-1 transition-colors"
+                        >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            )}
+
             {/* Floating Header */}
             <div className="absolute top-6 left-6 right-6 z-[1000] flex items-start justify-between pointer-events-none">
                 <div className="bg-slate-900/90 backdrop-blur-md border border-white/10 p-6 rounded-[2rem] shadow-2xl pointer-events-auto flex items-center gap-6">
