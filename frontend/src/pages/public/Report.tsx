@@ -18,10 +18,12 @@ export const Report: React.FC = () => {
     const [hasImage, setHasImage] = useState(true);
     const [isDetecting, setIsDetecting] = useState(false);
     const [detectionSuccess, setDetectionSuccess] = useState(false);
+    const [detectedLocation, setDetectedLocation] = useState<string>('');
 
     const handleGeoDetect = async () => {
         setIsDetecting(true);
         setDetectionSuccess(false);
+        setDetectedLocation('');
 
         // Mock geolocation detection (simulating GPS + Geocoding)
         setTimeout(() => {
@@ -36,11 +38,11 @@ export const Report: React.FC = () => {
 
             setRegion(randomLocation.region);
             setAddress(randomLocation.address);
+            setDetectedLocation(`${randomLocation.region} ${randomLocation.address}`);
             setIsDetecting(false);
             setDetectionSuccess(true);
 
-            // Hide success indicator after 2 seconds
-            setTimeout(() => setDetectionSuccess(false), 2000);
+            // Keep success state visible (don't auto-hide)
         }, 1500);
     };
 
@@ -143,6 +145,23 @@ export const Report: React.FC = () => {
                                         )}
                                     </button>
                                 </div>
+
+                                {/* Detected Location Display */}
+                                {detectionSuccess && detectedLocation && (
+                                    <div className="mb-8 p-4 bg-emerald-50 border border-emerald-200 rounded-2xl animate-in fade-in slide-in-from-top-2">
+                                        <div className="flex items-start gap-3">
+                                            <svg className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            </svg>
+                                            <div className="flex-1">
+                                                <div className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">偵測到的位置</div>
+                                                <div className="text-sm font-bold text-slate-900">{detectedLocation}</div>
+                                                <div className="text-xs text-slate-500 mt-1">地址已自動填入下方表單</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
 
                                 <div className="space-y-8">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
