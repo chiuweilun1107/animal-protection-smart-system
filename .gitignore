@@ -30,3 +30,4 @@ dist/
 # Project specific
 backend/.venv/
 frontend/node_modules/
+.vercel

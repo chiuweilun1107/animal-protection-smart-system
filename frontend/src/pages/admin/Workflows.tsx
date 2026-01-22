@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, lazy, Suspense } from 'react';
 import {
   Plus, Edit3, Eye, Zap,
   ArrowRight, CheckCircle, Clock,
@@ -7,7 +7,10 @@ import {
 } from 'lucide-react';
 import { mockApi } from '../../services/mockApi';
 import type { Workflow, WorkflowStep } from '../../types/schema';
-import { WorkflowEditor } from '../../components/WorkflowEditor';
+import { LoadingFallback } from '../../components/common/LoadingFallback';
+
+// 懶加載 WorkflowEditor 組件（包含 reactflow 庫）
+const WorkflowEditor = lazy(() => import('../../components/WorkflowEditor').then(m => ({ default: m.WorkflowEditor })));
 
 export function WorkflowsPage() {
   const [workflows, setWorkflows] = useState<Workflow[]>([]);
@@ -123,14 +126,16 @@ export function WorkflowsPage() {
         <div className="lg:col-span-8">
           {selectedWorkflow && isEditMode ? (
             <div className="h-[800px] border-2 border-slate-950 animate-in slide-in-from-right-8 duration-500">
-              <WorkflowEditor
-                workflowId={selectedWorkflow.id}
-                workflowName={selectedWorkflow.name}
-                initialSteps={selectedWorkflow.steps}
-                onSave={(nodes, edges) => {
-                  console.log('Saved workflow:', { nodes, edges });
-                }}
-              />
+              <Suspense fallback={<LoadingFallback message="載入工作流編輯器..." />}>
+                <WorkflowEditor
+                  workflowId={selectedWorkflow.id}
+                  workflowName={selectedWorkflow.name}
+                  initialSteps={selectedWorkflow.steps}
+                  onSave={(nodes, edges) => {
+                    console.log('Saved workflow:', { nodes, edges });
+                  }}
+                />
+              </Suspense>
             </div>
           ) : selectedWorkflow && (
             <div className="space-y-12 animate-in slide-in-from-right-8 duration-500">
