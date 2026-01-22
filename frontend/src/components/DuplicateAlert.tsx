@@ -1,5 +1,5 @@
 import { AlertTriangle, ExternalLink, CheckCircle2, XCircle } from 'lucide-react';
-import type { Case } from '../../types/schema';
+import type { Case } from '../types/schema';
 
 interface DuplicateAlertProps {
     matchType: 'external_id' | 'chip_id' | 'location' | 'manual' | null;
