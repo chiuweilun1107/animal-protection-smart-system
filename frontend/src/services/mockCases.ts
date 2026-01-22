@@ -2,6 +2,43 @@ import type { Case } from '../types/schema';
 
 // 案件數據 - 分離到專用文件便於管理
 export const mockCases: Case[] = [
+    // 截圖匹配案件 (圖一樣式)
+    {
+        id: '11409090002',
+        type: 'bee',
+        title: '蜂窩 長腳蜂泥壺蜂',
+        status: 'authorized',
+        workflowStage: 'receipt',
+        priority: 'medium',
+        priorityLabel: '一般',
+        date: '2025-09-09',
+        location: '新北市泰山區中港西路120巷77之9號',
+        coordinates: { lat: 25.0485, lng: 121.4322 },
+        reporterName: '黃小姐',
+        reporterPhone: '0937212941',
+        petitionerName: '黃小姐',
+        petitionerPhone: '0937212941',
+        description: '(11409090918)\n新北市泰山區中港西路120巷77之9號\n公司倉庫內有10公分大小蜂窩\n黃小姐0937212941\n⚠️請先與通報人連絡，告知作業時間',
+        photos: [
+            '/report_bee_demo.png',
+            '/report_evidence_demo.png',
+            '/report_bee_demo.png'
+        ],
+        attachments: [
+            { id: 'att1', caseId: '11409090002', filename: 'S_7504241_0.png', fileUrl: '/report_bee_demo.png', fileType: 'image/png', fileSize: 917151, uploadedBy: 'system', uploadedAt: '2025-09-09T09:19:00Z' },
+            { id: 'att2', caseId: '11409090002', filename: 'S_7504243_0.png', fileUrl: '/report_evidence_demo.png', fileType: 'image/png', fileSize: 1021282, uploadedBy: 'system', uploadedAt: '2025-09-09T09:19:00Z' },
+            { id: 'att3', caseId: '11409090002', filename: 'S_7504242_0.png', fileUrl: '/report_bee_demo.png', fileType: 'image/png', fileSize: 917151, uploadedBy: 'system', uploadedAt: '2025-09-09T09:19:00Z' },
+        ],
+        assignees: ['吳振富', '陳志國', '廖坤震'],
+        history: [
+            { id: 'h1', caseId: '11409090002', action: 'petitioner_report', description: '陳情人申報', performedBy: '黃小姐', performedAt: '2025-09-09T09:19:00Z' },
+            { id: 'h2', caseId: '11409090002', action: 'call_record', description: '黃小姐致電記錄', performedBy: '黃小姐', performedAt: '2025-09-09T09:19:00Z' },
+            { id: 'h3', caseId: '11409090002', action: 'system_init', description: '系統建立', performedBy: 'system', performedAt: '2025-09-09T09:19:00Z' },
+            { id: 'h4', caseId: '11409090002', action: 'system_log', description: '案件 Key In 至 系統時間', performedBy: 'system', performedAt: '2025-09-09T09:19:00Z' },
+        ],
+        createdAt: '2025-09-09T09:19:00Z',
+        updatedAt: '2025-09-09T09:19:00Z'
+    },
     // 收簽階段 - 待簽收
     {
         id: 'C20260121001',
@@ -19,7 +56,30 @@ export const mockCases: Case[] = [
         photos: [],
         notes: '待簽收，需儘快處理',
         createdAt: '2026-01-21T08:00:00Z',
-        updatedAt: '2026-01-21T08:00:00Z'
+        updatedAt: '2026-01-21T08:00:00Z',
+        petitionerName: '李先生',
+        petitionerPhone: '0912345678',
+        history: [
+            { id: 'h_21001_1', caseId: 'C20260121001', action: 'system_init', description: '系統自動建檔', performedBy: 'system', performedAt: '2026-01-21T08:00:00Z' },
+            { id: 'h_21001_2', caseId: 'C20260121001', action: 'petitioner_report', description: '陳情人來電通報', performedBy: 'system', performedAt: '2026-01-21T08:05:00Z' }
+        ]
+    },
+    {
+        id: 'C20260121001_DUP',
+        type: 'general',
+        title: '疑似同一群流浪犬通報',
+        status: 'pending',
+        workflowStage: 'receipt',
+        priority: 'high',
+        date: '2026-01-21',
+        location: '板橋區四川路102號',
+        coordinates: { lat: 25.0240, lng: 121.5090 },
+        reporterName: '張小姐',
+        reporterPhone: '0912111222',
+        description: '這附近有很多狗在叫，很害怕',
+        photos: [],
+        createdAt: '2026-01-21T08:15:00Z',
+        updatedAt: '2026-01-21T08:15:00Z',
     },
     {
         id: 'C20260121002',
@@ -38,7 +98,14 @@ export const mockCases: Case[] = [
         signedAt: '2026-01-21T09:00:00Z',
         notes: '已授理，緊急案件',
         createdAt: '2026-01-21T09:15:00Z',
-        updatedAt: '2026-01-21T10:30:00Z'
+        updatedAt: '2026-01-21T10:30:00Z',
+        petitionerName: '王女士',
+        petitionerPhone: '0987654321',
+        history: [
+            { id: 'h_21002_1', caseId: 'C20260121002', action: 'app_report', description: '民眾使用 App 通報', performedBy: '王女士', performedAt: '2026-01-21T09:15:00Z' },
+            { id: 'h_21002_2', caseId: 'C20260121002', action: 'admin_review', description: '管理員審核通過', performedBy: 'u1', performedAt: '2026-01-21T09:30:00Z' },
+            { id: 'h_21002_3', caseId: 'C20260121002', action: 'priority_update', description: '標記為緊急案件', performedBy: 'u1', performedAt: '2026-01-21T09:31:00Z' }
+        ]
     },
     // 分派階段
     {
@@ -57,7 +124,14 @@ export const mockCases: Case[] = [
         photos: [],
         notes: '已分派給李承辦人',
         createdAt: '2026-01-20T16:20:00Z',
-        updatedAt: '2026-01-20T16:20:00Z'
+        updatedAt: '2026-01-20T16:20:00Z',
+        petitionerName: '陳先生',
+        petitionerPhone: '0934567890',
+        assignees: ['李承辦'],
+        history: [
+            { id: 'h_20004_1', caseId: 'C20260120004', action: 'call_center', description: '話務中心轉入', performedBy: 'system', performedAt: '2026-01-20T16:20:00Z' },
+            { id: 'h_20004_2', caseId: 'C20260120004', action: 'auto_assign', description: '系統自動分派', performedBy: 'system', performedAt: '2026-01-20T16:21:00Z' }
+        ]
     },
     {
         id: 'C20260119006',
@@ -95,7 +169,13 @@ export const mockCases: Case[] = [
         assignedTo: 'u2',
         notes: '待承辦人簽收',
         createdAt: '2026-01-19T12:00:00Z',
-        updatedAt: '2026-01-20T08:30:00Z'
+        updatedAt: '2026-01-20T08:30:00Z',
+        petitionerName: '黃女士',
+        petitionerPhone: '0945678901',
+        history: [
+            { id: 'h_19005_1', caseId: 'C20260119005', action: 'web_report', description: '網站通報', performedBy: '黃女士', performedAt: '2026-01-19T12:00:00Z' },
+            { id: 'h_19005_2', caseId: 'C20260119005', action: 'manual_assign', description: '指派承辦人', performedBy: 'u1', performedAt: '2026-01-19T14:00:00Z' }
+        ]
     },
     // 承辦階段 - 轉移中
     {
@@ -116,7 +196,13 @@ export const mockCases: Case[] = [
         signedAt: '2026-01-20T14:30:00Z',
         notes: '承辦中，正在轉移至外認',
         createdAt: '2026-01-20T14:00:00Z',
-        updatedAt: '2026-01-21T11:00:00Z'
+        updatedAt: '2026-01-21T11:00:00Z',
+        petitionerName: '張女士',
+        petitionerPhone: '0923456789',
+        history: [
+            { id: 'h_21003_1', caseId: 'C20260121003', action: 'web_report', description: '陳情人線上申報', performedBy: '張女士', performedAt: '2026-01-20T14:00:00Z' },
+            { id: 'h_21003_2', caseId: 'C20260121003', action: 'transfer_init', description: '啟動轉移程序', performedBy: 'u4', performedAt: '2026-01-21T09:00:00Z' }
+        ]
     },
     // 處理中
     {
@@ -137,7 +223,13 @@ export const mockCases: Case[] = [
         signedAt: '2026-01-18T12:00:00Z',
         notes: '現場勘查中，已聯絡防蜂隊',
         createdAt: '2026-01-18T11:45:00Z',
-        updatedAt: '2026-01-18T13:00:00Z'
+        updatedAt: '2026-01-18T13:00:00Z',
+        petitionerName: '校方警衛',
+        petitionerPhone: '0910-222-333',
+        history: [
+            { id: 'h_18008_1', caseId: 'C20260118008', action: 'phone_report', description: '校方電話通報', performedBy: 'system', performedAt: '2026-01-18T11:45:00Z' },
+            { id: 'h_18008_2', caseId: 'C20260118008', action: 'field_visit', description: '外勤人員抵達現場', performedBy: 'u2', performedAt: '2026-01-18T12:30:00Z' }
+        ]
     },
     {
         id: 'C20260116011',
@@ -178,7 +270,13 @@ export const mockCases: Case[] = [
         signedAt: '2026-01-11T09:00:00Z',
         notes: '已超期，需加急處理',
         createdAt: '2026-01-10T20:00:00Z',
-        updatedAt: '2026-01-20T16:00:00Z'
+        updatedAt: '2026-01-20T16:00:00Z',
+        petitionerName: '王先生',
+        petitionerPhone: '0912111111',
+        history: [
+            { id: 'h_15013_1', caseId: 'C20260115013', action: 'system_log', description: '案件建立', performedBy: 'system', performedAt: '2026-01-10T20:00:00Z' },
+            { id: 'h_15013_2', caseId: 'C20260115013', action: 'overdue_alert', description: '系統發送逾期警示', performedBy: 'system', performedAt: '2026-01-17T20:00:00Z' }
+        ]
     },
     // 已完成/已結案
     {
@@ -199,7 +297,14 @@ export const mockCases: Case[] = [
         signedAt: '2026-01-17T15:45:00Z',
         notes: '已完成救援，白鷺鷥送往野生動物保護中心',
         createdAt: '2026-01-17T15:20:00Z',
-        updatedAt: '2026-01-18T09:30:00Z'
+        updatedAt: '2026-01-18T09:30:00Z',
+        petitionerName: '歐小姐',
+        petitionerPhone: '0922-333-444',
+        history: [
+            { id: 'h_17009_1', caseId: 'C20260117009', action: 'report', description: '陳情人發現受傷動物', performedBy: '歐小姐', performedAt: '2026-01-17T15:20:00Z' },
+            { id: 'h_17009_2', caseId: 'C20260117009', action: 'rescue', description: '完成救援', performedBy: 'u2', performedAt: '2026-01-17T17:00:00Z' },
+            { id: 'h_17009_3', caseId: 'C20260117009', action: 'resolve', description: '案件結案', performedBy: 'u2', performedAt: '2026-01-18T09:30:00Z' }
+        ]
     },
     {
         id: 'C20260118007',
@@ -219,7 +324,13 @@ export const mockCases: Case[] = [
         signedAt: '2026-01-18T09:30:00Z',
         notes: '已補捉並送往收容所',
         createdAt: '2026-01-18T09:00:00Z',
-        updatedAt: '2026-01-19T14:20:00Z'
+        updatedAt: '2026-01-19T14:20:00Z',
+        petitionerName: '高先生',
+        petitionerPhone: '0977-111-222',
+        history: [
+            { id: 'h_18007_1', caseId: 'C20260118007', action: 'report', description: '受理流浪犬追車案件', performedBy: 'system', performedAt: '2026-01-18T09:00:00Z' },
+            { id: 'h_18007_2', caseId: 'C20260118007', action: 'capture', description: '捕獲作業完成', performedBy: 'u4', performedAt: '2026-01-19T14:00:00Z' }
+        ]
     },
     {
         id: 'C20260115012',
@@ -284,16 +395,16 @@ export const mockCases: Case[] = [
     {
         id: 'C20260200001',
         type: 'general',
-        title: '承辦-待簽收案件範例',
+        title: '受傷犬隻通報',
         status: 'assigned',
         workflowStage: 'undertaker',
         priority: 'high',
         date: '2026-01-20',
-        location: '新北市示例地點 1',
+        location: '新北市板橋區文化路一段188號',
         coordinates: { lat: 25.05, lng: 121.55 },
         reporterName: '王先生',
         reporterPhone: '0912000001',
-        description: '這是一個待簽收的承辦案件',
+        description: '發現受傷流浪犬，需要救援處理',
         photos: [],
         assignedTo: 'u2',
         notes: '待簽收',
@@ -303,16 +414,16 @@ export const mockCases: Case[] = [
     {
         id: 'C20260200002',
         type: 'bee',
-        title: '承辦-處理中案件範例',
+        title: '住宅陽台蜂窩摘除',
         status: 'processing',
         workflowStage: 'undertaker',
         priority: 'high',
         date: '2026-01-19',
-        location: '新北市示例地點 2',
+        location: '新北市新莊區中正路380號',
         coordinates: { lat: 25.06, lng: 121.56 },
         reporterName: '李女士',
         reporterPhone: '0912000002',
-        description: '這是一個處理中的承辦案件',
+        description: '住宅三樓陽台發現蜂窩，約籃球大小',
         photos: [],
         assignedTo: 'u4',
         signedAt: '2026-01-19T09:00:00Z',
@@ -323,16 +434,16 @@ export const mockCases: Case[] = [
     {
         id: 'C20260200003',
         type: 'general',
-        title: '承辦-轉移中案件範例',
+        title: '野生鳥類救援轉介',
         status: 'transferred',
         workflowStage: 'undertaker',
         priority: 'medium',
         date: '2026-01-18',
-        location: '新北市示例地點 3',
+        location: '新北市土城區金城路二段200號',
         coordinates: { lat: 25.04, lng: 121.54 },
         reporterName: '陳先生',
         reporterPhone: '0912000003',
-        description: '這是一個轉移中的案件',
+        description: '發現受傷台灣藍鵲，需轉介野生動物救傷單位',
         photos: [],
         assignedTo: 'u2',
         signedAt: '2026-01-18T11:00:00Z',
@@ -343,16 +454,16 @@ export const mockCases: Case[] = [
     {
         id: 'C20260200004',
         type: 'general',
-        title: '承辦-超期案件範例',
+        title: '流浪犬聚集擾民',
         status: 'overdue',
         workflowStage: 'undertaker',
         priority: 'high',
         date: '2026-01-10',
-        location: '新北市示例地點 4',
+        location: '新北市中和區景平路100號',
         coordinates: { lat: 25.03, lng: 121.53 },
         reporterName: '黃先生',
         reporterPhone: '0912000004',
-        description: '這是一個超期的案件',
+        description: '公園周邊有多隻流浪犬聚集，影響居民安全',
         photos: [],
         assignedTo: 'u4',
         signedAt: '2026-01-11T09:00:00Z',
@@ -363,16 +474,16 @@ export const mockCases: Case[] = [
     {
         id: 'C20260200005',
         type: 'general',
-        title: '公文-待審核案件範例',
+        title: '寵物登記補辦申請',
         status: 'completed',
         workflowStage: 'public',
         priority: 'high',
         date: '2026-01-17',
-        location: '新北市示例地點 5',
+        location: '新北市汐止區康寧街150號',
         coordinates: { lat: 25.07, lng: 121.57 },
         reporterName: '張女士',
         reporterPhone: '0912000005',
-        description: '待公文審核的案件',
+        description: '申請補辦寵物登記證，待公文審核',
         photos: [],
         assignedTo: 'u2',
         signedAt: '2026-01-17T13:00:00Z',
@@ -386,27 +497,27 @@ export const mockCases: Case[] = [
         type: 'general',
         title: '動物傷害事件-緊急',
         status: 'resolved',
-        workflowStage: 'completed',
+        workflowStage: 'public',
         priority: 'critical',
-        date: '2026-01-15',
-        location: '新北市板橋區',
-        coordinates: { lat: 25.01, lng: 121.50 },
-        reporterName: '李先生',
+        date: '2026-01-21',
+        location: '新北市板橋區四川路110號',
+        coordinates: { lat: 25.0245, lng: 121.5095 },
+        reporterName: '王先生',
         reporterPhone: '0912111111',
-        description: '緊急動物事件',
+        description: '緊急動物事件，就在剛剛發生',
         photos: [],
         assignedTo: 'u2',
-        signedAt: '2026-01-15T10:00:00Z',
+        signedAt: '2026-01-21T10:00:00Z',
         notes: '已完成處理',
-        createdAt: '2026-01-15T09:00:00Z',
-        updatedAt: '2026-01-18T15:00:00Z'
+        createdAt: '2026-01-21T09:00:00Z',
+        updatedAt: '2026-01-21T15:00:00Z'
     },
     {
         id: 'C20260121011',
         type: 'bee',
         title: '蜂窩移除-緊急',
         status: 'resolved',
-        workflowStage: 'completed',
+        workflowStage: 'public',
         priority: 'critical',
         date: '2026-01-14',
         location: '新北市中和區',
@@ -426,7 +537,7 @@ export const mockCases: Case[] = [
         type: 'general',
         title: '流浪犬威脅事件-緊急',
         status: 'resolved',
-        workflowStage: 'completed',
+        workflowStage: 'public',
         priority: 'critical',
         date: '2026-01-13',
         location: '新北市永和區',
@@ -446,7 +557,7 @@ export const mockCases: Case[] = [
         type: 'general',
         title: '動物虐待舉報-緊急',
         status: 'resolved',
-        workflowStage: 'completed',
+        workflowStage: 'public',
         priority: 'critical',
         date: '2026-01-12',
         location: '新北市三重區',
@@ -466,7 +577,7 @@ export const mockCases: Case[] = [
         type: 'bee',
         title: '校園蜂窩危害-緊急',
         status: 'resolved',
-        workflowStage: 'completed',
+        workflowStage: 'public',
         priority: 'critical',
         date: '2026-01-11',
         location: '新北市汐止區',
@@ -486,7 +597,7 @@ export const mockCases: Case[] = [
         type: 'general',
         title: '受傷野生動物-緊急',
         status: 'resolved',
-        workflowStage: 'completed',
+        workflowStage: 'public',
         priority: 'critical',
         date: '2026-01-10',
         location: '新北市新莊區',
@@ -506,7 +617,7 @@ export const mockCases: Case[] = [
         type: 'general',
         title: '飼養不當虐待-緊急',
         status: 'resolved',
-        workflowStage: 'completed',
+        workflowStage: 'public',
         priority: 'critical',
         date: '2026-01-09',
         location: '新北市蘆洲區',
@@ -526,7 +637,7 @@ export const mockCases: Case[] = [
         type: 'general',
         title: '危險犬隻通報-處理中',
         status: 'processing',
-        workflowStage: 'execution',
+        workflowStage: 'undertaker',
         priority: 'critical',
         date: '2026-01-20',
         location: '新北市林口區',
@@ -546,7 +657,7 @@ export const mockCases: Case[] = [
         type: 'bee',
         title: '社區蜂窩爆炸危機-處理中',
         status: 'processing',
-        workflowStage: 'execution',
+        workflowStage: 'undertaker',
         priority: 'critical',
         date: '2026-01-20',
         location: '新北市五股區',
@@ -566,7 +677,7 @@ export const mockCases: Case[] = [
         type: 'general',
         title: '動物遭遇車禍-處理中',
         status: 'processing',
-        workflowStage: 'execution',
+        workflowStage: 'undertaker',
         priority: 'critical',
         date: '2026-01-21',
         location: '新北市樹林區',
@@ -586,7 +697,7 @@ export const mockCases: Case[] = [
         type: 'bee',
         title: '醫院蜂窩移除-處理中',
         status: 'processing',
-        workflowStage: 'execution',
+        workflowStage: 'undertaker',
         priority: 'critical',
         date: '2026-01-21',
         location: '新北市鶯歌區',
@@ -606,7 +717,7 @@ export const mockCases: Case[] = [
         type: 'general',
         title: '流浪犬傷人事件-已解決',
         status: 'resolved',
-        workflowStage: 'completed',
+        workflowStage: 'public',
         priority: 'critical',
         date: '2026-01-08',
         location: '新北市新店區',
@@ -621,4 +732,193 @@ export const mockCases: Case[] = [
         createdAt: '2026-01-08T09:30:00Z',
         updatedAt: '2026-01-11T15:00:00Z'
     },
+    // 1999 專案
+    {
+        id: 'C20260122003',
+        type: '1999',
+        title: '民眾檢舉非法繁殖場',
+        status: 'assigned',
+        workflowStage: 'undertaker',
+        priority: 'high',
+        date: '2026-01-22',
+        location: '三峽區大埔路',
+        coordinates: { lat: 24.915, lng: 121.365 },
+        reporterName: '1999轉介',
+        description: '民眾檢舉此處疑似有非法犬隻繁殖與買賣情事，請求稽查。',
+        assignedTo: 'u2',
+        createdAt: '2026-01-22T10:00:00Z',
+        updatedAt: '2026-01-22T10:00:00Z'
+    },
+    // 1959 專線
+    {
+        id: 'C20260122004',
+        type: '1959',
+        title: '受傷犬隻救援',
+        status: 'processing',
+        workflowStage: 'public',
+        priority: 'critical',
+        date: '2026-01-22',
+        location: '板橋區縣民大道',
+        coordinates: { lat: 25.012, lng: 121.465 },
+        reporterName: '1959專線',
+        description: '接獲民眾通報有犬隻遭車輛撞擊受傷，倒臥路邊需要緊急救援。',
+        assignedTo: 'u2',
+        createdAt: '2026-01-22T11:15:00Z',
+        updatedAt: '2026-01-22T11:15:00Z'
+    },
+    // ===== 併案測試用案件 =====
+    // 測試案例 1: 外部ID重複 (1999系統重複推送)
+    {
+        id: 'C20260122005',
+        type: '1999',
+        title: '公園流浪犬通報',
+        status: 'pending',
+        workflowStage: 'receipt',
+        priority: 'medium',
+        date: '2026-01-22',
+        location: '板橋區四川路一段100號旁公園',
+        coordinates: { lat: 25.0239, lng: 121.5089 },
+        reporterName: '1999轉介',
+        description: '公園內有多隻流浪犬聚集',
+        externalCaseId: '1999-20260122-001',
+        createdAt: '2026-01-22T09:00:00Z',
+        updatedAt: '2026-01-22T09:00:00Z'
+    },
+    {
+        id: 'C20260122006',
+        type: '1999',
+        title: '公園流浪犬案件(重複)',
+        status: 'pending',
+        workflowStage: 'receipt',
+        priority: 'medium',
+        date: '2026-01-22',
+        location: '板橋區四川路一段100號公園',
+        coordinates: { lat: 25.0240, lng: 121.5090 },
+        reporterName: '1999轉介',
+        description: '同一公園流浪犬問題',
+        externalCaseId: '1999-20260122-001', // 相同外部ID
+        duplicateCheckStatus: 'pending',
+        duplicateConfidence: 1.0,
+        createdAt: '2026-01-22T10:30:00Z',
+        updatedAt: '2026-01-22T10:30:00Z'
+    },
+    // 測試案例 2: 晶片ID重複 (同一動物多次通報)
+    {
+        id: 'C20260122007',
+        type: 'general',
+        title: '流浪犬隻通報 (晶片 ID: TW900...)',
+        status: 'pending',
+        workflowStage: 'receipt',
+        priority: 'high',
+        date: '2026-01-22',
+        location: '中和區景平路300號',
+        coordinates: { lat: 25.0185, lng: 121.5255 },
+        reporterName: '林小姐',
+        reporterPhone: '0922333444',
+        description: '在捷運站出口發現一隻黃金獵犬，掃描晶片後確認號碼。',
+        petChipId: 'TW900123456789012',
+        createdAt: '2026-01-22T09:00:00Z',
+        updatedAt: '2026-01-22T09:00:00Z'
+    },
+    {
+        id: 'C20260122008',
+        type: 'general',
+        title: '相似特徵犬隻通報',
+        status: 'pending',
+        workflowStage: 'receipt',
+        priority: 'high',
+        date: '2026-01-22',
+        location: '中和區景平路310號',
+        coordinates: { lat: 25.0186, lng: 121.5256 },
+        reporterName: '陳先生',
+        reporterPhone: '0933444555',
+        description: '附近有一隻帶有晶片的黃金獵犬在徘徊。',
+        petChipId: 'TW900123456789012', // 相同晶片ID
+        duplicateCheckStatus: 'pending',
+        duplicateConfidence: 0.95,
+        createdAt: '2026-01-22T09:10:00Z', // 10 分鐘後
+        updatedAt: '2026-01-22T09:10:00Z'
+    },
+    // 測試案例 3: 時空重複 (同一地點同一天的類似通報)
+    {
+        id: 'C20260122009',
+        type: 'bee',
+        title: '正義北路蜂窩移除請求',
+        status: 'pending',
+        workflowStage: 'receipt',
+        priority: 'high',
+        date: '2026-01-22',
+        location: '三重區正義北路48號',
+        coordinates: { lat: 25.0610, lng: 121.4965 },
+        reporterName: '劉先生',
+        reporterPhone: '0911222333',
+        description: '發現大型蜂窩在屋簷下，請派員處理。',
+        duplicateCheckStatus: 'pending',
+        duplicateConfidence: 0.75,
+        createdAt: '2026-01-22T08:00:00Z',
+        updatedAt: '2026-01-22T08:00:00Z'
+    },
+    {
+        id: 'C20260122010',
+        type: 'bee',
+        title: '三重正義北路蜂窩移除',
+        status: 'pending',
+        workflowStage: 'receipt',
+        priority: 'high',
+        date: '2026-01-22',
+        location: '三重區正義北路50號',
+        coordinates: { lat: 25.0611, lng: 121.4966 }, // 非常接近的座標
+        reporterName: '周女士',
+        reporterPhone: '0955666777',
+        description: '隔壁鄰居也看到蜂窩',
+        duplicateCheckStatus: 'pending',
+        duplicateConfidence: 0.80,
+        createdAt: '2026-01-22T08:15:00Z', // 與 C20260122009 (08:00) 非常接近
+        updatedAt: '2026-01-22T08:15:00Z'
+    },
+    {
+        id: 'C20260122011',
+        type: 'general',
+        title: '路邊棄養貓咪',
+        status: 'pending',
+        workflowStage: 'receipt',
+        priority: 'medium',
+        date: '2026-01-22',
+        location: '淡水區中山路20號',
+        coordinates: { lat: 25.1745, lng: 121.4420 },
+        reporterName: '林小姐',
+        description: '發現有紙箱裝著三隻幼貓被棄養在路邊',
+        createdAt: '2026-01-22T13:00:00Z',
+        updatedAt: '2026-01-22T13:00:00Z'
+    },
+    {
+        id: 'C20260122012',
+        type: 'general',
+        title: '幼貓棄養通報',
+        status: 'pending',
+        workflowStage: 'receipt',
+        priority: 'medium',
+        date: '2026-01-22',
+        location: '淡水區中山路18號',
+        coordinates: { lat: 25.1744, lng: 121.4419 },
+        reporterName: '蔡先生',
+        description: '門口被丟棄幼貓，急需處理',
+        createdAt: '2026-01-22T13:05:00Z', // 5 分鐘後
+        updatedAt: '2026-01-22T13:05:00Z'
+    },
+    {
+        id: 'C20260122013',
+        type: 'general',
+        title: '貓咪救助請求',
+        status: 'pending',
+        workflowStage: 'receipt',
+        priority: 'medium',
+        date: '2026-01-22',
+        location: '淡水區中山路22號',
+        coordinates: { lat: 25.1746, lng: 121.4421 },
+        reporterName: '許先生',
+        description: '這裡有幾隻小貓在紙箱裡，看起來很虛弱',
+        createdAt: '2026-01-22T13:10:00Z', // 10 分鐘後
+        updatedAt: '2026-01-22T13:10:00Z'
+    }
 ];

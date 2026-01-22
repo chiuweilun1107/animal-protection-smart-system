@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Sparkles } from 'lucide-react';
 import { AIAnalysisModal } from './AIAnalysisModal';
 

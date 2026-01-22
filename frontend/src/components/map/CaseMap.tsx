@@ -1,5 +1,5 @@
-import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import React, { useEffect } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { createMapIcon } from '../../utils/mapIcons';
 import { type LatLngTuple } from 'leaflet';
@@ -26,6 +26,30 @@ interface CaseMapProps {
 }
 
 const DEFAULT_CENTER: LatLngTuple = [25.0118, 121.4658];
+
+// Internal component to handle view updates without remounting the container
+const MapUpdater: React.FC<{ center?: LatLngTuple; zoom?: number }> = ({ center, zoom }) => {
+    const map = useMap();
+
+    useEffect(() => {
+        if (center) {
+            map.setView(center, zoom || map.getZoom(), {
+                animate: true,
+                duration: 1
+            });
+        }
+    }, [center, zoom, map]);
+
+    useEffect(() => {
+        // Handle potential container size changes (e.g., panel toggles)
+        const timer = setTimeout(() => {
+            map.invalidateSize();
+        }, 300);
+        return () => clearTimeout(timer);
+    }, [map]);
+
+    return null;
+};
 
 export const CaseMap: React.FC<CaseMapProps> = ({ cases, activeLayer = 'osm', center, zoom }) => {
 
@@ -74,11 +98,12 @@ export const CaseMap: React.FC<CaseMapProps> = ({ cases, activeLayer = 'osm', ce
     return (
         <div className="w-full h-full rounded-lg overflow-hidden border border-slate-200 shadow-md">
             <MapContainer
-                key={`${center?.[0]}-${center?.[1]}-${zoom}`}
                 center={center || DEFAULT_CENTER}
                 zoom={zoom || 12}
                 style={{ height: '100%', width: '100%' }}
+                scrollWheelZoom={true}
             >
+                <MapUpdater center={center} zoom={zoom} />
                 {getTileLayer()}
 
                 {cases.map((c) => (

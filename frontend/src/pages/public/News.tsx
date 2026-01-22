@@ -1,4 +1,6 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { PageHeader } from '../../components/common/PageHeader';
 
 const NEWS_ARTICLES = [
     {
@@ -53,47 +55,42 @@ const NEWS_ARTICLES = [
 
 export const News: React.FC = () => {
     return (
-        <div className="min-h-screen bg-slate-50 pt-12 md:pt-16 pb-40 relative">
-
-            <div className="relative z-10 px-6 pt-12 md:pt-16">
-                {/* Header Container */}
-                <div className="mb-16">
-                    <div className="flex items-center gap-4 mb-6">
-                        <div className="inline-block px-3 py-1 bg-blue-50 text-blue-600 border border-blue-100 rounded-full text-base font-black uppercase tracking-widest mb-4">CITY UPDATES & ANNOUNCEMENTS</div>
-                    </div>
-                    <h1 className="text-6xl font-black tracking-tighter text-slate-900 leading-none mb-6">
-                        最新公告
-                    </h1>
-                    <p className="text-slate-500 text-lg font-medium max-w-2xl leading-relaxed border-l-4 border-slate-200 pl-6">
-                        即時發布新北市動物保護政策、緊急通報及各式成果快訊。我們致力於提供最透明、最高效率的資訊服務。
-                    </p>
-                </div>
+        <div className="min-h-screen bg-slate-50 pb-40 relative">
+            <div className="relative z-10 px-6 max-w-7xl mx-auto">
+                <PageHeader
+                    tag="城市更新與公告"
+                    title="最新公告"
+                    subtitle="即時資訊"
+                    description="即時發布新北市動物保護政策、緊急通報及各式成果快訊。我們致力於提供最透明、最高效率的資訊服務。"
+                />
 
                 {/* News List */}
                 <div className="bg-white rounded-[3rem] shadow-2xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
                     <div className="divide-y divide-slate-100">
                         {NEWS_ARTICLES.map((article) => (
-                            <div key={article.id} className="p-8 md:p-10 hover:bg-slate-50 transition-all group cursor-pointer">
-                                <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12 animate-in fade-in slide-in-from-bottom-10 duration-1000">
-                                    <div className="w-32 flex-shrink-0 pt-1">
-                                        <div className="text-base font-black text-slate-400 capitalize mb-2">{article.date}</div>
-                                        <div className={`inline-block px-3 py-1 rounded text-base font-black tracking-widest uppercase ${article.urgent ? 'bg-red-100 text-red-600' : 'bg-slate-100 text-slate-500'}`}>
-                                            {article.category}
+                            <Link key={article.id} to={`/news/${article.id}`}>
+                                <div className="p-8 md:p-10 hover:bg-slate-50 transition-all group cursor-pointer">
+                                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12 animate-in fade-in slide-in-from-bottom-10 duration-1000">
+                                        <div className="w-32 flex-shrink-0 pt-1">
+                                            <div className="text-base font-black text-slate-400 capitalize mb-2">{article.date}</div>
+                                            <div className={`inline-block px-3 py-1 rounded text-base font-black tracking-widest uppercase ${article.urgent ? 'bg-red-100 text-red-600' : 'bg-slate-100 text-slate-500'}`}>
+                                                {article.category}
+                                            </div>
+                                        </div>
+                                        <div className="flex-1">
+                                            <h3 className="text-2xl font-black tracking-tight text-slate-900 mb-4 group-hover:text-blue-600 transition-colors leading-tight">
+                                                {article.title}
+                                            </h3>
+                                            <p className="text-slate-500 text-base font-medium leading-relaxed max-w-2xl">
+                                                {article.summary}
+                                            </p>
+                                        </div>
+                                        <div className="flex-shrink-0 pt-1 opacity-0 group-hover:opacity-100 transition-all font-black text-base text-blue-600 tracking-widest hidden md:block group-hover:translate-x-0 translate-x-4">
+                                            READ MORE
                                         </div>
                                     </div>
-                                    <div className="flex-1">
-                                        <h3 className="text-2xl font-black tracking-tight text-slate-900 mb-4 group-hover:text-blue-600 transition-colors leading-tight">
-                                            {article.title}
-                                        </h3>
-                                        <p className="text-slate-500 font-medium leading-relaxed max-w-2xl">
-                                            {article.summary}
-                                        </p>
-                                    </div>
-                                    <div className="flex-shrink-0 pt-1 opacity-0 group-hover:opacity-100 transition-all font-black text-base text-blue-600 tracking-widest hidden md:block group-hover:translate-x-0 translate-x-4">
-                                        READ MORE
-                                    </div>
                                 </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 </div>

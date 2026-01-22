@@ -51,9 +51,9 @@ const priorityColors: Record<string, string> = {
 
 const typeLabels: Record<string, string> = {
     'general': '一般案件',
-    'bee': '蜂蛇案件',
-    '1999': '1999 通報',
-    '1959': '1959 救援',
+    'bee': '蜂案通報',
+    '1999': '1999 專案',
+    '1959': '1959 專線',
 };
 
 export function CaseDetailPanel({ caseId, onClose }: CaseDetailPanelProps) {
@@ -133,9 +133,6 @@ export function CaseDetailPanel({ caseId, onClose }: CaseDetailPanelProps) {
                                     <span className={`px-3 py-1 rounded-full text-xs font-semibold ${statusColors[caseData.status]}`}>
                                         {statusLabels[caseData.status]}
                                     </span>
-                                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${priorityColors[caseData.priority]}`}>
-                                        {priorityLabels[caseData.priority]}
-                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -157,7 +154,7 @@ export function CaseDetailPanel({ caseId, onClose }: CaseDetailPanelProps) {
                         <div className="flex items-center gap-3">
                             <Calendar size={18} className="text-slate-400 flex-shrink-0" />
                             <div>
-                                <div className="text-xs text-slate-500">通報日期</div>
+                                <div className="text-xs text-slate-500">申報時間</div>
                                 <div className="font-semibold text-slate-900">
                                     {new Date(caseData.date).toLocaleDateString('zh-TW')}
                                 </div>
@@ -168,9 +165,9 @@ export function CaseDetailPanel({ caseId, onClose }: CaseDetailPanelProps) {
                     {/* 分隔線 */}
                     <hr className="border-slate-200" />
 
-                    {/* 通報人信息 */}
+                    {/* 陳情人信息 */}
                     <div>
-                        <h4 className="font-black text-slate-900 text-sm mb-3">通報人信息</h4>
+                        <h4 className="font-black text-slate-900 text-sm mb-3">陳情人資訊</h4>
                         <div className="space-y-3">
                             {caseData.reporterName && (
                                 <div className="flex items-center gap-3">
@@ -223,7 +220,7 @@ export function CaseDetailPanel({ caseId, onClose }: CaseDetailPanelProps) {
                     {/* 時間戳記 */}
                     <div className="bg-slate-50 rounded-lg p-3 text-xs text-slate-600 space-y-1">
                         <div className="flex justify-between">
-                            <span>建立時間：</span>
+                            <span>系統建立：</span>
                             <span>{new Date(caseData.createdAt).toLocaleString('zh-TW')}</span>
                         </div>
                         <div className="flex justify-between">

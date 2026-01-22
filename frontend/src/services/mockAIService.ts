@@ -63,7 +63,7 @@ export const mockAIService = {
     };
 
     // 簡單的關鍵字匹配
-    let responseData = { text: '我理解您的問題了。讓我來幫您處理。', links: undefined };
+    let responseData: { text: string; links?: Link[] } = { text: '我理解您的問題了。讓我來幫您處理。', links: undefined };
     for (const [key, data] of Object.entries(responses)) {
       if (message.includes(key)) {
         responseData = data;

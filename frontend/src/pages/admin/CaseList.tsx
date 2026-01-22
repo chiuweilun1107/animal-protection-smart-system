@@ -1,24 +1,31 @@
 import { useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import {
-    Search, Filter, ArrowRight, Clock, CheckCircle,
+    Search, ArrowRight, Clock, CheckCircle,
     AlertCircle, MapPin, Calendar, MoreHorizontal,
-    ChevronLeft, ChevronRight, Zap, Menu
+    ChevronLeft, ChevronRight, Zap, Menu, Tag, X,
+    ArrowLeftRight, Copy, AlertTriangle
 } from 'lucide-react';
 import { mockApi } from '../../services/mockApi';
-import { WorkflowSidebar } from '../../components/WorkflowSidebar';
 import { CaseDetailPanel } from '../../components/CaseDetailPanel';
 import type { Case } from '../../types/schema';
 
 export function CaseList() {
     const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
     const [cases, setCases] = useState<Case[]>([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
     const [filterStatus, setFilterStatus] = useState(searchParams.get('status') || 'all');
-    const [filterPriority, setFilterPriority] = useState(searchParams.get('priority') || 'all');
+    const [filterType, setFilterType] = useState(searchParams.get('type') || 'all');
     const [selectedCaseId, setSelectedCaseId] = useState<string | undefined>(undefined);
-    const [showMobileSidebar, setShowMobileSidebar] = useState(false);
+
+    // 併案處理相關狀態
+    const [selectedCases, setSelectedCases] = useState<Set<string>>(new Set());
+    const [duplicateWarnings, setDuplicateWarnings] = useState<Map<string, number>>(new Map());
+    const [checkingDuplicates, setCheckingDuplicates] = useState(false);
+
+    const currentFilter = searchParams.get('filter') || 'all';
 
     useEffect(() => {
         const loadCases = async () => {
@@ -26,7 +33,8 @@ export function CaseList() {
             try {
                 const filters = {
                     status: filterStatus === 'all' ? undefined : filterStatus,
-                    priority: filterPriority === 'all' ? undefined : filterPriority,
+                    type: filterType === 'all' ? undefined : filterType,
+                    tabFilter: currentFilter,
                 };
                 const data = await mockApi.getCases(filters);
                 setCases(data);
@@ -38,7 +46,7 @@ export function CaseList() {
         };
 
         loadCases();
-    }, [filterStatus, filterPriority]);
+    }, [filterStatus, filterType, currentFilter]);
 
     const filteredCases = cases.filter(c =>
         c.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -46,236 +54,346 @@ export function CaseList() {
         c.reporterName?.toLowerCase().includes(search.toLowerCase())
     );
 
-    const getStatusStyle = (status: string) => {
+    const getStatusInfo = (status: string) => {
         switch (status) {
-            case 'pending': return 'bg-orange-50 text-orange-600 border-orange-100';
-            case 'processing': return 'bg-blue-50 text-blue-600 border-blue-100';
-            case 'resolved': return 'bg-emerald-50 text-emerald-600 border-emerald-100';
-            default: return 'bg-slate-50 text-slate-500 border-slate-100';
+            case 'pending': return { label: '待簽收', color: 'orange', icon: Clock };
+            case 'authorized': return { label: '已受理', color: 'blue', icon: CheckCircle };
+            case 'assigned': return { label: '已分派', color: 'indigo', icon: MapPin };
+            case 'processing': return { label: '處理中', color: 'purple', icon: Zap };
+            case 'transferred': return { label: '移交中', color: 'pink', icon: ArrowRight };
+            case 'completed': return { label: '待審核', color: 'emerald', icon: CheckCircle };
+            case 'resolved': return { label: '已結案', color: 'slate', icon: CheckCircle };
+            case 'rejected': return { label: '責任撤銷', color: 'rose', icon: X };
+            case 'overdue': return { label: '案件逾期', color: 'rose', icon: AlertCircle };
+            default: return { label: '狀態存疑', color: 'slate', icon: AlertCircle };
         }
     };
 
-    const getPriorityStyle = (priority: string) => {
-        switch (priority) {
-            case 'critical': return 'text-red-600';
-            case 'high': return 'text-orange-600';
-            case 'medium': return 'text-blue-600';
-            default: return 'text-slate-400';
+    // 切換案件選中狀態
+    const toggleCaseSelection = (caseId: string) => {
+        const newSelected = new Set(selectedCases);
+        if (newSelected.has(caseId)) {
+            newSelected.delete(caseId);
+        } else {
+            newSelected.add(caseId);
         }
+        setSelectedCases(newSelected);
+    };
+
+    // 批次檢測重複案件
+    const handleBatchCheckDuplicates = async () => {
+        if (selectedCases.size === 0) {
+            alert('請先選擇要檢測的案件');
+            return;
+        }
+
+        setCheckingDuplicates(true);
+        try {
+            const results = await mockApi.findAllDuplicates(Array.from(selectedCases));
+            const warnings = new Map<string, number>();
+
+            results.forEach((suggestions, caseId) => {
+                if (suggestions.length > 0) {
+                    warnings.set(caseId, suggestions.length);
+                }
+            });
+
+            setDuplicateWarnings(warnings);
+
+            if (warnings.size > 0) {
+                const confirmed = window.confirm(
+                    `檢測到 ${warnings.size} 個案件有重複疑慮，是否前往併案處理頁面？`
+                );
+                if (confirmed) {
+                    navigate('/admin/case-merge');
+                }
+            } else {
+                alert('未檢測到重複案件');
+            }
+        } catch (error) {
+            console.error('檢測重複失敗:', error);
+            alert('檢測失敗，請稍後再試');
+        } finally {
+            setCheckingDuplicates(false);
+        }
+    };
+
+
+    const caseMenuLabels: Record<string, string> = {
+        'all': '全部案件列表',
+        'attention': '特別關注案件',
+        'receipt_pending': '收簽：待簽收',
+        'receipt_authorized': '收簽：已受理',
+        'assignment_assigned': '分派：已分派',
+        'undertaker_pending': '承辦：待簽收',
+        'undertaker_processing': '承辦：處理中',
+        'undertaker_transferred': '承辦：移交中',
+        'undertaker_overdue': '承辦：逾期提醒',
+        'public_completed': '公文：待審核',
+        'resolved': '結案案件存檔',
+        'rejected': '責撤案件記錄'
     };
 
     return (
-        <div className="flex h-full gap-0 animate-in fade-in duration-700 relative">
-            {/* Workflow Sidebar - Desktop */}
-            <div className="hidden lg:block h-full">
-                <WorkflowSidebar
-                    selectedCaseId={selectedCaseId}
-                    onSelectCase={setSelectedCaseId}
-                />
-            </div>
-
-            {/* Workflow Sidebar - Mobile Drawer */}
-            {showMobileSidebar && (
-                <div className="fixed inset-0 z-40 lg:hidden">
-                    <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onClick={() => setShowMobileSidebar(false)}></div>
-                    <div className="absolute left-0 top-0 bottom-0 w-72 bg-white z-50 overflow-y-auto shadow-2xl animate-in slide-in-from-left duration-300">
-                        <WorkflowSidebar
-                            selectedCaseId={selectedCaseId}
-                            onSelectCase={(id) => {
-                                setSelectedCaseId(id);
-                                setShowMobileSidebar(false);
-                            }}
-                        />
+        <div className="min-h-full animate-in fade-in duration-700">
+            {/* Main Content Container */}
+            <div className="max-w-[1400px] mx-auto space-y-10">
+                {/* Header Section */}
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 pb-8 border-b-2 border-slate-100">
+                    <div>
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-3 h-3 bg-slate-950"></div>
+                            <div className="text-base font-bold text-slate-400 uppercase tracking-[0.2em]">智慧勤務</div>
+                        </div>
+                        <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-slate-950 uppercase leading-[0.8]">
+                            {caseMenuLabels[currentFilter] || '案件管理'}
+                        </h1>
                     </div>
                 </div>
-            )}
 
-
-            {/* Main Content */}
-            <div className="flex-1 overflow-auto flex flex-col gap-0 w-full min-w-0">
-                <div className="p-4 md:p-10 space-y-6 md:space-y-8">
-                    {/* Header */}
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6">
-                        <div className="flex items-center gap-4">
-                            <button
-                                onClick={() => setShowMobileSidebar(true)}
-                                className="lg:hidden p-2 bg-white border border-slate-200 rounded-xl text-slate-500 hover:text-slate-900"
-                            >
-                                <Menu size={20} />
-                            </button>
-                            <div>
-                                <div className="text-base font-black text-blue-600 uppercase tracking-[0.3em] mb-2">運營中心</div>
-                                <h1 className="text-3xl md:text-5xl font-black tracking-tighter text-slate-900 uppercase">案件管理</h1>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-3">
-                            <button className="w-full md:w-auto px-8 py-4 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-slate-900/20 hover:bg-blue-600 transition-all flex items-center justify-center gap-2">
-                                + 新增案件錄案
-                            </button>
-                        </div>
+                {/* Filter & Search Bar - Architectural Minimal */}
+                <div className="sticky top-0 z-20 bg-[#fdfdfd]/95 backdrop-blur-sm pt-4 pb-4 flex flex-col xl:flex-row items-center gap-8 border-b-2 border-slate-100">
+                    <div className="relative flex-1 w-full group">
+                        <Search className="absolute left-0 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-slate-950 transition-colors" size={24} />
+                        <input
+                            type="text"
+                            placeholder="搜尋案件資料庫..."
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            className="w-full pl-10 pr-4 py-4 bg-transparent border-b-2 border-slate-100 focus:border-slate-950 outline-none transition-all font-black text-xl placeholder:text-slate-200 uppercase tracking-tight text-slate-950"
+                        />
                     </div>
 
-                    {/* Filter Bar */}
-                    <div className="bg-white p-4 md:p-6 rounded-[2rem] border border-slate-100 shadow-xl shadow-slate-200/40 flex flex-col lg:flex-row items-center gap-4 md:gap-6">
-                        <div className="relative flex-1 w-full">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={20} />
+                    <div className="flex items-center gap-8 w-full xl:w-auto">
+                        <div className="flex items-center gap-3 border-b-2 border-slate-100 py-4 px-2 xl:w-64 focus-within:border-slate-950 transition-colors">
+                            <Menu size={20} className="text-slate-400" />
+                            <select
+                                value={filterStatus}
+                                onChange={(e) => setFilterStatus(e.target.value)}
+                                className="bg-transparent border-none outline-none font-bold text-base text-slate-950 cursor-pointer w-full uppercase tracking-widest"
+                            >
+                                <option value="all">所有工作狀態</option>
+                                <option value="pending">待簽收</option>
+                                <option value="authorized">已受理</option>
+                                <option value="assigned">已分派</option>
+                                <option value="processing">處理中</option>
+                                <option value="resolved">已結案</option>
+                                <option value="rejected">已責撤</option>
+                            </select>
+                        </div>
+
+                        <div className="flex items-center gap-3 border-b-2 border-slate-100 py-4 px-2 xl:w-64 focus-within:border-slate-950 transition-colors">
+                            <Tag size={20} className="text-slate-400" />
+                            <select
+                                value={filterType}
+                                onChange={(e) => setFilterType(e.target.value)}
+                                className="bg-transparent border-none outline-none font-bold text-base text-slate-950 cursor-pointer w-full uppercase tracking-widest"
+                            >
+                                <option value="all">所有案件來源</option>
+                                <option value="general">一般案件</option>
+                                <option value="bee">蜂案通報</option>
+                                <option value="1999">1999 專案</option>
+                                <option value="1959">1959 專線</option>
+                            </select>
+                        </div>
+
+                        {/* 批次操作按鈕 */}
+                        {selectedCases.size > 0 && (
+                            <div className="flex items-center gap-4">
+                                <div className="px-4 py-2 bg-slate-950 text-white font-black text-sm uppercase tracking-widest rounded-full">
+                                    已選 {selectedCases.size} 筆
+                                </div>
+                                <button
+                                    onClick={handleBatchCheckDuplicates}
+                                    disabled={checkingDuplicates}
+                                    className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-black text-sm uppercase tracking-widest transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    <ArrowLeftRight size={18} />
+                                    {checkingDuplicates ? '檢測中...' : '檢測重複'}
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Case List - Floating Rows */}
+                {/* Case List - Architectural Rows */}
+                <div className="space-y-0">
+                    {/* Header Row */}
+                    <div className="hidden lg:grid grid-cols-12 gap-8 px-8 py-4 border-b-2 border-slate-950 text-base font-black text-slate-400 uppercase tracking-[0.2em]">
+                        <div className="col-span-1 flex items-center">
                             <input
-                                type="text"
-                                placeholder="搜尋案號、標題或報案人姓名..."
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                                className="w-full pl-12 pr-4 py-3 md:py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all font-bold text-sm"
+                                type="checkbox"
+                                checked={selectedCases.size === filteredCases.length && filteredCases.length > 0}
+                                onChange={(e) => {
+                                    if (e.target.checked) {
+                                        setSelectedCases(new Set(filteredCases.map(c => c.id)));
+                                    } else {
+                                        setSelectedCases(new Set());
+                                    }
+                                }}
+                                className="w-5 h-5 cursor-pointer"
                             />
                         </div>
-
-                        <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
-                            <div className="flex items-center gap-2 px-4 py-3 md:py-4 bg-slate-50 border border-slate-200 rounded-2xl w-full sm:w-auto">
-                                <Filter size={18} className="text-slate-400" />
-                                <select
-                                    value={filterStatus}
-                                    onChange={(e) => setFilterStatus(e.target.value)}
-                                    className="bg-transparent border-none outline-none font-bold text-sm text-slate-600 cursor-pointer w-full"
-                                >
-                                    <option value="all">所有狀態</option>
-                                    <option value="pending">待處理</option>
-                                    <option value="processing">處理中</option>
-                                    <option value="resolved">已結案</option>
-                                </select>
-                            </div>
-
-                            <div className="flex items-center gap-2 px-4 py-3 md:py-4 bg-slate-50 border border-slate-200 rounded-2xl w-full sm:w-auto">
-                                <AlertCircle size={18} className="text-slate-400" />
-                                <select
-                                    value={filterPriority}
-                                    onChange={(e) => setFilterPriority(e.target.value)}
-                                    className="bg-transparent border-none outline-none font-bold text-sm text-slate-600 cursor-pointer w-full"
-                                >
-                                    <option value="all">所有優先級</option>
-                                    <option value="critical">最緊急</option>
-                                    <option value="high">高</option>
-                                    <option value="medium">普通</option>
-                                    <option value="low">低</option>
-                                </select>
-                            </div>
-                        </div>
+                        <div className="col-span-4">案件資訊</div>
+                        <div className="col-span-2">類別</div>
+                        <div className="col-span-3">狀態</div>
+                        <div className="col-span-2 text-right">操作</div>
                     </div>
 
-                    {/* Table Area */}
-                    <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/50 overflow-hidden">
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-left border-collapse min-w-[800px]">
-                                <thead>
-                                    <tr className="bg-slate-50 border-b border-slate-100">
-                                        <th className="px-6 md:px-8 py-4 md:py-6 text-base font-black text-slate-400 uppercase tracking-widest">案號 / 標題</th>
-                                        <th className="px-6 md:px-8 py-4 md:py-6 text-base font-black text-slate-400 uppercase tracking-widest text-center">狀態</th>
-                                        <th className="px-6 md:px-8 py-4 md:py-6 text-base font-black text-slate-400 uppercase tracking-widest text-center">優先權</th>
-                                        <th className="px-6 md:px-8 py-4 md:py-6 text-base font-black text-slate-400 uppercase tracking-widest">地點 / 報案人</th>
-                                        <th className="px-6 md:px-8 py-4 md:py-6 text-base font-black text-slate-400 uppercase tracking-widest text-center">更新時間</th>
-                                        <th className="px-6 md:px-8 py-4 md:py-6 text-base font-black text-slate-400 uppercase tracking-widest text-right">操作</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-slate-50">
-                                    {loading ? (
-                                        Array(5).fill(0).map((_, i) => (
-                                            <tr key={i} className="animate-pulse">
-                                                <td colSpan={6} className="px-8 py-10">
-                                                    <div className="h-6 bg-slate-100 rounded-lg w-full"></div>
-                                                </td>
-                                            </tr>
-                                        ))
-                                    ) : filteredCases.length > 0 ? (
-                                        filteredCases.map((c) => (
-                                            <tr
-                                                key={c.id}
-                                                onClick={() => setSelectedCaseId(c.id)}
-                                                className={`cursor-pointer transition-colors group ${selectedCaseId === c.id
-                                                        ? 'bg-blue-50 hover:bg-blue-100'
-                                                        : 'hover:bg-slate-50'
-                                                    }`}
-                                            >
-                                                <td className="px-6 md:px-8 py-6 md:py-8 w-[350px]">
-                                                    <div className="text-base font-black text-blue-600 mb-1 font-mono">{c.id}</div>
-                                                    <div className="text-base md:text-lg font-black text-slate-900 tracking-tight line-clamp-1">{c.title}</div>
-                                                    <div className="flex items-center gap-2 mt-2">
-                                                        <span className="px-2 py-0.5 bg-slate-100 rounded text-base font-black text-slate-400 uppercase tracking-widest">
-                                                            {c.type === 'bee' ? '蜂案捕捉' : '一般動保'}
-                                                        </span>
-                                                    </div>
-                                                </td>
-                                                <td className="px-6 md:px-8 py-6 md:py-8 text-center">
-                                                    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-base font-black uppercase tracking-widest ${getStatusStyle(c.status)}`}>
-                                                        {c.status === 'pending' ? <Clock size={12} /> : c.status === 'processing' ? <Zap size={12} /> : <CheckCircle size={12} />}
-                                                        {c.status === 'pending' ? '待處理' : c.status === 'processing' ? '處理中' : '已結案'}
-                                                    </span>
-                                                </td>
-                                                <td className="px-6 md:px-8 py-6 md:py-8 text-center">
-                                                    <div className={`text-xs font-black uppercase tracking-[0.2em] ${getPriorityStyle(c.priority)}`}>
-                                                        {c.priority}
-                                                    </div>
-                                                </td>
-                                                <td className="px-6 md:px-8 py-6 md:py-8">
-                                                    <div className="flex items-center gap-2 text-slate-500 font-bold text-sm mb-1">
-                                                        <MapPin size={14} className="text-slate-300" />
-                                                        <span className="line-clamp-1">{c.location}</span>
-                                                    </div>
-                                                    <div className="flex items-center gap-2 text-base font-black text-slate-400">
-                                                        報案人: {c.reporterName}
-                                                    </div>
-                                                </td>
-                                                <td className="px-6 md:px-8 py-6 md:py-8 text-center">
-                                                    <div className="flex flex-col items-center">
-                                                        <Calendar size={14} className="text-slate-300 mb-1" />
-                                                        <div className="text-base font-bold text-slate-500">{new Date(c.updatedAt).toLocaleDateString()}</div>
-                                                    </div>
-                                                </td>
-                                                <td className="px-6 md:px-8 py-6 md:py-8 text-right">
-                                                    <div className="flex items-center justify-end gap-2">
-                                                        <Link
-                                                            to={`/admin/cases/${c.id}`}
-                                                            className="p-3 bg-white border border-slate-200 text-slate-900 rounded-xl hover:bg-slate-900 hover:text-white transition-all shadow-sm"
-                                                        >
-                                                            <ArrowRight size={18} />
-                                                        </Link>
-                                                        <button className="p-3 text-slate-400 hover:text-slate-900 transition-colors">
-                                                            <MoreHorizontal size={18} />
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        ))
-                                    ) : (
-                                        <tr>
-                                            <td colSpan={6} className="px-8 py-32 text-center">
-                                                <div className="flex flex-col items-center opacity-20">
-                                                    <Search size={64} className="mb-4" />
-                                                    <p className="text-2xl font-black">找不到相符的案件</p>
+                    {loading ? (
+                        Array(5).fill(0).map((_, i) => (
+                            <div key={i} className="h-24 bg-slate-50 animate-pulse border-b border-slate-100"></div>
+                        ))
+                    ) : filteredCases.length > 0 ? (
+                        filteredCases.map((c) => {
+                            const statusInfo = getStatusInfo(c.status);
+                            const StatusIcon = statusInfo.icon;
+                            const isSelected = selectedCases.has(c.id);
+                            const duplicateCount = duplicateWarnings.get(c.id) || 0;
+
+                            return (
+                                <div
+                                    key={c.id}
+                                    className={`group relative grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 px-8 py-8 border-b border-slate-100 transition-all duration-300 
+                                        ${selectedCaseId === c.id ? 'bg-slate-50' : 'hover:bg-slate-50'}
+                                        ${isSelected ? 'bg-blue-50/50' : ''}
+                                    `}
+                                >
+                                    {/* 勾選框 */}
+                                    <div className="col-span-1 flex items-center">
+                                        <input
+                                            type="checkbox"
+                                            checked={isSelected}
+                                            onChange={(e) => {
+                                                e.stopPropagation();
+                                                toggleCaseSelection(c.id);
+                                            }}
+                                            onClick={(e) => e.stopPropagation()}
+                                            className="w-5 h-5 cursor-pointer"
+                                        />
+                                    </div>
+
+                                    {/* ID & Title */}
+                                    <div className="col-span-4 flex flex-col justify-center" onClick={() => setSelectedCaseId(c.id)}>
+                                        <div className="flex items-center gap-4 mb-2">
+                                            <span className="text-base font-black text-slate-300 font-mono tracking-tighter uppercase">{c.id}</span>
+                                            <span className="w-1 h-1 bg-slate-300 rounded-full"></span>
+                                            <span className="flex items-center gap-2 text-base font-bold text-slate-400 uppercase tracking-widest">
+                                                <Calendar size={14} /> {c.date || new Date(c.updatedAt).toLocaleDateString()}
+                                            </span>
+
+                                            {/* 重複標記 - 顯眼的警告 */}
+                                            {duplicateCount > 0 && (
+                                                <div
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        navigate(`/admin/case-merge?id=${c.id}`);
+                                                    }}
+                                                    className="ml-auto flex items-center gap-1.5 px-3 py-1 bg-rose-500 text-white text-xs font-bold uppercase tracking-wider rounded-full shadow-lg shadow-rose-500/30 animate-pulse hover:bg-rose-600 transition-colors cursor-pointer"
+                                                >
+                                                    <AlertTriangle size={12} strokeWidth={3} />
+                                                    {duplicateCount} 筆重複疑慮
                                                 </div>
-                                            </td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
+                                            )}
+
+                                            {/* 併案狀態標記 */}
+                                            {c.mergeStatus === 'merged' && (
+                                                <div className="ml-auto flex items-center gap-1.5 px-3 py-1 bg-slate-500/20 text-slate-500 text-xs font-bold uppercase tracking-wider rounded-full">
+                                                    <Copy size={12} strokeWidth={3} />
+                                                    已併案
+                                                </div>
+                                            )}
+                                        </div>
+                                        <h3 className="text-2xl font-black text-slate-950 tracking-tighter group-hover:text-blue-600 transition-colors mb-2">{c.title}</h3>
+
+                                        <div className="flex items-center gap-4">
+                                            <div className="flex items-center gap-1.5 text-base font-bold text-slate-500">
+                                                <MapPin size={16} className="text-slate-400" />
+                                                {c.location}
+                                            </div>
+                                            <span className="w-1 h-1 bg-slate-300 rounded-full"></span>
+                                            <div className="text-base font-bold text-slate-400">
+                                                {c.petitionerName || c.reporterName}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Type */}
+                                    <div className="col-span-2 flex items-center">
+                                        <div className={`inline-flex items-center gap-2 px-0 py-0 font-black text-base tracking-tight uppercase 
+                                            ${c.type === '1999' ? 'text-rose-600' :
+                                                c.type === '1959' ? 'text-indigo-600' :
+                                                    c.type === 'bee' ? 'text-orange-600' :
+                                                        'text-blue-600'}
+                                        `}>
+                                            <Tag size={18} strokeWidth={3} />
+                                            {c.type === '1999' ? '1999專案' :
+                                                c.type === '1959' ? '1959專線' :
+                                                    c.type === 'bee' ? '蜂案通報' : '一般案件'}
+                                        </div>
+                                    </div>
+
+                                    {/* Status */}
+                                    <div className="col-span-3 flex items-center">
+                                        <div className={`flex items-center gap-3 px-0 py-0 font-black text-base uppercase tracking-widest
+                                            ${c.status === 'pending' ? 'text-orange-600' :
+                                                c.status === 'resolved' ? 'text-slate-400' :
+                                                    c.status === 'rejected' ? 'text-rose-600' :
+                                                        'text-blue-600'}
+                                        `}>
+                                            <StatusIcon size={20} strokeWidth={3} />
+                                            {statusInfo.label}
+                                        </div>
+                                    </div>
+
+                                    {/* Actions */}
+                                    <div className="col-span-2 flex items-center justify-end gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <Link
+                                            to={`/admin/cases/${c.id}`}
+                                            className="w-12 h-12 bg-slate-950 flex items-center justify-center text-white hover:bg-blue-600 transition-colors"
+                                        >
+                                            <ArrowRight size={20} strokeWidth={3} />
+                                        </Link>
+                                    </div>
+                                </div>
+                            );
+                        })
+                    ) : (
+                        <div className="border-2 border-dashed border-slate-200 p-32 text-center">
+                            <div className="flex flex-col items-center max-w-sm mx-auto">
+                                <Search size={64} className="text-slate-200 mb-8" />
+                                <h3 className="text-3xl font-black text-slate-950 tracking-tighter mb-4 uppercase">找不到符合的案件</h3>
+                                <p className="text-slate-400 font-bold leading-relaxed">請調整搜尋條件或篩選器。</p>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                {/* Pagination - Modern Minimal */}
+                <div className="flex flex-col md:flex-row items-center justify-between gap-8 pt-10 border-t border-slate-200/60 pb-20">
+                    <div className="px-6 py-2 bg-slate-900 rounded-full text-base font-black text-white uppercase tracking-[0.3em]">
+                        資料集：{filteredCases.length} / {cases.length} 筆記錄
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                        <button className="w-14 h-14 rounded-2xl border-2 border-slate-200 flex items-center justify-center text-slate-400 hover:border-slate-900 hover:text-slate-900 transition-all">
+                            <ChevronLeft size={20} />
+                        </button>
+
+                        <div className="flex items-center gap-3">
+                            {[1, 2, 3].map(p => (
+                                <button key={p} className={`w-14 h-14 rounded-2xl font-black text-base transition-all
+                                    ${p === 1 ? 'bg-blue-600 text-white shadow-xl shadow-blue-600/30' : 'bg-white border-2 border-slate-100 text-slate-400 hover:border-slate-200'}
+                                `}>
+                                    0{p}
+                                </button>
+                            ))}
                         </div>
 
-                        {/* Pagination */}
-                        <div className="px-6 md:px-8 py-6 md:py-8 bg-slate-50 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-                            <div className="text-base font-black text-slate-400 uppercase tracking-widest">
-                                顯示 {filteredCases.length} 筆 / 共 {cases.length} 筆
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <button className="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-slate-900 transition-colors">
-                                    <ChevronLeft size={18} />
-                                </button>
-                                <div className="flex items-center gap-1 mx-2">
-                                    {[1, 2, 3].map(p => (
-                                        <button key={p} className={`w-8 h-8 rounded-lg text-xs font-black ${p === 1 ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-400 hover:bg-slate-200'}`}>{p}</button>
-                                    ))}
-                                </div>
-                                <button className="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-slate-900 transition-colors">
-                                    <ChevronRight size={18} />
-                                </button>
-                            </div>
-                        </div>
+                        <button className="w-14 h-14 rounded-2xl border-2 border-slate-200 flex items-center justify-center text-slate-400 hover:border-slate-900 hover:text-slate-900 transition-all">
+                            <ChevronRight size={20} />
+                        </button>
                     </div>
                 </div>
             </div>

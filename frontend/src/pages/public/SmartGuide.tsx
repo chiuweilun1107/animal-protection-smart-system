@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-
-type Step = 'start' | 'animal_v_bee' | 'animal_detail' | 'bee_snake_selection' | 'result_emergency' | 'result_normal';
+import { WizardStepper, type WizardStep } from '../../components/wizard/WizardStepper';
+import { LocationStep } from '../../components/wizard/LocationStep';
+import { DynamicFormStep } from '../../components/wizard/DynamicFormStep';
+import { SmartTriageStep } from '../../components/wizard/SmartTriageStep';
+import { ReviewStep } from '../../components/wizard/ReviewStep';
+import { ArrowLeft, ShieldCheck } from 'lucide-react';
 
 const ChoiceCard: React.FC<{
     title: string;
@@ -29,137 +33,99 @@ const ChoiceCard: React.FC<{
 );
 
 export const SmartGuide: React.FC = () => {
-    const [currentStep, setCurrentStep] = useState<Step>('start');
     const navigate = useNavigate();
+    const [currentStep, setCurrentStep] = useState<WizardStep>('SELECTION');
+    const [caseType, setCaseType] = useState<'animal' | 'bee' | 'snake'>('animal');
+    const [isEmergency, setIsEmergency] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const goTo = (step: Step) => setCurrentStep(step);
+    // Wizard Data State
+    const [wizardData, setWizardData] = useState({
+        selection: {},
+        location: { region: '', address: '' },
+        form: {},
+        priority: 'normal'
+    });
 
-    const renderStep = () => {
+    const steps = [
+        { key: 'SELECTION' as WizardStep, label: '情境選擇' },
+        { key: 'LOCATION' as WizardStep, label: '地點偵測' },
+        { key: 'FORM' as WizardStep, label: '通報詳情' },
+        { key: 'EVIDENCE' as WizardStep, label: '智慧分流' },
+        { key: 'REVIEW' as WizardStep, label: '最終核對' }
+    ];
+
+    const handleSubmit = async () => {
+        setIsSubmitting(true);
+        // Simulate API
+        setTimeout(() => {
+            setIsSubmitting(false);
+            const caseId = `ANS-2023${Math.floor(Math.random() * 90000) + 10000}`;
+            navigate('/report/success', { state: { caseId } });
+        }, 2000);
+    };
+
+    const renderContent = () => {
         switch (currentStep) {
-            case 'start':
+            case 'SELECTION':
                 return (
                     <div className="animate-in fade-in slide-in-from-bottom-10 duration-1000">
                         <div className="max-w-4xl mx-auto">
-                            <div className="inline-block px-4 py-2 bg-blue-500/10 text-blue-600 border border-blue-200 rounded-full text-base font-black uppercase tracking-[0.4em] mb-10">
-                                智慧通報引導方案
-                            </div>
                             <h2 className="text-6xl md:text-7xl font-black tracking-tighter text-slate-900 leading-[0.9] mb-12 uppercase">
                                 您需要<br />
                                 <span className="text-blue-600">哪種協助？</span>
                             </h2>
                             <p className="text-xl text-slate-500 font-medium mb-16 max-w-2xl leading-relaxed">
-                                歡迎使用智慧勤務引導系統。請根據您現場觀察到的情況，選擇最符合的案件類型，我們將引導您完成正式通報。
+                                歡迎使用多步驟智慧通報系統。請根據您現場觀察到的情況選擇類型，我們將引導您完成數據採集與通報流程。
                             </p>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                                 <ChoiceCard
-                                    onClick={() => goTo('animal_detail')}
-                                    title="一般動保勤務"
-                                    description="包含受傷動物救援、受困案件、疑似虐待或棄養等動物福利相關事務。"
-                                    label="ANIMAL WELFARE"
+                                    onClick={() => { setCaseType('animal'); setCurrentStep('LOCATION'); }}
+                                    title="一般動保"
+                                    description="受傷救援、棄養通報"
                                 />
                                 <ChoiceCard
-                                    onClick={() => goTo('bee_snake_selection')}
-                                    title="蜂蛇移除勤務"
-                                    description="發現具危險性之蜂巢、蛇類侵入住家或威脅公眾安全之緊急移除需求。"
-                                    label="HAZARD REMOVAL"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                );
-
-            case 'animal_detail':
-                return (
-                    <div className="animate-in fade-in slide-in-from-right-10 duration-700">
-                        <div className="max-w-4xl mx-auto">
-                            <button onClick={() => goTo('start')} className="mb-12 text-base font-black text-slate-400 uppercase tracking-widest hover:text-slate-900 transition-all flex items-center gap-2">
-                                返回上一步
-                            </button>
-                            <h2 className="text-5xl font-black tracking-tighter text-slate-900 mb-6 uppercase">動物狀況評估</h2>
-                            <p className="text-xl text-slate-500 font-medium mb-16 max-w-2xl">請進一步描述動物目前的具體狀況，這將幫助我們判斷派遣優先級。</p>
-
-                            <div className="grid grid-cols-1 gap-6">
-                                <ChoiceCard
-                                    onClick={() => navigate('/report/general?category=rescue')}
-                                    title="動物受傷或受困"
-                                    description="動物有明顯外傷、流血、無法移動，或受困於無法自行脫困的場所（如高處、溝渠）。"
-                                    label="RESCUE NEEDED"
+                                    onClick={() => { setCaseType('bee'); setCurrentStep('LOCATION'); }}
+                                    title="蜂害移除"
+                                    description="蜂巢摘除、大量蜂群"
                                 />
                                 <ChoiceCard
-                                    onClick={() => navigate('/report/general?category=abuse')}
-                                    title="疑似受虐或不當飼養"
-                                    description="發現有人為虐待動物行為，或飼養環境極其惡劣（無水無食、空間過小）。"
-                                    label="CRUELTY REPORT"
-                                />
-                                <ChoiceCard
-                                    onClick={() => goTo('result_emergency')}
-                                    title="具立即性攻擊威脅"
-                                    description="動物正在攻擊人類或其他動物，具有高度危險性。"
-                                    label="EMERGENCY"
-                                    warning={true}
+                                    onClick={() => { setCaseType('snake'); setCurrentStep('LOCATION'); }}
+                                    title="蛇類捕捉"
+                                    description="民宅侵入、公共區域"
                                 />
                             </div>
                         </div>
                     </div>
                 );
 
-            case 'bee_snake_selection':
-                return (
-                    <div className="animate-in fade-in slide-in-from-right-10 duration-700">
-                        <div className="max-w-4xl mx-auto">
-                            <button onClick={() => goTo('start')} className="mb-12 text-base font-black text-slate-400 uppercase tracking-widest hover:text-slate-900 transition-all flex items-center gap-2">
-                                返回上一步
-                            </button>
-                            <h2 className="text-5xl font-black tracking-tighter text-slate-900 mb-6 uppercase">危害類型評估</h2>
-                            <p className="text-xl text-slate-500 font-medium mb-16 max-w-2xl">請確認您所遇到的目標類型，以便系統提供正確的防護建議與通報表單。</p>
+            case 'LOCATION':
+                return <LocationStep
+                    onNext={(loc) => { setWizardData({ ...wizardData, location: loc }); setCurrentStep('FORM'); }}
+                    onBack={() => setCurrentStep('SELECTION')}
+                />;
 
-                            <div className="grid grid-cols-1 gap-6">
-                                <ChoiceCard
-                                    onClick={() => navigate('/report/hazard?target=bee')}
-                                    title="蜂窩 / 蜂群"
-                                    description="發現蜂巢、大量蜂群聚集或具攻擊性之蜂類（如虎頭蜂）。"
-                                    label="BEE / WASP HIVE"
-                                />
-                                <ChoiceCard
-                                    onClick={() => navigate('/report/hazard?target=snake')}
-                                    title="蛇類出沒"
-                                    description="發現蛇類侵入住居、或是出現於人潮密集之公共場所。"
-                                    label="SNAKE SIGHTING"
-                                />
-                                <ChoiceCard
-                                    onClick={() => goTo('result_emergency')}
-                                    title="造成人員受傷或休克"
-                                    description="現場已有民眾遭到叮咬或攻擊，出現過敏性休克或其他緊急醫療需求。"
-                                    label="MEDICAL EMERGENCY"
-                                    warning={true}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                );
+            case 'FORM':
+                return <DynamicFormStep
+                    caseType={caseType}
+                    onNext={(form) => { setWizardData({ ...wizardData, form }); setCurrentStep('EVIDENCE'); }}
+                    onBack={() => setCurrentStep('LOCATION')}
+                />;
 
-            case 'result_emergency':
-                return (
-                    <div className="animate-in zoom-in-95 duration-1000">
-                        <div className="max-w-4xl mx-auto text-center py-20 bg-rose-50 rounded-[5rem] border-2 border-rose-100 flex flex-col items-center">
-                            <div className="w-32 h-32 bg-rose-600 text-white rounded-[2.5rem] flex items-center justify-center mb-12 shadow-2xl shadow-rose-600/50 font-black text-2xl">
-                                !!!
-                            </div>
-                            <h2 className="text-6xl font-black tracking-tighter text-rose-950 mb-6 uppercase">緊急告警</h2>
-                            <p className="text-2xl text-rose-800 font-bold mb-12 max-w-2xl px-10">
-                                基於您的描述，當前情況被判定為「極高危險」。請立即撥打動保 24 小時專線進行即時調度。
-                            </p>
-                            <div className="flex flex-col items-center gap-6">
-                                <div className="text-base font-black text-rose-400 uppercase tracking-[0.4em]">緊急調渡熱線</div>
-                                <div className="text-8xl font-black text-rose-600 tracking-tighter">1959</div>
-                            </div>
-                            <div className="mt-20 flex flex-wrap justify-center gap-6">
-                                <button onClick={() => goTo('start')} className="px-12 py-6 bg-white text-slate-400 rounded-3xl font-black text-sm uppercase tracking-widest border border-rose-100 hover:bg-rose-100 hover:text-rose-600 transition-all">返回首頁</button>
-                                <button onClick={() => navigate('/report/general?emergency=true')} className="px-12 py-6 bg-rose-600 text-white rounded-3xl font-black text-sm uppercase tracking-widest shadow-xl shadow-rose-600/30">仍要網頁通報</button>
-                            </div>
-                        </div>
-                    </div>
-                );
+            case 'EVIDENCE':
+                return <SmartTriageStep
+                    caseType={caseType}
+                    onNext={(priority) => { setWizardData({ ...wizardData, priority }); setCurrentStep('REVIEW'); }}
+                    onBack={() => setCurrentStep('FORM')}
+                />;
+
+            case 'REVIEW':
+                return <ReviewStep
+                    data={wizardData}
+                    isSubmitting={isSubmitting}
+                    onNext={handleSubmit}
+                    onBack={() => setCurrentStep('EVIDENCE')}
+                />;
 
             default:
                 return null;
@@ -167,31 +133,17 @@ export const SmartGuide: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 relative overflow-hidden flex items-center justify-center">
+        <div className="min-h-screen bg-slate-50 relative overflow-hidden flex flex-col items-center pb-40">
             {/* Layered Background */}
             <div className="absolute inset-0 bg-gradient-to-b from-blue-50/30 via-transparent to-slate-50/50 pointer-events-none"></div>
             <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgb(51 65 85) 1px, transparent 0)', backgroundSize: '32px 32px' }}></div>
 
-            {/* Ambient Light Effects */}
-            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-400/10 blur-[150px] rounded-full"></div>
-            <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-slate-400/10 blur-[150px] rounded-full"></div>
-
-            <div className="relative z-10 w-full px-6 py-20">
-                {renderStep()}
+            <div className="relative z-10 w-full px-6 pt-12">
+                <WizardStepper currentStep={currentStep} steps={steps} />
+                {renderContent()}
             </div>
 
-            {/* Global Overlay Elements */}
-            <div className="fixed top-10 left-10 flex flex-col">
-                <Link to="/" className="text-base font-black text-slate-400 uppercase tracking-[0.5em] hover:text-blue-600 transition-all">
-                    EXIT GUIDE
-                </Link>
-            </div>
 
-            <div className="fixed bottom-10 right-10 text-right">
-                <p className="text-base font-black text-slate-300 uppercase tracking-[0.3em]">
-                    SYSTEM PROTOCOL: {currentStep.toUpperCase().replace(/_/g, ' ')}
-                </p>
-            </div>
         </div>
     );
 };

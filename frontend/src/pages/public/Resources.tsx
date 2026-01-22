@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Download, FileText, Book, Shield, ArrowRight, Layers } from 'lucide-react';
+import { PageHeader } from '../../components/common/PageHeader';
 
 const CATEGORIES = [
     { id: 'all', label: '全部資源', icon: Layers },
@@ -30,36 +31,27 @@ export const Resources: React.FC = () => {
     });
 
     return (
-        <div className="min-h-screen bg-slate-50 pt-12 md:pt-16 pb-32 relative">
-
+        <div className="min-h-screen bg-slate-50 pb-32 relative">
             <div className="relative z-10 max-w-7xl mx-auto px-6">
-
-                {/* Header Section */}
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
-                    <div className="max-w-2xl">
-                        <div className="inline-block px-3 py-1 bg-emerald-50 text-emerald-600 border border-emerald-100 rounded-full text-base font-black uppercase tracking-widest mb-4">Government Open Data & resources</div>
-                        <h1 className="text-6xl md:text-7xl font-black tracking-tighter text-slate-900 leading-[0.85] mb-8">
-                            便民服務<br />
-                            <span className="text-emerald-500">資源中心</span>
-                        </h1>
-                        <p className="text-slate-500 text-xl font-medium leading-relaxed">
-                            我們致力於提供透明化資訊。您可以在此搜尋並下載最新的法令規章、通報手冊、以及各類行政案情報表。
-                        </p>
-                    </div>
-
+                <PageHeader
+                    tag="政府開放資料與資源"
+                    title="便民服務"
+                    subtitle="資源中心"
+                    description="我們致力於提供透明化資訊。您可以在此搜尋並下載最新的法令規章、通報手冊、以及各類行政案情報表。"
+                >
                     <div className="w-full md:w-96">
                         <div className="relative group">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-emerald-500 transition-colors" size={20} />
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-blue-600 transition-colors" size={20} />
                             <input
                                 type="text"
                                 placeholder="搜尋關鍵字 (例如: 法令、報表)..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-emerald-500/5 focus:border-emerald-500 outline-none transition-all font-bold text-sm"
+                                className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 outline-none transition-all font-bold text-sm shadow-sm"
                             />
                         </div>
                     </div>
-                </div>
+                </PageHeader>
 
                 {/* Category Selection */}
                 <div className="flex flex-wrap gap-4 mb-12">

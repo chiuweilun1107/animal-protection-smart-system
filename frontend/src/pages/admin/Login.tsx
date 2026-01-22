@@ -57,11 +57,14 @@ export const AdminLogin: React.FC = () => {
 
         try {
             const user = await mockApi.login(username);
-            if (user || username.includes('caseworker') || username === 'admin') {
-                const actualRole = username.toLowerCase() === 'admin' ? 'admin' : 'caseworker';
+            if (user || username.includes('caseworker') || username === 'admin' || username === 'field01') {
+                let actualRole: string = 'caseworker';
+                if (username.toLowerCase() === 'admin') actualRole = 'admin';
+                if (username.toLowerCase() === 'field01') actualRole = 'field_investigator';
+
                 localStorage.setItem('auth_token', `mock_${actualRole}_token`);
                 localStorage.setItem('auth_role', actualRole);
-                navigate('/admin/dashboard');
+                navigate('/'); // Redirect to Home instead of Dashboard
             } else {
                 setError('帳號或密碼錯誤');
             }
@@ -137,7 +140,7 @@ export const AdminLogin: React.FC = () => {
 
                     <div className="relative z-10 pt-16">
                         <div className="inline-block px-5 py-2 bg-blue-600/20 border border-blue-500/30 rounded-full text-base font-black text-blue-400 uppercase tracking-[0.4em] mb-16">
-                            Secure Access Portal
+                            安全登入入口
                         </div>
                         <h1 className="text-8xl font-black text-white tracking-tighter leading-[0.8] mb-12">
                             智慧勤務<br />
@@ -154,8 +157,8 @@ export const AdminLogin: React.FC = () => {
                                 <Shield size={32} />
                             </div>
                             <div>
-                                <div className="text-white font-black text-sm uppercase tracking-[0.3em] mb-1">Uncompromised</div>
-                                <div className="text-slate-500 text-xs font-bold uppercase tracking-widest">Security & Access Control</div>
+                                <div className="text-white font-black text-base uppercase tracking-[0.3em] mb-1">無懈可擊</div>
+                                <div className="text-slate-500 text-base font-bold uppercase tracking-widest">安全與存取控制</div>
                             </div>
                         </div>
                     </div>
@@ -174,7 +177,7 @@ export const AdminLogin: React.FC = () => {
                                     <button
                                         key={tab.id}
                                         onClick={() => { setActiveTab(tab.id); }}
-                                        className={`pb-6 flex items-center gap-3 text-sm font-black tracking-[0.2em] uppercase transition-all relative ${activeTab === tab.id ? 'text-blue-600' : 'text-slate-300 hover:text-slate-400'}`}
+                                        className={`pb-6 flex items-center gap-3 text-base font-black tracking-[0.2em] uppercase transition-all relative ${activeTab === tab.id ? 'text-blue-600' : 'text-slate-300 hover:text-slate-400'}`}
                                     >
                                         <tab.icon size={16} />
                                         {tab.label}
@@ -238,16 +241,43 @@ export const AdminLogin: React.FC = () => {
                                 <div className="space-y-10 animate-in fade-in slide-in-from-bottom-8 duration-700">
                                     <div>
                                         <h2 className="text-5xl font-black tracking-tighter text-slate-900 mb-4">
-                                            {activeTab === 'admin' ? '系統管理員' : '承備人員'}
+                                            {activeTab === 'admin' ? '系統管理員' : '工作人員登入'}
                                         </h2>
-                                        <p className="text-slate-400 text-lg font-medium">
-                                            帳號密碼與驗證碼已自動填寫，請點擊登入按鈕。
+                                        <p className="text-slate-400 text-lg font-medium mb-6">
+                                            {activeTab === 'admin'
+                                                ? '請登入管理員帳號進行系統維運。'
+                                                : '請輸入您的公務帳號與密碼進行登入。'}
                                         </p>
+
+                                        {activeTab !== 'admin' && (
+                                            <div className="flex gap-3 mb-8">
+                                                <button
+                                                    onClick={() => {
+                                                        setUsername('caseworker01');
+                                                        setPassword('password123');
+                                                    }}
+                                                    type="button"
+                                                    className="px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg text-base font-bold transition-colors"
+                                                >
+                                                    [Demo] 快速填單：承辦人
+                                                </button>
+                                                <button
+                                                    onClick={() => {
+                                                        setUsername('field01');
+                                                        setPassword('password123');
+                                                    }}
+                                                    type="button"
+                                                    className="px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 rounded-lg text-base font-bold transition-colors"
+                                                >
+                                                    [Demo] 快速填單：外勤人員
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
 
                                     <form onSubmit={(e) => handleLogin(e, activeTab as 'caseworker' | 'admin')} className="space-y-8">
                                         <div className="space-y-3">
-                                            <label className="text-base font-black uppercase tracking-[0.2em] text-slate-400">帳號 (Account)</label>
+                                            <label className="text-base font-black uppercase tracking-[0.2em] text-slate-400">帳號</label>
                                             <div className="relative group">
                                                 <FileText className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-blue-600 transition-colors" size={24} />
                                                 <input
@@ -260,7 +290,7 @@ export const AdminLogin: React.FC = () => {
                                         </div>
 
                                         <div className="space-y-3">
-                                            <label className="text-base font-black uppercase tracking-[0.2em] text-slate-400">密碼 (Password)</label>
+                                            <label className="text-base font-black uppercase tracking-[0.2em] text-slate-400">密碼</label>
                                             <div className="relative group">
                                                 <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-blue-600 transition-colors" size={24} />
                                                 <input
@@ -274,7 +304,7 @@ export const AdminLogin: React.FC = () => {
 
                                         <CaptchaField />
 
-                                        {error && <div className="p-5 bg-red-50 text-red-500 text-sm font-black rounded-2xl border border-red-100">{error}</div>}
+                                        {error && <div className="p-5 bg-red-50 text-red-500 text-base font-black rounded-2xl border border-red-100">{error}</div>}
 
                                         <button
                                             type="submit"
