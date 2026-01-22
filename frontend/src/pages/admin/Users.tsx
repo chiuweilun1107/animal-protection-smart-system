@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import {
   Plus, Edit2, Trash2, Search, Filter,
   ShieldCheck, UserCheck, ShieldAlert,
-  Mail, Phone, X
+  Mail, Phone, X, Lock, Unlock, KeyRound,
+  AlertCircle, CheckCircle, XCircle
 } from 'lucide-react';
 import { mockApi } from '../../services/mockApi';
 import type { User } from '../../types/schema';
@@ -29,9 +30,62 @@ export function UsersPage() {
     status: 'active'
   });
 
+  // 權限編輯對話框狀態
+  const [roleEditDialog, setRoleEditDialog] = useState<{
+    show: boolean;
+    userId: string | null;
+    userName: string | null;
+    currentRole: User['role'] | null;
+    newRole: User['role'] | null;
+  }>({
+    show: false,
+    userId: null,
+    userName: null,
+    currentRole: null,
+    newRole: null
+  });
+
+  // 確認對話框狀態
+  const [confirmDialog, setConfirmDialog] = useState<{
+    show: boolean;
+    type: 'freeze' | 'activate' | 'reset' | 'delete' | null;
+    userId: string | null;
+    userName: string | null;
+  }>({
+    show: false,
+    type: null,
+    userId: null,
+    userName: null
+  });
+
+  // 提示訊息狀態
+  const [notification, setNotification] = useState<{
+    show: boolean;
+    type: 'success' | 'error';
+    message: string;
+  }>({
+    show: false,
+    type: 'success',
+    message: ''
+  });
+
   useEffect(() => {
     loadUsers();
   }, []);
+
+  // 提示訊息自動隱藏
+  useEffect(() => {
+    if (notification.show) {
+      const timer = setTimeout(() => {
+        setNotification({ ...notification, show: false });
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [notification.show]);
+
+  const showNotification = (type: 'success' | 'error', message: string) => {
+    setNotification({ show: true, type, message });
+  };
 
   const loadUsers = async () => {
     setLoading(true);
@@ -62,22 +116,112 @@ export function UsersPage() {
   };
 
   const handleEdit = (user: User) => {
-    setFormData({
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      unit: user.unit,
-      phone: user.phone || '',
-      status: user.status
+    setRoleEditDialog({
+      show: true,
+      userId: user.id,
+      userName: user.name,
+      currentRole: user.role,
+      newRole: user.role
     });
-    setEditingId(user.id);
-    setShowForm(true);
+  };
+
+  const handleRoleUpdate = async () => {
+    const { userId, newRole } = roleEditDialog;
+    if (!userId || !newRole) return;
+
+    try {
+      const success = await mockApi.updateUser(userId, { role: newRole });
+      if (success) {
+        showNotification('success', '權限已更新');
+        await loadUsers();
+      } else {
+        showNotification('error', '更新失敗，請稍後重試');
+      }
+    } catch (error) {
+      console.error('Role update failed:', error);
+      showNotification('error', '操作過程中發生錯誤');
+    } finally {
+      setRoleEditDialog({ show: false, userId: null, userName: null, currentRole: null, newRole: null });
+    }
   };
 
   const resetForm = () => {
     setFormData({ name: '', email: '', role: 'caseworker', unit: '', phone: '', status: 'active' });
     setEditingId(null);
     setShowForm(false);
+  };
+
+  const handleFreezeAccount = async (userId: string, userName: string) => {
+    setConfirmDialog({
+      show: true,
+      type: 'freeze',
+      userId,
+      userName
+    });
+  };
+
+  const handleActivateAccount = async (userId: string, userName: string) => {
+    setConfirmDialog({
+      show: true,
+      type: 'activate',
+      userId,
+      userName
+    });
+  };
+
+  const handleResetPassword = async (userId: string, userName: string) => {
+    setConfirmDialog({
+      show: true,
+      type: 'reset',
+      userId,
+      userName
+    });
+  };
+
+  const handleDelete = (userId: string, userName: string) => {
+    setConfirmDialog({
+      show: true,
+      type: 'delete',
+      userId,
+      userName
+    });
+  };
+
+  const confirmAction = async () => {
+    const { type, userId, userName } = confirmDialog;
+    if (!type || !userId) return;
+
+    try {
+      let success = false;
+      let message = '';
+
+      if (type === 'freeze') {
+        success = await mockApi.freezeAccount(userId, '由管理員凍結');
+        message = '帳戶已凍結';
+      } else if (type === 'activate') {
+        success = await mockApi.activateAccount(userId);
+        message = '帳戶已啟用';
+      } else if (type === 'reset') {
+        const tempPassword = await mockApi.resetPassword(userId);
+        success = !!tempPassword;
+        message = `密碼已重設，臨時密碼已發送至郵箱：${tempPassword}`;
+      } else if (type === 'delete') {
+        success = await mockApi.deleteUser(userId);
+        message = `用戶 ${userName} 已移除`;
+      }
+
+      if (success) {
+        showNotification('success', message);
+        await loadUsers();
+      } else {
+        showNotification('error', '操作失敗，請稍後重試');
+      }
+    } catch (error) {
+      console.error('Action failed:', error);
+      showNotification('error', '操作過程中發生錯誤');
+    } finally {
+      setConfirmDialog({ show: false, type: null, userId: null, userName: null });
+    }
   };
 
   const filteredUsers = users.filter(u =>
@@ -95,209 +239,320 @@ export function UsersPage() {
   };
 
   return (
-    <div className="space-y-6 md:space-y-8 animate-in fade-in duration-700 p-4 md:p-0">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6">
+    <div className="space-y-12 animate-in fade-in duration-700">
+
+      {/* Header - Architectural */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 pb-8 border-b-2 border-slate-100">
         <div>
-          <div className="text-base font-black text-indigo-600 uppercase tracking-[0.3em] mb-2">存取管理</div>
-          <h1 className="text-3xl md:text-5xl font-black tracking-tighter text-slate-900 uppercase">用戶及身份</h1>
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-3 h-3 bg-indigo-600"></div>
+            <div className="text-base font-black text-slate-400 uppercase tracking-[0.3em]">存取控管</div>
+          </div>
+          <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-950 uppercase leading-none">用戶管理</h1>
         </div>
         <button
           onClick={() => setShowForm(true)}
-          className="w-full md:w-auto px-8 py-4 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-slate-900/20 hover:bg-indigo-600 transition-all flex items-center justify-center gap-2"
+          className="px-8 py-4 bg-slate-950 text-white hover:bg-indigo-600 transition-colors font-black text-base uppercase tracking-[0.2em] flex items-center gap-3"
         >
-          <Plus size={18} /> 新增系統用戶
+          <Plus size={18} /> 新增用戶
         </button>
       </div>
 
-      {/* Filter/Search Bar */}
-      <div className="bg-white p-4 md:p-6 rounded-[2rem] border border-slate-100 shadow-xl shadow-slate-200/40 flex flex-col lg:flex-row items-center gap-4 md:gap-6">
-        <div className="relative flex-1 w-full">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={20} />
+      {/* Filter Bar - De-containerized */}
+      <div className="flex flex-col lg:flex-row items-center gap-8 py-4">
+        <div className="relative flex-1 w-full group">
+          <Search className="absolute left-0 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-slate-950 transition-colors" size={24} />
           <input
             type="text"
-            placeholder="搜尋用戶、電子郵件或所屬單位..."
+            placeholder="搜尋身份資料庫..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 md:py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-indigo-600/5 focus:border-indigo-600 outline-none transition-all font-bold text-sm"
+            className="w-full pl-10 pr-4 py-4 bg-transparent border-b-2 border-slate-100 focus:border-slate-950 outline-none transition-all font-black text-xl text-slate-950 placeholder:text-slate-200 uppercase tracking-widest"
           />
         </div>
-        <div className="flex items-center gap-4 w-full lg:w-auto">
-          <button className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-6 py-3 md:py-4 bg-slate-50 border border-slate-200 rounded-2xl font-black text-xs uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors">
-            <Filter size={18} /> 篩選
+        <div className="flex items-center gap-0 border-2 border-slate-100">
+          <button className="px-8 py-3 bg-transparent hover:bg-slate-100 transition-colors font-black text-base uppercase tracking-widest text-slate-400 hover:text-slate-950 flex items-center gap-2">
+            <Filter size={16} /> 篩選
           </button>
-          <button className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-6 py-3 md:py-4 bg-slate-50 border border-slate-200 rounded-2xl font-black text-xs uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors">
+          <div className="w-0.5 h-6 bg-slate-100"></div>
+          <button className="px-8 py-3 bg-transparent hover:bg-slate-100 transition-colors font-black text-base uppercase tracking-widest text-slate-400 hover:text-slate-950">
             匯出 CSV
           </button>
         </div>
       </div>
 
-      {/* User List Grid/Table */}
-      <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/50 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse min-w-[800px]">
-            <thead>
-              <tr className="bg-slate-50 border-b border-slate-100">
-                <th className="px-6 md:px-8 py-4 md:py-6 text-base font-black text-slate-400 uppercase tracking-widest">用戶檔案</th>
-                <th className="px-6 md:px-8 py-4 md:py-6 text-base font-black text-slate-400 uppercase tracking-widest">存取角色</th>
-                <th className="px-6 md:px-8 py-4 md:py-6 text-base font-black text-slate-400 uppercase tracking-widest">部門單位</th>
-                <th className="px-6 md:px-8 py-4 md:py-6 text-base font-black text-slate-400 uppercase tracking-widest">內部聯絡</th>
-                <th className="px-6 md:px-8 py-4 md:py-6 text-base font-black text-slate-400 uppercase tracking-widest">帳戶狀態</th>
-                <th className="px-6 md:px-8 py-4 md:py-6 text-base font-black text-slate-400 uppercase tracking-widest text-right">設定</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-50">
-              {loading ? (
-                Array(5).fill(0).map((_, i) => (
-                  <tr key={i} className="animate-pulse">
-                    <td colSpan={6} className="px-8 py-10">
-                      <div className="h-8 bg-slate-100 rounded-xl w-full"></div>
-                    </td>
-                  </tr>
-                ))
-              ) : filteredUsers.map((user) => (
-                <tr key={user.id} className="hover:bg-slate-50 transition-colors group">
-                  <td className="px-6 md:px-8 py-6 md:py-8">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-2xl bg-slate-950 flex items-center justify-center text-white font-black text-lg">
-                        {user.name[0]}
-                      </div>
-                      <div>
-                        <div className="text-lg font-black text-slate-900 tracking-tight leading-tight">{user.name}</div>
-                        <div className="text-base font-black text-slate-400 uppercase tracking-widest mt-1">ID: {user.id}</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 md:px-8 py-6 md:py-8">
-                    {getRoleBadge(user.role)}
-                  </td>
-                  <td className="px-6 md:px-8 py-6 md:py-8">
-                    <div className="text-sm font-bold text-slate-900">{user.unit}</div>
-                  </td>
-                  <td className="px-6 md:px-8 py-6 md:py-8">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2 text-base font-bold text-slate-500">
-                        <Mail size={12} className="text-slate-300" /> {user.email}
-                      </div>
-                      <div className="flex items-center gap-2 text-base font-bold text-slate-500">
-                        <Phone size={12} className="text-slate-300" /> {user.phone || 'N/A'}
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 md:px-8 py-6 md:py-8">
-                    <span className={`px-2 py-1 rounded text-base font-black uppercase tracking-widest ${user.status === 'active' ? 'text-emerald-500' : 'text-slate-400'
-                      }`}>
-                      ● {user.status}
-                    </span>
-                  </td>
-                  <td className="px-6 md:px-8 py-6 md:py-8 text-right">
-                    <div className="flex items-center justify-end gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button
-                        onClick={() => handleEdit(user)}
-                        className="p-3 bg-white border border-slate-200 text-slate-900 rounded-xl hover:bg-slate-900 hover:text-white transition-all shadow-sm"
-                      >
-                        <Edit2 size={16} />
-                      </button>
-                      <button className="p-3 text-slate-400 hover:text-red-600 transition-colors">
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
+      {/* User List - Architectural Grid */}
+      <div className="overflow-x-auto">
+        <table className="w-full text-left border-collapse min-w-[800px]">
+          <thead>
+            <tr className="border-b-2 border-slate-950">
+              <th className="px-6 py-6 text-base font-black text-slate-950 uppercase tracking-[0.2em]">用戶檔案</th>
+              <th className="px-6 py-6 text-base font-black text-slate-950 uppercase tracking-[0.2em]">存取權限</th>
+              <th className="px-6 py-6 text-base font-black text-slate-950 uppercase tracking-[0.2em]">單位歸屬</th>
+              <th className="px-6 py-6 text-base font-black text-slate-950 uppercase tracking-[0.2em]">聯絡資訊</th>
+              <th className="px-6 py-6 text-base font-black text-slate-950 uppercase tracking-[0.2em]">狀態</th>
+              <th className="px-6 py-6 text-right text-base font-black text-slate-950 uppercase tracking-[0.2em]">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              Array(5).fill(0).map((_, i) => (
+                <tr key={i} className="animate-pulse">
+                  <td colSpan={6} className="px-6 py-8 border-b border-slate-100">
+                    <div className="h-2 bg-slate-100 w-full mb-2"></div>
+                    <div className="h-2 bg-slate-50 w-2/3"></div>
                   </td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              ))
+            ) : filteredUsers.map((user) => (
+              <tr key={user.id} className="group hover:bg-slate-50 transition-colors border-b border-slate-100">
+                <td className="px-6 py-8">
+                  <div className="flex items-center gap-6">
+                    <div className="w-16 h-16 bg-slate-100 flex items-center justify-center font-black text-2xl text-slate-950 border-2 border-slate-200 group-hover:border-slate-950 group-hover:bg-slate-950 group-hover:text-white transition-all">
+                      {user.name[0]}
+                    </div>
+                    <div>
+                      <div className="text-xl font-black text-slate-950 tracking-tight">{user.name}</div>
+                      <div className="text-base font-black text-slate-300 uppercase tracking-widest mt-1 font-mono">編號：{user.id.slice(0, 8)}</div>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-6 py-8">
+                  {getRoleBadge(user.role)}
+                </td>
+                <td className="px-6 py-8">
+                  <div className="text-base font-bold text-slate-900 uppercase tracking-wider">{user.unit}</div>
+                </td>
+                <td className="px-6 py-8">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2 text-base font-bold text-slate-500">
+                      <Mail size={14} className="text-slate-300" /> {user.email}
+                    </div>
+                    {user.phone && (
+                      <div className="flex items-center gap-2 text-base font-bold text-slate-500">
+                        <Phone size={14} className="text-slate-300" /> {user.phone}
+                      </div>
+                    )}
+                  </div>
+                </td>
+                <td className="px-6 py-8">
+                  <div className="flex items-center gap-2">
+                    <div className={`w-2 h-2 rounded-full ${user.status === 'active' ? 'bg-emerald-500' : 'bg-slate-300 animate-pulse'}`}></div>
+                    <span className={`text-base font-black uppercase tracking-widest ${user.status === 'active' ? 'text-emerald-600' : 'text-slate-400'}`}>
+                      {user.status}
+                    </span>
+                  </div>
+                </td>
+                <td className="px-6 py-8 text-right">
+                  <div className="flex items-center justify-end gap-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button
+                      onClick={() => handleEdit(user)}
+                      className="p-4 hover:bg-slate-200 text-slate-400 hover:text-slate-950 transition-colors"
+                    >
+                      <Edit2 size={18} />
+                    </button>
+                    {user.status === 'active' ? (
+                      <button
+                        onClick={() => handleFreezeAccount(user.id, user.name)}
+                        className="p-4 hover:bg-amber-100 text-slate-400 hover:text-amber-600 transition-colors"
+                      >
+                        <Lock size={18} />
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleActivateAccount(user.id, user.name)}
+                        className="p-4 hover:bg-emerald-100 text-slate-400 hover:text-emerald-600 transition-colors"
+                      >
+                        <Unlock size={18} />
+                      </button>
+                    )}
+                    <button
+                      onClick={() => handleDelete(user.id, user.name)}
+                      className="p-4 hover:bg-rose-100 text-slate-400 hover:text-rose-600 transition-colors"
+                    >
+                      <Trash2 size={18} />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
-      {/* Modal Form */}
-      {showForm && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4 md:p-6">
-          <div className="bg-white rounded-[2rem] md:rounded-[3rem] shadow-2xl w-full max-w-xl overflow-hidden animate-in zoom-in-95 duration-300 max-h-[90vh] overflow-y-auto">
-            <div className="px-6 md:px-10 py-6 md:py-8 bg-slate-50 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-slate-50 z-10">
-              <h2 className="text-xl md:text-2xl font-black tracking-tighter text-slate-900 uppercase">
-                {editingId ? '編輯設定' : '內部身份配置'}
-              </h2>
-              <button onClick={resetForm} className="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-400">
-                <X size={24} />
+      {/* Role Edit Dialog */}
+      {roleEditDialog.show && (
+        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center z-50 p-4">
+          <div className="bg-[#fdfdfd] border-2 border-slate-950 w-full max-w-md p-8 shadow-2xl animate-in zoom-in-95 duration-300">
+            <h3 className="text-2xl font-black text-slate-950 uppercase mb-4 flex items-center gap-3">
+              <ShieldCheck className="text-slate-950" size={24} />
+              編輯權限
+            </h3>
+            <div className="space-y-6 mb-8">
+              <div className="border-l-4 border-slate-950 pl-4 py-2">
+                <div className="text-base font-black text-slate-400 uppercase tracking-widest mb-1">用戶</div>
+                <div className="text-xl font-black text-slate-950">{roleEditDialog.userName}</div>
+              </div>
+              <div className="space-y-3">
+                <label className="text-base font-black text-slate-400 uppercase tracking-widest">選擇角色權限</label>
+                <select
+                  value={roleEditDialog.newRole || ''}
+                  onChange={(e) => setRoleEditDialog({ ...roleEditDialog, newRole: e.target.value as User['role'] })}
+                  className="w-full py-4 px-4 bg-white border-2 border-slate-200 focus:border-slate-950 outline-none font-black text-xl text-slate-950 cursor-pointer"
+                >
+                  <option value="admin">🛡️ 系統管理員</option>
+                  <option value="supervisor">👔 主管</option>
+                  <option value="caseworker">📋 承辦人</option>
+                </select>
+              </div>
+            </div>
+            <div className="flex gap-4">
+              <button
+                onClick={() => setRoleEditDialog({ show: false, userId: null, userName: null, currentRole: null, newRole: null })}
+                className="flex-1 py-4 border-2 border-slate-200 text-slate-400 hover:text-slate-950 hover:border-slate-950 font-black text-base uppercase tracking-widest transition-colors"
+              >
+                取消
+              </button>
+              <button
+                onClick={handleRoleUpdate}
+                disabled={roleEditDialog.newRole === roleEditDialog.currentRole}
+                className="flex-1 py-4 bg-slate-950 text-white font-black text-base uppercase tracking-widest hover:bg-indigo-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                更新權限
               </button>
             </div>
-            <form onSubmit={handleSubmit} className="p-6 md:p-10 space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">完整姓名</label>
-                  <input
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-indigo-600 outline-none transition-all font-bold text-sm"
-                    placeholder="輸入姓名" required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">公務信箱</label>
-                  <input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-indigo-600 outline-none transition-all font-bold text-sm"
-                    placeholder="email@unit.gov" required
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">存取層級</label>
-                  <select
-                    value={formData.role}
-                    onChange={(e) => setFormData({ ...formData, role: e.target.value as any })}
-                    className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-indigo-600 outline-none transition-all font-bold text-sm appearance-none"
-                  >
-                    <option value="admin">系統管理員</option>
-                    <option value="supervisor">地區主管</option>
-                    <option value="caseworker">業務執行官</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">組織單位</label>
-                  <input
-                    type="text"
-                    value={formData.unit}
-                    onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
-                    className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-indigo-600 outline-none transition-all font-bold text-sm"
-                    placeholder="分組 / 單位"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-base font-black text-slate-400 uppercase tracking-widest ml-1">帳戶狀態</label>
-                <div className="flex gap-4">
-                  <button
-                    type="button"
-                    onClick={() => setFormData({ ...formData, status: 'active' as any })} // Type assertion for now to be safe against literal types
-                    className={`flex-1 py-4 rounded-2xl font-black text-base uppercase tracking-widest border transition-all ${formData.status === 'active' ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-slate-50 text-slate-400 border-slate-100'}`}
-                  >
-                    啟用部署
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setFormData({ ...formData, status: 'inactive' as any })}
-                    className={`flex-1 py-4 rounded-2xl font-black text-base uppercase tracking-widest border transition-all ${formData.status === 'inactive' ? 'bg-slate-900 text-white border-slate-900' : 'bg-slate-50 text-slate-400 border-slate-100'}`}
-                  >
-                    暫停存取
-                  </button>
-                </div>
-              </div>
-
-              <button type="submit" className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-black text-xs uppercase tracking-[0.3em] shadow-xl shadow-indigo-600/20 hover:bg-black transition-all mt-4">
-                {editingId ? '更新身份序列' : '提交新配置'}
-              </button>
-            </form>
           </div>
         </div>
       )}
+
+      {/* Confirmation Dialogs etc stay similar but cleaned up styling if needed... keeping them functional for now */}
+      {/* Reusing existing dialog state logic but simplified container styles */}
+      {confirmDialog.show && (
+        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center z-50 p-4">
+          <div className="bg-[#fdfdfd] border-2 border-slate-950 w-full max-w-md p-8 shadow-2xl animate-in zoom-in-95 duration-300">
+            <h3 className="text-2xl font-black text-slate-950 uppercase mb-4 flex items-center gap-3">
+              <AlertCircle className="text-slate-950" size={24} />
+              確認操作
+            </h3>
+            <p className="text-lg font-bold text-slate-600 mb-8 border-l-4 border-slate-950 pl-4 py-2">
+              {confirmDialog.type === 'freeze' && `確定要凍結「${confirmDialog.userName}」的帳戶嗎？`}
+              {confirmDialog.type === 'activate' && `確定要啟用「${confirmDialog.userName}」的帳戶嗎？`}
+              {confirmDialog.type === 'reset' && `確定要重設「${confirmDialog.userName}」的密碼嗎？`}
+              {confirmDialog.type === 'delete' && (
+                <>
+                  確定要刪除用戶「{confirmDialog.userName}」嗎？
+                  <br />
+                  <span className="text-rose-600 font-black">⚠️ 此操作無法復原！</span>
+                </>
+              )}
+            </p>
+            <div className="flex gap-4">
+              <button
+                onClick={() => setConfirmDialog({ show: false, type: null, userId: null, userName: null })}
+                className="flex-1 py-4 border-2 border-slate-200 text-slate-400 hover:text-slate-950 hover:border-slate-950 font-black text-base uppercase tracking-widest transition-colors"
+              >
+                取消
+              </button>
+              <button
+                onClick={confirmAction}
+                className={`flex-1 py-4 text-white font-black text-base uppercase tracking-widest transition-colors ${
+                  confirmDialog.type === 'delete'
+                    ? 'bg-rose-600 hover:bg-rose-700'
+                    : 'bg-slate-950 hover:bg-indigo-600'
+                }`}
+              >
+                {confirmDialog.type === 'delete' ? '確認刪除' : '確認'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Simplified Notification */}
+      {notification.show && (
+        <div className="fixed bottom-8 right-8 bg-slate-950 text-white px-8 py-4 flex items-center gap-4 shadow-2xl animate-in slide-in-from-bottom duration-300 z-[60]">
+          {notification.type === 'success' ? <CheckCircle className="text-emerald-400" /> : <XCircle className="text-rose-400" />}
+          <div className="font-bold uppercase tracking-widest text-base">{notification.message}</div>
+        </div>
+      )}
+
+      {/* Architectural Modal Form */}
+      {showForm && (
+        <div className="fixed inset-0 bg-slate-950/90 backdrop-blur-xl flex items-center justify-center z-50 p-4">
+          <div className="bg-[#fdfdfd] w-full max-w-2xl max-h-[90vh] overflow-y-auto border-y-4 border-slate-950 animate-in slide-in-from-bottom-10 fade-in duration-300">
+            <div className="p-12 space-y-12">
+              <div className="flex items-center justify-between border-b-2 border-slate-100 pb-8">
+                <h2 className="text-4xl font-black tracking-tighter text-slate-950 uppercase">
+                  {editingId ? '編輯身份' : '新增身份'}
+                </h2>
+                <button onClick={resetForm}>
+                  <X size={32} className="text-slate-300 hover:text-slate-950 transition-colors" />
+                </button>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-12">
+                <div className="grid grid-cols-2 gap-12">
+                  <div className="space-y-2 group">
+                    <label className="text-base font-black text-slate-300 uppercase tracking-[0.2em] group-focus-within:text-blue-600 transition-colors">完整姓名</label>
+                    <input
+                      type="text"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      className="w-full py-2 bg-transparent border-b-2 border-slate-200 focus:border-blue-600 outline-none font-black text-xl text-slate-950 rounded-none transition-colors placeholder:text-slate-200"
+                      placeholder="姓名" required
+                    />
+                  </div>
+                  <div className="space-y-2 group">
+                    <label className="text-base font-black text-slate-300 uppercase tracking-[0.2em] group-focus-within:text-blue-600 transition-colors">電子郵件</label>
+                    <input
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full py-2 bg-transparent border-b-2 border-slate-200 focus:border-blue-600 outline-none font-black text-xl text-slate-950 rounded-none transition-colors placeholder:text-slate-200"
+                      placeholder="電子郵件" required
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-12">
+                  <div className="space-y-2 group">
+                    <label className="text-base font-black text-slate-300 uppercase tracking-[0.2em] group-focus-within:text-blue-600 transition-colors">角色權限</label>
+                    <select
+                      value={formData.role}
+                      onChange={(e) => setFormData({ ...formData, role: e.target.value as any })}
+                      className="w-full py-2 bg-transparent border-b-2 border-slate-200 focus:border-blue-600 outline-none font-black text-xl text-slate-950 rounded-none appearance-none cursor-pointer"
+                    >
+                      <option value="admin">系統管理員</option>
+                      <option value="supervisor">主管</option>
+                      <option value="caseworker">承辦人</option>
+                    </select>
+                  </div>
+                  <div className="space-y-2 group">
+                    <label className="text-base font-black text-slate-300 uppercase tracking-[0.2em] group-focus-within:text-blue-600 transition-colors">單位</label>
+                    <input
+                      type="text"
+                      value={formData.unit}
+                      onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
+                      className="w-full py-2 bg-transparent border-b-2 border-slate-200 focus:border-blue-600 outline-none font-black text-xl text-slate-950 rounded-none transition-colors placeholder:text-slate-200"
+                      placeholder="單位"
+                    />
+                  </div>
+                </div>
+
+                <div className="pt-8 flex gap-6">
+                  <button type="button" onClick={resetForm} className="flex-1 py-5 border-2 border-slate-200 hover:border-slate-950 text-slate-400 hover:text-slate-950 font-black text-base uppercase tracking-[0.2em] transition-all">
+                    取消
+                  </button>
+                  <button type="submit" className="flex-1 py-5 bg-blue-600 hover:bg-blue-500 text-white font-black text-base uppercase tracking-[0.2em] shadow-xl shadow-blue-600/20 transition-all">
+                    {editingId ? '更新身份' : '建立身份'}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

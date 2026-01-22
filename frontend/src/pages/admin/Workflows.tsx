@@ -7,11 +7,13 @@ import {
 } from 'lucide-react';
 import { mockApi } from '../../services/mockApi';
 import type { Workflow, WorkflowStep } from '../../types/schema';
+import { WorkflowEditor } from '../../components/WorkflowEditor';
 
 export function WorkflowsPage() {
   const [workflows, setWorkflows] = useState<Workflow[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedWorkflow, setSelectedWorkflow] = useState<Workflow | null>(null);
+  const [isEditMode, setIsEditMode] = useState(false);
 
   useEffect(() => {
     loadWorkflows();
@@ -34,146 +36,176 @@ export function WorkflowsPage() {
     return (
       <div className="h-full flex flex-col items-center justify-center p-20">
         <div className="w-16 h-16 border-4 border-slate-200 border-t-yellow-500 rounded-full animate-spin mb-4"></div>
-        <p className="text-slate-400 font-black uppercase tracking-widest text-xs">Syncing Neural Pathways...</p>
+        <p className="text-slate-400 font-black uppercase tracking-widest text-base">同步流程中...</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-10 animate-in fade-in duration-700">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <div className="space-y-12 animate-in fade-in duration-700">
+      {/* Header - Architectural */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 pb-8 border-b-2 border-slate-100">
         <div>
-          <div className="text-base font-black text-yellow-600 uppercase tracking-[0.3em] mb-2">流程引擎</div>
-          <h1 className="text-5xl font-black tracking-tighter text-slate-900 uppercase">業務工作流</h1>
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-3 h-3 bg-yellow-500"></div>
+            <div className="text-base font-black text-slate-400 uppercase tracking-[0.3em]">流程引擎</div>
+          </div>
+          <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-950 uppercase leading-none">工作流程</h1>
         </div>
-        <button className="px-8 py-4 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-slate-900/20 hover:bg-yellow-500 transition-all flex items-center gap-2">
-          <Plus size={18} /> 配置新序列
-        </button>
+        <div className="flex gap-4">
+          {selectedWorkflow && (
+            <button
+              onClick={() => setIsEditMode(!isEditMode)}
+              className={`px-8 py-4 transition-colors font-black text-base uppercase tracking-[0.2em] flex items-center gap-2 ${
+                isEditMode
+                  ? 'bg-blue-600 text-white hover:bg-blue-700'
+                  : 'bg-slate-950 text-white hover:bg-yellow-500'
+              }`}
+            >
+              {isEditMode ? (
+                <>
+                  <Eye size={18} /> 預覽模式
+                </>
+              ) : (
+                <>
+                  <Edit3 size={18} /> 編輯模式
+                </>
+              )}
+            </button>
+          )}
+          <button className="px-8 py-4 bg-slate-950 text-white hover:bg-yellow-500 hover:text-white transition-colors font-black text-base uppercase tracking-[0.2em] flex items-center gap-2">
+            <Plus size={18} /> 新建流程
+          </button>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
         {/* Workflow Registry Sidebar */}
-        <div className="lg:col-span-4 space-y-6">
-          <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-xl shadow-slate-200/40 overflow-hidden">
-            <div className="px-8 py-6 border-b border-slate-50 bg-slate-50/50">
-              <h3 className="text-base font-black text-slate-400 uppercase tracking-widest">活躍登記簿</h3>
-            </div>
-            <div className="divide-y divide-slate-50">
+        <div className="lg:col-span-4 space-y-12">
+          <div className="space-y-2">
+            <h3 className="text-base font-black text-slate-950 uppercase tracking-[0.2em] mb-6 border-b-2 border-slate-950 pb-2">啟用的流程</h3>
+            <div className="flex flex-col gap-2">
               {workflows.map(wf => (
                 <button
                   key={wf.id}
                   onClick={() => setSelectedWorkflow(wf)}
-                  className={`w-full text-left px-8 py-6 transition-all group relative overflow-hidden ${selectedWorkflow?.id === wf.id ? 'bg-white' : 'hover:bg-slate-50'
+                  className={`w-full text-left px-6 py-5 transition-all group relative border ${selectedWorkflow?.id === wf.id
+                    ? 'bg-slate-950 text-white border-slate-950'
+                    : 'bg-transparent border-slate-200 text-slate-500 hover:border-slate-950 hover:text-slate-950'
                     }`}
                 >
-                  <div className="flex items-center justify-between gap-4 relative z-10">
+                  <div className="flex items-center justify-between">
                     <div>
-                      <p className={`font-black text-sm uppercase tracking-tight ${selectedWorkflow?.id === wf.id ? 'text-slate-900' : 'text-slate-500'}`}>
-                        {wf.name}
-                      </p>
-                      <p className="text-base font-black text-slate-400 uppercase tracking-widest mt-1">
-                        ID: {wf.id} • {wf.type}
-                      </p>
-                    </div>
-                    <div className={`transition-transform duration-500 ${selectedWorkflow?.id === wf.id ? 'translate-x-0' : 'translate-x-8 opacity-0'}`}>
-                      <div className="w-8 h-8 rounded-full bg-slate-950 text-white flex items-center justify-center">
-                        <ChevronRight size={16} />
+                      <div className="flex items-center gap-3 mb-1">
+                        <span className={`text-base font-black uppercase tracking-widest ${selectedWorkflow?.id === wf.id ? 'text-yellow-500' : 'text-slate-300'}`}>{wf.id}</span>
+                        <span className="font-black text-base uppercase tracking-widest">{wf.name}</span>
                       </div>
+                      <div className="text-base font-black uppercase tracking-widest text-slate-400 opacity-60">類別: {wf.type}</div>
                     </div>
+                    <ChevronRight size={14} className={`transition-transform duration-300 ${selectedWorkflow?.id === wf.id ? 'translate-x-1 text-yellow-500' : 'text-slate-300'}`} />
                   </div>
-                  {selectedWorkflow?.id === wf.id && (
-                    <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-yellow-500"></div>
-                  )}
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Status Info Card */}
-          <div className="bg-slate-950 rounded-[2.5rem] p-8 text-white relative overflow-hidden group">
-            <div className="relative z-10">
-              <Activity className="text-yellow-500 mb-6" size={28} />
-              <h4 className="text-lg font-black tracking-tighter mb-4 uppercase">系統狀態指令集</h4>
-              <p className="text-slate-400 text-xs font-medium leading-relaxed">
-                目前共有 {workflows.length} 組核心工作流正在執行中。所有異動皆會紀錄於 Audit Logs 供日後稽核抽查。
-              </p>
-            </div>
-            <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-500/10 blur-[60px] rounded-full"></div>
+          {/* Status Info - Raw */}
+          <div>
+            <h4 className="text-base font-black text-yellow-500 uppercase tracking-widest mb-4">系統狀態</h4>
+            <div className="text-4xl font-black text-slate-950 tracking-tighter mb-2">{workflows.length} <span className="text-lg text-slate-400">個流程</span></div>
+            <p className="text-base font-medium text-slate-400 leading-relaxed max-w-xs">
+              所有流程運作正常，稽核軌跡已啟用。
+            </p>
           </div>
         </div>
 
-        {/* Workflow Logic Canvas */}
-        {selectedWorkflow && (
-          <div className="lg:col-span-8 space-y-8">
-            <div className="bg-white rounded-[3rem] border border-slate-100 shadow-2xl shadow-slate-200/50 p-10">
-              <div className="flex items-center justify-between mb-12">
-                <div className="space-y-1">
-                  <div className="flex items-center gap-3">
-                    <h2 className="text-3xl font-black tracking-tighter text-slate-900 uppercase">{selectedWorkflow.name}</h2>
-                    <span className={`px-3 py-1 rounded-full text-base font-black uppercase tracking-widest ${selectedWorkflow.isActive ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-slate-100 text-slate-400'}`}>
-                      {selectedWorkflow.isActive ? '運行中' : '未啟用'}
-                    </span>
-                  </div>
-                  <p className="text-base font-black text-slate-400 uppercase tracking-widest">
-                    為 {selectedWorkflow.type} 級別實體編譯
-                  </p>
+        {/* Workflow Logic Canvas - Blueprint */}
+        <div className="lg:col-span-8">
+          {selectedWorkflow && isEditMode ? (
+            <div className="h-[800px] border-2 border-slate-950 animate-in slide-in-from-right-8 duration-500">
+              <WorkflowEditor
+                workflowId={selectedWorkflow.id}
+                workflowName={selectedWorkflow.name}
+                initialSteps={selectedWorkflow.steps}
+                onSave={(nodes, edges) => {
+                  console.log('Saved workflow:', { nodes, edges });
+                }}
+              />
+            </div>
+          ) : selectedWorkflow && (
+            <div className="space-y-12 animate-in slide-in-from-right-8 duration-500">
+              {/* Detail Header */}
+              <div className="pb-8 border-b-2 border-slate-100 flex items-end justify-between">
+                <div className="space-y-4">
+                  <span className={`inline-block px-3 py-1 text-base font-black uppercase tracking-[0.2em] ${selectedWorkflow.isActive ? 'bg-emerald-500 text-white' : 'bg-slate-200 text-slate-500'}`}>
+                    {selectedWorkflow.isActive ? '系統啟用' : '系統閒置'}
+                  </span>
+                  <h2 className="text-6xl font-black tracking-tighter text-slate-950 uppercase">{selectedWorkflow.name}</h2>
+                  <p className="text-base font-mono text-slate-400 uppercase tracking-widest">流程類別: {selectedWorkflow.type}</p>
                 </div>
-                <div className="flex gap-2">
-                  <button className="p-3 bg-slate-50 text-slate-400 rounded-xl hover:bg-slate-900 hover:text-white transition-all"><Copy size={18} /></button>
-                  <button className="p-3 bg-slate-50 text-slate-400 rounded-xl hover:bg-slate-900 hover:text-white transition-all"><Settings size={18} /></button>
+                <div className="flex gap-4">
+                  <button className="p-4 border border-slate-200 text-slate-400 hover:text-slate-950 hover:border-slate-950 transition-colors">
+                    <Copy size={18} />
+                  </button>
+                  <button className="p-4 border border-slate-200 text-slate-400 hover:text-slate-950 hover:border-slate-950 transition-colors">
+                    <Settings size={18} />
+                  </button>
                 </div>
               </div>
 
-              {/* Logical Steps Visualization */}
-              <div className="space-y-6 relative">
-                <div className="absolute left-[23px] top-6 bottom-6 w-px bg-slate-100"></div>
+              {/* Logical Steps Visualization - Schematic Tree */}
+              <div className="relative pl-4">
+                <div className="absolute left-[19px] top-4 bottom-4 w-0.5 bg-slate-200"></div>
 
-                {selectedWorkflow.steps.map((step, idx) => (
-                  <div key={step.id} className="relative z-10 group">
-                    <div className="flex gap-8">
-                      <div className="flex flex-col items-center">
-                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xs font-black transition-all duration-500 ${step.status === 'completed'
-                            ? 'bg-slate-950 text-white shadow-lg'
-                            : 'bg-white border-2 border-slate-100 text-slate-300'
-                          }`}>
-                          {step.order}
-                        </div>
+                <div className="space-y-12">
+                  {selectedWorkflow.steps.map((step, idx) => (
+                    <div key={step.id} className="relative z-10 flex gap-8 group">
+                      {/* Node */}
+                      <div className={`w-10 h-10 rounded-full border-4 flex-shrink-0 flex items-center justify-center transition-colors bg-white ${step.status === 'completed' ? 'border-emerald-500 text-emerald-500' : 'border-slate-950 text-slate-950'
+                        }`}>
+                        <div className={`w-3 h-3 rounded-full ${step.status === 'completed' ? 'bg-emerald-500' : 'bg-slate-950'}`}></div>
                       </div>
-                      <div className="flex-1 bg-slate-50 group-hover:bg-slate-100/70 transition-colors rounded-[2rem] p-8 border border-slate-100">
-                        <div className="flex items-center justify-between mb-4">
-                          <h4 className="text-lg font-black tracking-tight text-slate-900 uppercase">{step.name}</h4>
+
+                      {/* Content */}
+                      <div className="pt-1 w-full">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-4">
+                            <span className="text-base font-mono font-bold text-slate-300">0{step.order}</span>
+                            <h4 className="text-2xl font-black tracking-tight text-slate-950 uppercase group-hover:text-yellow-600 transition-colors">{step.name}</h4>
+                          </div>
                           {step.status === 'completed' && <CheckCircle size={18} className="text-emerald-500" />}
                         </div>
-                        <p className="text-sm text-slate-500 font-medium leading-relaxed mb-6">{step.description}</p>
+                        <p className="text-base text-slate-500 font-medium leading-relaxed max-w-xl mb-4 pl-10 border-l-2 border-transparent group-hover:border-yellow-500 transition-all">
+                          {step.description}
+                        </p>
 
                         {step.requiredFields && step.requiredFields.length > 0 && (
-                          <div className="flex flex-wrap gap-2">
+                          <div className="pl-10 flex flex-wrap gap-2">
                             {step.requiredFields.map(field => (
-                              <span key={field} className="px-3 py-1 bg-white border border-slate-200 rounded-lg text-base font-black text-slate-400 uppercase tracking-widest">
-                                必填: {field}
+                              <span key={field} className="text-base font-black uppercase tracking-widest text-slate-400 border border-slate-200 px-2 py-1">
+                                Req: {field}
                               </span>
                             ))}
                           </div>
                         )}
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
 
               {/* Execution Controls */}
-              <div className="mt-12 flex gap-4 pt-12 border-t border-slate-50">
-                <button className="flex-1 py-5 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-[0.3em] shadow-xl shadow-slate-900/20 hover:bg-yellow-500 transition-all flex items-center justify-center gap-3">
-                  <Edit3 size={18} /> 修改序列邏輯
+              <div className="pt-12 border-t-2 border-slate-100 flex gap-6">
+                <button className="flex-1 py-6 bg-slate-950 text-white hover:bg-yellow-500 hover:text-white transition-colors font-black text-base uppercase tracking-[0.3em] flex items-center justify-center gap-3">
+                  <Edit3 size={18} /> 重新校正流程
                 </button>
-                <button className="px-8 py-5 border border-slate-200 text-slate-400 rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-red-50 hover:text-red-600 hover:border-red-100 transition-all">
-                  停用
+                <button className="px-12 py-6 border-2 border-slate-200 text-slate-400 hover:border-rose-500 hover:text-rose-500 transition-colors font-black text-base uppercase tracking-[0.2em]">
+                  <Trash2 size={18} /> 終止
                 </button>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
